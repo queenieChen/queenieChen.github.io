@@ -1,0 +1,8 @@
+hexo clean //清除缓存
+hexo g //生成静态文件
+hexo d //部署
+其中 clean 用于清除缓存，g 是 generate 生成网站资源，d 就是 deploy 部署网站。
+
+https://queeniechen.github.io/
+
+https://hiyong.gitee.io/
