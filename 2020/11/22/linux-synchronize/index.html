@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"queeniechen.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="临界区，临界资源，并发，竞争条件，同步临界区就是访问和操作共享数据的代码段。属于临界资源的硬件有打印机、磁带机等,软件有消息缓冲队列、变量、数组、缓冲区等。 示意图如下：  如上图，代码段code1,code2,code3分别都访问和操作同一块数据区域，因此这些代码段就是临界区，而这块数据区域就是临界资源。实际上，code离不开data，笔者认为临界区也包括了指令操作的数据，正如上图红色，黄色，绿">
+<meta property="og:type" content="article">
+<meta property="og:title" content="内核同步">
+<meta property="og:url" content="https://queeniechen.github.io/2020/11/22/linux-synchronize/index.html">
+<meta property="og:site_name" content="Queenie Chen">
+<meta property="og:description" content="临界区，临界资源，并发，竞争条件，同步临界区就是访问和操作共享数据的代码段。属于临界资源的硬件有打印机、磁带机等,软件有消息缓冲队列、变量、数组、缓冲区等。 示意图如下：  如上图，代码段code1,code2,code3分别都访问和操作同一块数据区域，因此这些代码段就是临界区，而这块数据区域就是临界资源。实际上，code离不开data，笔者认为临界区也包括了指令操作的数据，正如上图红色，黄色，绿">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://queeniechen.github.io/2020/11/22/linux-synchronize/1.png">
+<meta property="og:image" content="https://queeniechen.github.io/2020/11/22/linux-synchronize/2.png">
+<meta property="og:image" content="https://queeniechen.github.io/2020/11/22/linux-synchronize/3.png">
+<meta property="og:image" content="https://queeniechen.github.io/2020/11/22/linux-synchronize/4.png">
+<meta property="og:image" content="https://queeniechen.github.io/2020/11/22/linux-synchronize/5.png">
+<meta property="og:image" content="https://queeniechen.github.io/2020/11/22/linux-synchronize/5-1.png">
+<meta property="og:image" content="https://queeniechen.github.io/2020/11/22/linux-synchronize/5-2.png">
+<meta property="og:image" content="https://queeniechen.github.io/2020/11/22/linux-synchronize/5-3.png">
+<meta property="og:image" content="https://queeniechen.github.io/2020/11/22/linux-synchronize/6.png">
+<meta property="og:image" content="https://queeniechen.github.io/2020/11/22/linux-synchronize/7.png">
+<meta property="og:image" content="https://queeniechen.github.io/2020/11/22/linux-synchronize/8.png">
+<meta property="article:published_time" content="2020-11-22T11:33:25.376Z">
+<meta property="article:modified_time" content="2020-11-22T14:55:19.756Z">
+<meta property="article:author" content="Queenie Chen">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://queeniechen.github.io/2020/11/22/linux-synchronize/1.png">
+
+<link rel="canonical" href="https://queeniechen.github.io/2020/11/22/linux-synchronize/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>内核同步 | Queenie Chen</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Queenie Chen</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">三十功名尘与土，八千里路云和月</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/11/22/linux-synchronize/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Queenie Chen">
+      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Queenie Chen">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          内核同步
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-22 19:33:25 / 修改时间：22:55:19" itemprop="dateCreated datePublished" datetime="2020-11-22T19:33:25+08:00">2020-11-22</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="临界区，临界资源，并发，竞争条件，同步"><a href="#临界区，临界资源，并发，竞争条件，同步" class="headerlink" title="临界区，临界资源，并发，竞争条件，同步"></a>临界区，临界资源，并发，竞争条件，同步</h1><p><strong>临界区</strong>就是访问和操作共享数据的代码段。<br>属于<strong>临界资源</strong>的硬件有打印机、磁带机等,软件有消息缓冲队列、变量、数组、缓冲区等。</p>
+<p>示意图如下：</p>
+<p><img src="1.png" alt="img"></p>
+<p>如上图，代码段code1,code2,code3分别都访问和操作同一块数据区域，因此这些代码段就是临界区，而这块数据区域就是临界资源。实际上，code离不开data，笔者认为临界区也包括了指令操作的数据，正如上图红色，黄色，绿色所圈。</p>
+<p>试想，倘若操作的先后顺便不一致，共享数据最终的呈现状态会不会不一样呢？<br><strong>并发</strong>指多个执行单元<strong>同时</strong>访问同一个资源。<br><strong>竞争条件</strong>指多个线程或者进程在读写一个共享数据时结果依赖于它们<strong>执行的相对时间</strong>的情形。</p>
+<p><strong>同步</strong>就是避免并发和防止竞争条件。</p>
+<p><img src="2.png" alt="img"></p>
+<p>假设线程1执行指令i++，线程2执行指令++i。每一行代表一个时间片。上面表示线程1执行完后才执行线程2.  下面表示，线程1和线程2同时获得变量i，此时i的值为8，下一个时间片，线程1进行i++操作，而线程2在此时未处理（sleep），接下来的一个时间片，线程1sleep，而线程2进行++i操作。接下来的又一个时间片，线程1得到i的值为9，线程2得到的i的值也为9. </p>
+<p>#死锁<br><strong>死锁</strong>就是线程等待的资源不释放，线程无法继续。<br><strong>自死锁</strong>：线程试图获得自己已持有的锁。<br><strong>ABBA死锁</strong>：如下图，每行表示一个时间片，线程1和线程2同时分别获得锁A和锁B，在下一个时间片，线程1试图获取锁B（已被线程2持有，需要等待线程2释放锁B），线程2试图获取锁A（已被线程1持有，需要等待线程1释放锁A）。然而，线程2想要释放锁B，就必须先完成获得锁A这件事，它在等待线程1释放锁A。线程1想要释放锁A，就必须先完成获得锁B这件事，它在等待线程2释放锁B。于是，线程1和线程2由于相互想要获得对方的锁，进入死锁状态，这就是ABBA死锁。<br><img src="3.png" alt="img"></p>
+<p><strong>如何规避死锁</strong></p>
+<ol>
+<li>按加锁相反的顺序解锁：加锁（a-&gt;b-&gt;c），解锁（c-&gt;b-&gt;a）</li>
+<li>防止饥饿：设置超时时间，防止永远等待</li>
+<li>不要重复请求 同一个锁</li>
+<li>加锁方案要设计得简单</li>
+</ol>
+<p>#锁的争用<br>锁lock：使程序以串行方式对资源进行访问<br>lock contention：锁被占用时，其他线程等待获得该锁</p>
+<p>锁的扩展性：<br>锁的粒度：粗锁保护大块数据，细锁保护小块数据<br>运行队列锁被争用：本质是在调度程序中把整个调度进程下放到单个处理器执行</p>
+<h1 id="原子"><a href="#原子" class="headerlink" title="原子"></a>原子</h1><p><strong>原子操作</strong>：指令执行过程不被打断<br>原子操作只能用于临界区只有一个变量的情况。</p>
+<p>为什么可以不被打断？</p>
+<h2 id="原子整数操作"><a href="#原子整数操作" class="headerlink" title="原子整数操作"></a>原子整数操作</h2><h3 id="32位原子整数操作"><a href="#32位原子整数操作" class="headerlink" title="32位原子整数操作"></a>32位原子整数操作</h3><p>原子整数操作：只对atomic类型数据进行处理<br><img src="4.png" alt="img"></p>
+<p>函数及相应的描述：<br><img src="5.png" alt="img"></p>
+<h3 id="64位原子整数操作"><a href="#64位原子整数操作" class="headerlink" title="64位原子整数操作"></a>64位原子整数操作</h3><h2 id="原子位操作"><a href="#原子位操作" class="headerlink" title="原子位操作"></a>原子位操作</h2><p><img src="5-1.png" alt="img"></p>
+<p><img src="5-2.png" alt="img"></p>
+<p><img src="5-3.png" alt="img"></p>
+<h1 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h1><p>自旋锁同一时刻只能被一个执行线程持有，其余想持有的必须等待，cpu一直忙等待，未睡眠,所以会造成CPU处理时间的浪费。自旋就是等待自己释放锁。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">定义自旋锁</span><br><span class="line">初始化自旋锁</span><br><span class="line">获取自旋锁，保护临界区</span><br><span class="line">&#x2F;*临界区code &amp; data *&#x2F;</span><br><span class="line">解锁</span><br></pre></td></tr></table></figure>
+<p>自旋锁使用时有2点需要注意：<br>1：自旋锁是<strong>不可递归</strong>的，递归的请求同一个自旋锁会自己锁死自己。</p>
+<p>2：线程获取自旋锁之前，要禁止当前处理器上的中断。（防止获取锁的线程和中断形成竞争条件）<br>比如：当前线程获取自旋锁后，在临界区中被中断处理程序打断，中断处理程序正好也要获取这个锁，于是中断处理程序会等待当前线程释放锁，而当前线程也在等待中断执行完后再执行临界区和释放锁的代码。</p>
+<p>笔者认为这里就是ABBA锁，只不过这里线程2恰巧就是中断而已。</p>
+<p><img src="6.png" alt="img"></p>
+<h1 id="读写自旋锁"><a href="#读写自旋锁" class="headerlink" title="读写自旋锁"></a>读写自旋锁</h1><p>允许读的并发，即可多个读进程，但只允许1个写进程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">定义和初始化读写自旋锁</span><br><span class="line">读锁定</span><br><span class="line">读解锁</span><br><span class="line">写锁定</span><br><span class="line">写解锁</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="顺序锁"><a href="#顺序锁" class="headerlink" title="顺序锁"></a>顺序锁</h1><p>被顺序锁保护的共享资源，读和写不互斥。读期间发生了写，则需要重新读取数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">写顺序锁</span><br><span class="line">&#x2F;*写代码*&#x2F;</span><br><span class="line">释放写顺序锁</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="读-复制-更新"><a href="#读-复制-更新" class="headerlink" title="读-复制-更新"></a>读-复制-更新</h1><p>RCU：read-copy-update</p>
+<h1 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h1><p>信号量，又名semaphore，是一种  用于同步和互斥的手段。<br>特点：睡眠锁，等待的过程不会占用CPU时间，适用于等待时间较长的临界区。<br>信号量消耗的CPU时间的地方在于使线程睡眠和唤醒线程，如果(使线程睡眠 + 唤醒线程)的CPU时间 &gt; 线程自旋等待的CPU时间，那么可以考虑使用自旋锁。<br>信号量的值可以是0，1，n。总之非负整数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">定义信号量</span><br><span class="line">初始化信号量</span><br><span class="line">获得信号量</span><br><span class="line">释放信号量</span><br></pre></td></tr></table></figure>
+<p>信号量用于互斥和同步<br>互斥：<br>同步：</p>
+<p><img src="7.png" alt="img"></p>
+<h1 id="PV原语"><a href="#PV原语" class="headerlink" title="PV原语"></a>PV原语</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">P(S)等价于S&#x3D;S-1</span><br><span class="line">if (S&gt;&#x3D;0)</span><br><span class="line">	进程继续；</span><br><span class="line">else</span><br><span class="line">	进程进入等待队列；</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">V(S)等价于S&#x3D;S+1</span><br><span class="line">if(S&gt;0)</span><br><span class="line">	该进程被唤醒，返回调用处继续执行</span><br><span class="line">else</span><br><span class="line">	从等待队列中唤醒一等待进程</span><br></pre></td></tr></table></figure>
+<p>S=0<br>P(S)则S=-1，进程等待<br>V(S)则S=0，进程等待</p>
+<h1 id="信号量与自旋锁的区别"><a href="#信号量与自旋锁的区别" class="headerlink" title="信号量与自旋锁的区别"></a>信号量与自旋锁的区别</h1><p>信号量表面看和自旋锁很相似，区别在于争用自旋锁的线程会一直循环尝试获取自旋锁，而争用信号量的线程在信号量为0时，会进入睡眠，信号量可用时再被唤醒。</p>
+<h1 id="计数信号量和二值信号量"><a href="#计数信号量和二值信号量" class="headerlink" title="计数信号量和二值信号量"></a>计数信号量和二值信号量</h1><p>信号量有二值信号量和计数信号量2种，其中二值信号量比较常用。</p>
+<p>二值信号量：<br>表示信号量只有2个值，即0和1。信号量为1时，表示临界区可用，信号量为0时，表示临界区不可访问。<br> <br>计数信号量：初始化时把数量设为大于1的非0值<br>计数信号量有个计数值，比如计数值为5，表示同时可以有5个线程访问临界区。</p>
+<h1 id="互斥体"><a href="#互斥体" class="headerlink" title="互斥体"></a>互斥体</h1><p>互斥体也是一种可以睡眠的锁，相当于二值信号量，只是提供的API更加简单，使用的场景也更严格一些，如下所示：<br>1：mutex的计数值只能为1，也就是最多只允许一个线程访问临界区<br>2：在同一个上下文中上锁和解锁，给mutex上锁者必须负责给其解锁<br>3：递归地上锁和解锁是不允许的。也就是说，你不能递归地持有同一个锁，同样你也不能再去解锁一个已经被       解开的mutex.<br>4：持有1个mutex时，进程不能退出<br>5：mutex不能在中断或者下半部中使用，也就是mutex只能在进程上下文中使用<br>6：mutex只能通过官方API来管理，不能自己写代码操作它</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">定义互斥体</span><br><span class="line">初始化互斥体</span><br><span class="line">获取互斥体</span><br><span class="line">释放互斥体</span><br></pre></td></tr></table></figure>
+<p><img src="8.png" alt="img"><br>互斥体的实现依赖于自旋体，互斥体是进程级的，用于多个进程之间对资源的互斥。</p>
+<h1 id="各种锁使用的场景pk"><a href="#各种锁使用的场景pk" class="headerlink" title="各种锁使用的场景pk"></a>各种锁使用的场景pk</h1><h1 id="完成量"><a href="#完成量" class="headerlink" title="完成量"></a>完成量</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/newnewman80/article/details/16112669">https://blog.csdn.net/newnewman80/article/details/16112669</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/tureno/articles/6080923.html">https://www.cnblogs.com/tureno/articles/6080923.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/linhaostudy/p/6670693.html">https://www.cnblogs.com/linhaostudy/p/6670693.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/edver/p/7260696.html">https://www.cnblogs.com/edver/p/7260696.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38619183/article/details/83097475">https://blog.csdn.net/qq_38619183/article/details/83097475</a></p>
+<h1 id="实现设备只能被一个进程打开的3种方式"><a href="#实现设备只能被一个进程打开的3种方式" class="headerlink" title="实现设备只能被一个进程打开的3种方式"></a>实现设备只能被一个进程打开的3种方式</h1><h2 id="原子变量实现设备只能被一个进程打开"><a href="#原子变量实现设备只能被一个进程打开" class="headerlink" title="原子变量实现设备只能被一个进程打开"></a>原子变量实现设备只能被一个进程打开</h2><p>过程描述：</p>
+<ol>
+<li>假设线程A拿到了原子变量xxx_available，执行函数atomic_dec_and_test(&amp;xxx_available)，变量xxx_available由1减1变成了0，此时函数返回True。接着取反为FALSE，不走if{}内的内容了。执行后面打开设备的代码。</li>
+<li>假设现在又线程B想要打开设备，首先它来取原子变量xxx_available，此时变量值为0，执行行函数atomic_dec_and_test(&amp;xxx_available)，变量xxx_available由0减1变成-1，此时函数返回flase，取反为true，走if{}的内容。执行函数atomic_inc(&amp;xxx_available)，于是变量xxx_available由-1加1，变成0，返回-EBUSY。</li>
+<li>接着又一个线程C想打开设备，只要线程A未释放原子变量，其他线程都要经历步骤2.</li>
+<li>假设线程A此刻释放原子变量，即执行atmomic_inc(&amp;xxx_available);那么，变量恢复值1.其他线程想要打开设备，将执行步骤1.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">static atomic_t xxx_available &#x3D; ATOMIC_INIT(1); &#x2F;&#x2F;定义原子变量xxx_available，并赋初值1给它。</span><br><span class="line">static int xxx_open(struct inode *inode, struct file *filp)</span><br><span class="line">&#123;</span><br><span class="line">   ...</span><br><span class="line">if(!atomic_dec_and_test(&amp;xxx_available))&#123;</span><br><span class="line">    atomic_inc(&amp;xxx_available);</span><br><span class="line">    return -EBUSY; </span><br><span class="line"> &#125;</span><br><span class="line">...&#x2F;*这里才是打开的代码段*&#x2F;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line">static int xxx_release(struct inode *inode, struct file *filp)</span><br><span class="line">&#123;</span><br><span class="line">    atmomic_inc(&amp;xxx_available);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">fd &#x3D; xxx_open (&quot;&#x2F;dev&#x2F;buttons&quot;, O_RDWR);</span><br><span class="line">if (fd &lt; 0)</span><br><span class="line">&#123;</span><br><span class="line">	printf(&quot;can&#39;t open!\n&quot;);</span><br><span class="line">	return -1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="自旋锁实现设备只能被一个进程打开"><a href="#自旋锁实现设备只能被一个进程打开" class="headerlink" title="自旋锁实现设备只能被一个进程打开"></a>自旋锁实现设备只能被一个进程打开</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">int xxx_count &#x3D; 0;&#x2F;&#x2F; 定义文件打开次计数</span><br><span class="line">static int xxx_open(struct inode *inode, struct file *filp)</span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">   spinlock(&amp;xxx_lock);</span><br><span class="line">    if(xxx_count)&#123; &#x2F;&#x2F;已经打开</span><br><span class="line">        spin_unlock(&amp;xxx_lock);</span><br><span class="line">        return -EBUSY;</span><br><span class="line">&#125;</span><br><span class="line">    xxx_count++;&#x2F;&#x2F;增加计数</span><br><span class="line">    spin_unlock(&amp;xxx_lock);</span><br><span class="line">    ...</span><br><span class="line">   return 0;</span><br><span class="line">&#125;</span><br><span class="line">static int xxx_release(struct inode *inode, struct file *filp)</span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">    spinlock(&amp;xxx_lock);</span><br><span class="line">    xxx_count--;</span><br><span class="line">    spin_unlock(&amp;xxx_lock);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="信号量实现设备只能被一个进程打开"><a href="#信号量实现设备只能被一个进程打开" class="headerlink" title="信号量实现设备只能被一个进程打开"></a>信号量实现设备只能被一个进程打开</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">static DECLARE_MUTEX(xxx_lock);</span><br><span class="line">&#x2F;*strcut semaphore sem</span><br><span class="line"> * init_MUTEX(&amp;sem);</span><br><span class="line"> * 2.6.25版本后不适用init_MUTEX,用sema_init(sem,1)代替 </span><br><span class="line">*&#x2F;</span><br><span class="line">static int xxx_open(struct inode *inode, struct file *filep)</span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">    if(down_trylock(&amp;xxx_lock))  &#x2F;&#x2F;第一次打开获取锁，第二次打开不能获取</span><br><span class="line">    return -EBUSY;</span><br><span class="line">...</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line">static int xxx_release(struct inode,struct file *filp)</span><br><span class="line">&#123;</span><br><span class="line">    up(&amp;xxx_lock);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/15/Qt2-signal-slot/" rel="prev" title="Qt中信号与槽--窗体可视化设计篇">
+      <i class="fa fa-chevron-left"></i> Qt中信号与槽--窗体可视化设计篇
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/22/android-%E7%BC%96%E8%AF%91/" rel="next" title="原生态android 编译">
+      原生态android 编译 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%B4%E7%95%8C%E5%8C%BA%EF%BC%8C%E4%B8%B4%E7%95%8C%E8%B5%84%E6%BA%90%EF%BC%8C%E5%B9%B6%E5%8F%91%EF%BC%8C%E7%AB%9E%E4%BA%89%E6%9D%A1%E4%BB%B6%EF%BC%8C%E5%90%8C%E6%AD%A5"><span class="nav-number">1.</span> <span class="nav-text">临界区，临界资源，并发，竞争条件，同步</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8E%9F%E5%AD%90"><span class="nav-number">2.</span> <span class="nav-text">原子</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E5%AD%90%E6%95%B4%E6%95%B0%E6%93%8D%E4%BD%9C"><span class="nav-number">2.1.</span> <span class="nav-text">原子整数操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#32%E4%BD%8D%E5%8E%9F%E5%AD%90%E6%95%B4%E6%95%B0%E6%93%8D%E4%BD%9C"><span class="nav-number">2.1.1.</span> <span class="nav-text">32位原子整数操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#64%E4%BD%8D%E5%8E%9F%E5%AD%90%E6%95%B4%E6%95%B0%E6%93%8D%E4%BD%9C"><span class="nav-number">2.1.2.</span> <span class="nav-text">64位原子整数操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E5%AD%90%E4%BD%8D%E6%93%8D%E4%BD%9C"><span class="nav-number">2.2.</span> <span class="nav-text">原子位操作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%87%AA%E6%97%8B%E9%94%81"><span class="nav-number">3.</span> <span class="nav-text">自旋锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%BB%E5%86%99%E8%87%AA%E6%97%8B%E9%94%81"><span class="nav-number">4.</span> <span class="nav-text">读写自旋锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A1%BA%E5%BA%8F%E9%94%81"><span class="nav-number">5.</span> <span class="nav-text">顺序锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%BB-%E5%A4%8D%E5%88%B6-%E6%9B%B4%E6%96%B0"><span class="nav-number">6.</span> <span class="nav-text">读-复制-更新</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BF%A1%E5%8F%B7%E9%87%8F"><span class="nav-number">7.</span> <span class="nav-text">信号量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PV%E5%8E%9F%E8%AF%AD"><span class="nav-number">8.</span> <span class="nav-text">PV原语</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BF%A1%E5%8F%B7%E9%87%8F%E4%B8%8E%E8%87%AA%E6%97%8B%E9%94%81%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">9.</span> <span class="nav-text">信号量与自旋锁的区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E6%95%B0%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8C%E4%BA%8C%E5%80%BC%E4%BF%A1%E5%8F%B7%E9%87%8F"><span class="nav-number">10.</span> <span class="nav-text">计数信号量和二值信号量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%92%E6%96%A5%E4%BD%93"><span class="nav-number">11.</span> <span class="nav-text">互斥体</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%84%E7%A7%8D%E9%94%81%E4%BD%BF%E7%94%A8%E7%9A%84%E5%9C%BA%E6%99%AFpk"><span class="nav-number">12.</span> <span class="nav-text">各种锁使用的场景pk</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%8C%E6%88%90%E9%87%8F"><span class="nav-number">13.</span> <span class="nav-text">完成量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E8%AE%BE%E5%A4%87%E5%8F%AA%E8%83%BD%E8%A2%AB%E4%B8%80%E4%B8%AA%E8%BF%9B%E7%A8%8B%E6%89%93%E5%BC%80%E7%9A%843%E7%A7%8D%E6%96%B9%E5%BC%8F"><span class="nav-number">14.</span> <span class="nav-text">实现设备只能被一个进程打开的3种方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E5%AD%90%E5%8F%98%E9%87%8F%E5%AE%9E%E7%8E%B0%E8%AE%BE%E5%A4%87%E5%8F%AA%E8%83%BD%E8%A2%AB%E4%B8%80%E4%B8%AA%E8%BF%9B%E7%A8%8B%E6%89%93%E5%BC%80"><span class="nav-number">14.1.</span> <span class="nav-text">原子变量实现设备只能被一个进程打开</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E6%97%8B%E9%94%81%E5%AE%9E%E7%8E%B0%E8%AE%BE%E5%A4%87%E5%8F%AA%E8%83%BD%E8%A2%AB%E4%B8%80%E4%B8%AA%E8%BF%9B%E7%A8%8B%E6%89%93%E5%BC%80"><span class="nav-number">14.2.</span> <span class="nav-text">自旋锁实现设备只能被一个进程打开</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%AE%9E%E7%8E%B0%E8%AE%BE%E5%A4%87%E5%8F%AA%E8%83%BD%E8%A2%AB%E4%B8%80%E4%B8%AA%E8%BF%9B%E7%A8%8B%E6%89%93%E5%BC%80"><span class="nav-number">14.3.</span> <span class="nav-text">信号量实现设备只能被一个进程打开</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Queenie Chen</p>
+  <div class="site-description" itemprop="description">我叫小白，初来乍到，请多指教~</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Queenie Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

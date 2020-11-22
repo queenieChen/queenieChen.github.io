@@ -148,6 +148,527 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/11/22/makefile%E5%A6%82%E4%BD%95%E4%B9%A6%E5%86%99%EF%BC%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Queenie Chen">
+      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Queenie Chen">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/22/makefile%E5%A6%82%E4%BD%95%E4%B9%A6%E5%86%99%EF%BC%9F/" class="post-title-link" itemprop="url">makefile如何书写？</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-22 19:33:25" itemprop="dateCreated datePublished" datetime="2020-11-22T19:33:25+08:00">2020-11-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-17 15:07:44" itemprop="dateModified" datetime="2020-11-17T15:07:44+08:00">2020-11-17</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>  1）如果这个工程没有编译过，那么我们的所有C文件都要编译并被链接。<br>  2）如果这个工程的某几个C文件被修改，那么我们只编译被修改的C文件，并链接目标程序。<br>  3）如果这个工程的头文件被改变了，那么我们需要编译引用了这几个头文件的C文件，并链接目标程序。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/11/22/hello.c%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Queenie Chen">
+      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Queenie Chen">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/22/hello.c%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" class="post-title-link" itemprop="url">hello.c的生命周期</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-22 19:33:25" itemprop="dateCreated datePublished" datetime="2020-11-22T19:33:25+08:00">2020-11-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-16 20:53:27" itemprop="dateModified" datetime="2020-11-16T20:53:27+08:00">2020-11-16</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="编译的整个过程：预编译、编译、汇编、链接"><a href="#编译的整个过程：预编译、编译、汇编、链接" class="headerlink" title="编译的整个过程：预编译、编译、汇编、链接"></a>编译的整个过程：预编译、编译、汇编、链接</h1><p>.c–&gt;.i–&gt;.s–&gt;.o–&gt;exe</p>
+<p><img src="C:\Users\fuqu.chen\AppData\Roaming\Typora\typora-user-images\image-20201116203340097.png" alt="image-20201116203340097"></p>
+<p><img src="C:\Users\fuqu.chen\AppData\Roaming\Typora\typora-user-images\image-20201116204031119.png" alt="image-20201116204031119"></p>
+<p><img src="C:\Users\fuqu.chen\AppData\Roaming\Typora\typora-user-images\image-20201116204145238.png" alt="image-20201116204145238"></p>
+<p><img src="C:\Users\fuqu.chen\AppData\Roaming\Typora\typora-user-images\image-20201116204514439.png" alt="image-20201116204514439"></p>
+<p><img src="C:\Users\fuqu.chen\AppData\Roaming\Typora\typora-user-images\image-20201116204524509.png" alt="image-20201116204524509"></p>
+<p><strong>4.链接</strong></p>
+<blockquote>
+<p>链接器将生产的多个.o文件链接到一起生成一个可执行.exe文件；<br>但是在这个过程中，链接器做的一个重要的事情是将每个文件中call指令后面的地址补充上；方式是从当前文件的函数地址符表中开始找，如果没有，继续向别的文件的函数地址符表中找，找到后填补在call指令后面，如果找不到，则链接失败。**</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/11/22/android-%E5%AE%9A%E5%88%B6%E4%BA%A7%E5%93%81%E7%9A%84%E7%BC%96%E8%AF%91%E5%92%8C%E7%83%A7%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Queenie Chen">
+      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Queenie Chen">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/22/android-%E5%AE%9A%E5%88%B6%E4%BA%A7%E5%93%81%E7%9A%84%E7%BC%96%E8%AF%91%E5%92%8C%E7%83%A7%E5%BD%95/" class="post-title-link" itemprop="url">android 定制产品的编译</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-22 19:33:25" itemprop="dateCreated datePublished" datetime="2020-11-22T19:33:25+08:00">2020-11-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-20 19:51:30" itemprop="dateModified" datetime="2020-11-20T19:51:30+08:00">2020-11-20</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="定制新产品"><a href="#定制新产品" class="headerlink" title="定制新产品"></a>定制新产品</h1><h2 id="在device目录下添加文件夹"><a href="#在device目录下添加文件夹" class="headerlink" title="在device目录下添加文件夹"></a>在device目录下添加文件夹</h2><h3 id="device-目录的组织架构"><a href="#device-目录的组织架构" class="headerlink" title="device 目录的组织架构"></a>device 目录的组织架构</h3><p>device–&gt;company–&gt;product–&gt;(vendorsetup.sh, AndroidProducts.mk, BoardConfig.mk, device.mk,…)</p>
+<h3 id="定制新设备所需的配置文件分类"><a href="#定制新设备所需的配置文件分类" class="headerlink" title="定制新设备所需的配置文件分类"></a>定制新设备所需的配置文件分类</h3><p>底层往上：芯片架构–&gt;核心板–&gt;设备–&gt; 产品<br>芯片架构(architecture)：产品所需的硬件架构，eg: x86, arm<br>核心板层(board)：<br>设备层(device)：外围设备的配置<br>产品层(product)：软件模块和配置</p>
+<h2 id="vendorsetup-sh"><a href="#vendorsetup-sh" class="headerlink" title="vendorsetup.sh"></a>vendorsetup.sh</h2><p>该脚本告知系统添加了目录，脚本内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">add_lunch_combo full_toro_userdebug</span><br><span class="line">函数add_lunch_combo作用：将参数full_toro_userdebug描述的产品添加到系统相关变量中，后面Lunch的选单就是基于这些变量产生的</span><br></pre></td></tr></table></figure>
+<p>何时调用 vendorsetup.sh ？<br>vendorsetup.sh被envsetup.sh调用，在envsetup.sh脚本里有个for循环，扫描工程里所有可用的vendorsetup.sh，一般默认扫描vendor和device目录。<br>这里就有点类似超市工作人员（编译系统）扫描仓库（vendor和device目录），清点有哪些商品(vendorsetup.sh负责记录)，并通过一定方式上架(add_lunch_combo)，消费者再选购(lunch)。    </p>
+<h2 id="添加AndroidProducts-mk"><a href="#添加AndroidProducts-mk" class="headerlink" title="添加AndroidProducts.mk"></a>添加AndroidProducts.mk</h2><p>通过AndroidProducts.mk指向其他.mk文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PRODUCT_MAKEFILES :&#x3D; \</span><br><span class="line">	$(LOCAL_PATH)&#x2F;aosp_toro.mk \</span><br><span class="line">	$(LOCAL_PATH)&#x2F;full_toro.mk</span><br></pre></td></tr></table></figure>
+<p>其中aosp_toro.mk和full_toro.mk是某产品专用makefile文件。</p>
+<h2 id="实现上述某产品专用的makefile文件"><a href="#实现上述某产品专用的makefile文件" class="headerlink" title="实现上述某产品专用的makefile文件"></a>实现上述某产品专用的makefile文件</h2><p>利用<strong>系统已有</strong>的**<em>全局**</em>变量和函数实现需要的功能</p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>变量</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>PRODUCT_NAME</td>
+<td>产品名称</td>
+</tr>
+<tr>
+<td>2</td>
+<td>PRODUCT_DEVICE</td>
+<td>设备名称</td>
+</tr>
+<tr>
+<td>3</td>
+<td>PRODUCT_BRAND</td>
+<td>产品所属品牌</td>
+</tr>
+<tr>
+<td>4</td>
+<td>PRODUCT_MANUFACTURER</td>
+<td>产品生产商</td>
+</tr>
+<tr>
+<td>5</td>
+<td>PRODUCT_MODEL</td>
+<td>产品型号</td>
+</tr>
+<tr>
+<td>6</td>
+<td>PRODUCT_PACKAGES</td>
+<td>系统需预装的一系列程序</td>
+</tr>
+<tr>
+<td>7</td>
+<td>PRODUCT_LOCALES</td>
+<td>所支持的国家语言</td>
+</tr>
+<tr>
+<td>8</td>
+<td>PRODUCT_POLICY</td>
+<td>本产品遵循的策略。例：android.policy_phone</td>
+</tr>
+<tr>
+<td>9</td>
+<td>PRODUCT_TAGS</td>
+<td>产品 标签描述，以空格分隔</td>
+</tr>
+<tr>
+<td></td>
+<td>PRODUCT_PROPERTY_OVERRIDES</td>
+<td>用于重载系统属性，存储在/system/build/.prop文件中。格式：key=value，例：ro.product.firmware=v0.4rc1</td>
+</tr>
+</tbody></table>
+<h2 id="添加BoardConfig-mk文件"><a href="#添加BoardConfig-mk文件" class="headerlink" title="添加BoardConfig.mk文件"></a>添加BoardConfig.mk文件</h2><ol>
+<li>目标架构</li>
+<li>硬件设备属性</li>
+<li>编译器的条件标志</li>
+<li>分区布局</li>
+<li>Boot地址</li>
+<li>ramdisk大小</li>
+</ol>
+<h2 id="添加Android-mk"><a href="#添加Android-mk" class="headerlink" title="添加Android.mk"></a>添加Android.mk</h2><p>产品由很多模块组成，Android.mk是生产某个模块的“生产工序”。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/11/22/android-%E7%BC%96%E8%AF%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Queenie Chen">
+      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Queenie Chen">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/22/android-%E7%BC%96%E8%AF%91/" class="post-title-link" itemprop="url">原生态android 编译</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-22 19:33:25" itemprop="dateCreated datePublished" datetime="2020-11-22T19:33:25+08:00">2020-11-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-19 11:12:11" itemprop="dateModified" datetime="2020-11-19T11:12:11+08:00">2020-11-19</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="关于交叉编译"><a href="#关于交叉编译" class="headerlink" title="关于交叉编译"></a>关于交叉编译</h1><h2 id="什么是交叉编译？"><a href="#什么是交叉编译？" class="headerlink" title="什么是交叉编译？"></a>什么是交叉编译？</h2><h3 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h3><p>（1）目标平台由于种种原因（无法安装编译器，资源有限导致编译不正常）<br>（2）需要另外一个平台辅助生成可执行文件</p>
+<p>平台是指？<br>平台=硬件+ 操作系统环境</p>
+<h3 id="引出相关概念："><a href="#引出相关概念：" class="headerlink" title="引出相关概念："></a>引出相关概念：</h3><p>宿主机（host）：开发和编译代码所在平台<br>目标机（target）：宿主机编译生成的系统包就是提供给目标机使用的<br>交叉编译器（cross compiler）：本身在宿主机上运行，用于产生目标机可执行文件的编译器</p>
+<h3 id="常用交叉编译器及应用环境"><a href="#常用交叉编译器及应用环境" class="headerlink" title="常用交叉编译器及应用环境"></a>常用交叉编译器及应用环境</h3><ol>
+<li>在Windows PC上，利用ADS ARM开发环境，使用armcc编译器，可编译出针对ARMCPU的可执行代码。</li>
+<li>在Linux PC上，利用arm-linux-gcc编译器，可编译出针对Linux ARM平台的可执行代码。</li>
+<li>在Windows PC上，利用cygwin环境，运行arm-elf-gcc编译器，可编译出针对ARM CPU的可执行代码。</li>
+<li>在Windows系统上，利用Keil Uvison工具，开发出运行在89C51单片机上的程序。</li>
+<li>在Windows系统上，利用CodeWarrior IDE工具，开发出运行在Freescale XS128单片机上的程序。<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3>编译的环境和运行的环境是不一样，是属于交叉的，此所谓cross；</li>
+</ol>
+<h1 id="建立android编译环境"><a href="#建立android编译环境" class="headerlink" title="建立android编译环境"></a>建立android编译环境</h1><h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>宿主机：linux x86 pc<br>宿主机操作系统：ubuntu 14.04 LTS<br>交叉编译器：arm-linux-gcc<br>通用编译工具：<br>（1）python2.x<br>（2）GNU make 3.81-3.82<br>（3）JDK<br>（4）git 1.7以上版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">安装版本下载地址及相应安装命令如下：</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="编译流程"><a href="#编译流程" class="headerlink" title="编译流程"></a>编译流程</h1><h3 id="step1-执行envsetup-sh"><a href="#step1-执行envsetup-sh" class="headerlink" title="step1: 执行envsetup.sh"></a>step1: 执行envsetup.sh</h3><p>envsetup.sh记录编译过程中所需的各种函数实现，如lunch ,mm</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">source .&#x2F;build&#x2F;envsetup.sh</span><br><span class="line">等价于</span><br><span class="line">. .&#x2F;build&#x2F;envsetup.sh</span><br></pre></td></tr></table></figure>
+<h3 id="step2-选择编译目标"><a href="#step2-选择编译目标" class="headerlink" title="step2: 选择编译目标"></a>step2: 选择编译目标</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lunch</span><br></pre></td></tr></table></figure>
+<p>输入lunch后会弹出工程配置好的所有产品类型，我们再进行产品类型的选择</p>
+<h3 id="step3：执行编译命令"><a href="#step3：执行编译命令" class="headerlink" title="step3：执行编译命令"></a>step3：执行编译命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+<p>也可以充分利用cpu资源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make -j4</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="如何编译出SDK？"><a href="#如何编译出SDK？" class="headerlink" title="如何编译出SDK？"></a>如何编译出SDK？</h3><h4 id="mac-os和linux下"><a href="#mac-os和linux下" class="headerlink" title="mac os和linux下"></a>mac os和linux下</h4><ol>
+<li>下载源码</li>
+<li>source ./build/envsetup.sh</li>
+<li>lunch sdk-eng</li>
+<li>make sdk</li>
+</ol>
+<h4 id="windows下"><a href="#windows下" class="headerlink" title="windows下"></a>windows下</h4><ol>
+<li>在linux下生成sdk</li>
+<li>安装<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install mingw32 tofrodos</span><br></pre></td></tr></table></figure></li>
+<li> 再次编译<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">source .&#x2F;build&#x2F;envsetup.sh</span><br><span class="line">lunch sdk-eng</span><br><span class="line">make win_sdk</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/11/22/linux-synchronize/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Queenie Chen">
+      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Queenie Chen">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/22/linux-synchronize/" class="post-title-link" itemprop="url">内核同步</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-22 19:33:25 / 修改时间：22:55:19" itemprop="dateCreated datePublished" datetime="2020-11-22T19:33:25+08:00">2020-11-22</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="临界区，临界资源，并发，竞争条件，同步"><a href="#临界区，临界资源，并发，竞争条件，同步" class="headerlink" title="临界区，临界资源，并发，竞争条件，同步"></a>临界区，临界资源，并发，竞争条件，同步</h1><p><strong>临界区</strong>就是访问和操作共享数据的代码段。<br>属于<strong>临界资源</strong>的硬件有打印机、磁带机等,软件有消息缓冲队列、变量、数组、缓冲区等。</p>
+<p>示意图如下：</p>
+<p><img src="1.png" alt="img"></p>
+<p>如上图，代码段code1,code2,code3分别都访问和操作同一块数据区域，因此这些代码段就是临界区，而这块数据区域就是临界资源。实际上，code离不开data，笔者认为临界区也包括了指令操作的数据，正如上图红色，黄色，绿色所圈。</p>
+<p>试想，倘若操作的先后顺便不一致，共享数据最终的呈现状态会不会不一样呢？<br><strong>并发</strong>指多个执行单元<strong>同时</strong>访问同一个资源。<br><strong>竞争条件</strong>指多个线程或者进程在读写一个共享数据时结果依赖于它们<strong>执行的相对时间</strong>的情形。</p>
+<p><strong>同步</strong>就是避免并发和防止竞争条件。</p>
+<p><img src="2.png" alt="img"></p>
+<p>假设线程1执行指令i++，线程2执行指令++i。每一行代表一个时间片。上面表示线程1执行完后才执行线程2.  下面表示，线程1和线程2同时获得变量i，此时i的值为8，下一个时间片，线程1进行i++操作，而线程2在此时未处理（sleep），接下来的一个时间片，线程1sleep，而线程2进行++i操作。接下来的又一个时间片，线程1得到i的值为9，线程2得到的i的值也为9. </p>
+<p>#死锁<br><strong>死锁</strong>就是线程等待的资源不释放，线程无法继续。<br><strong>自死锁</strong>：线程试图获得自己已持有的锁。<br><strong>ABBA死锁</strong>：如下图，每行表示一个时间片，线程1和线程2同时分别获得锁A和锁B，在下一个时间片，线程1试图获取锁B（已被线程2持有，需要等待线程2释放锁B），线程2试图获取锁A（已被线程1持有，需要等待线程1释放锁A）。然而，线程2想要释放锁B，就必须先完成获得锁A这件事，它在等待线程1释放锁A。线程1想要释放锁A，就必须先完成获得锁B这件事，它在等待线程2释放锁B。于是，线程1和线程2由于相互想要获得对方的锁，进入死锁状态，这就是ABBA死锁。<br><img src="3.png" alt="img"></p>
+<p><strong>如何规避死锁</strong></p>
+<ol>
+<li>按加锁相反的顺序解锁：加锁（a-&gt;b-&gt;c），解锁（c-&gt;b-&gt;a）</li>
+<li>防止饥饿：设置超时时间，防止永远等待</li>
+<li>不要重复请求 同一个锁</li>
+<li>加锁方案要设计得简单</li>
+</ol>
+<p>#锁的争用<br>锁lock：使程序以串行方式对资源进行访问<br>lock contention：锁被占用时，其他线程等待获得该锁</p>
+<p>锁的扩展性：<br>锁的粒度：粗锁保护大块数据，细锁保护小块数据<br>运行队列锁被争用：本质是在调度程序中把整个调度进程下放到单个处理器执行</p>
+<h1 id="原子"><a href="#原子" class="headerlink" title="原子"></a>原子</h1><p><strong>原子操作</strong>：指令执行过程不被打断<br>原子操作只能用于临界区只有一个变量的情况。</p>
+<p>为什么可以不被打断？</p>
+<h2 id="原子整数操作"><a href="#原子整数操作" class="headerlink" title="原子整数操作"></a>原子整数操作</h2><h3 id="32位原子整数操作"><a href="#32位原子整数操作" class="headerlink" title="32位原子整数操作"></a>32位原子整数操作</h3><p>原子整数操作：只对atomic类型数据进行处理<br><img src="4.png" alt="img"></p>
+<p>函数及相应的描述：<br><img src="5.png" alt="img"></p>
+<h3 id="64位原子整数操作"><a href="#64位原子整数操作" class="headerlink" title="64位原子整数操作"></a>64位原子整数操作</h3><h2 id="原子位操作"><a href="#原子位操作" class="headerlink" title="原子位操作"></a>原子位操作</h2><p><img src="5-1.png" alt="img"></p>
+<p><img src="5-2.png" alt="img"></p>
+<p><img src="5-3.png" alt="img"></p>
+<h1 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h1><p>自旋锁同一时刻只能被一个执行线程持有，其余想持有的必须等待，cpu一直忙等待，未睡眠,所以会造成CPU处理时间的浪费。自旋就是等待自己释放锁。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">定义自旋锁</span><br><span class="line">初始化自旋锁</span><br><span class="line">获取自旋锁，保护临界区</span><br><span class="line">&#x2F;*临界区code &amp; data *&#x2F;</span><br><span class="line">解锁</span><br></pre></td></tr></table></figure>
+<p>自旋锁使用时有2点需要注意：<br>1：自旋锁是<strong>不可递归</strong>的，递归的请求同一个自旋锁会自己锁死自己。</p>
+<p>2：线程获取自旋锁之前，要禁止当前处理器上的中断。（防止获取锁的线程和中断形成竞争条件）<br>比如：当前线程获取自旋锁后，在临界区中被中断处理程序打断，中断处理程序正好也要获取这个锁，于是中断处理程序会等待当前线程释放锁，而当前线程也在等待中断执行完后再执行临界区和释放锁的代码。</p>
+<p>笔者认为这里就是ABBA锁，只不过这里线程2恰巧就是中断而已。</p>
+<p><img src="6.png" alt="img"></p>
+<h1 id="读写自旋锁"><a href="#读写自旋锁" class="headerlink" title="读写自旋锁"></a>读写自旋锁</h1><p>允许读的并发，即可多个读进程，但只允许1个写进程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">定义和初始化读写自旋锁</span><br><span class="line">读锁定</span><br><span class="line">读解锁</span><br><span class="line">写锁定</span><br><span class="line">写解锁</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="顺序锁"><a href="#顺序锁" class="headerlink" title="顺序锁"></a>顺序锁</h1><p>被顺序锁保护的共享资源，读和写不互斥。读期间发生了写，则需要重新读取数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">写顺序锁</span><br><span class="line">&#x2F;*写代码*&#x2F;</span><br><span class="line">释放写顺序锁</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="读-复制-更新"><a href="#读-复制-更新" class="headerlink" title="读-复制-更新"></a>读-复制-更新</h1><p>RCU：read-copy-update</p>
+<h1 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h1><p>信号量，又名semaphore，是一种  用于同步和互斥的手段。<br>特点：睡眠锁，等待的过程不会占用CPU时间，适用于等待时间较长的临界区。<br>信号量消耗的CPU时间的地方在于使线程睡眠和唤醒线程，如果(使线程睡眠 + 唤醒线程)的CPU时间 &gt; 线程自旋等待的CPU时间，那么可以考虑使用自旋锁。<br>信号量的值可以是0，1，n。总之非负整数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">定义信号量</span><br><span class="line">初始化信号量</span><br><span class="line">获得信号量</span><br><span class="line">释放信号量</span><br></pre></td></tr></table></figure>
+<p>信号量用于互斥和同步<br>互斥：<br>同步：</p>
+<p><img src="7.png" alt="img"></p>
+<h1 id="PV原语"><a href="#PV原语" class="headerlink" title="PV原语"></a>PV原语</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">P(S)等价于S&#x3D;S-1</span><br><span class="line">if (S&gt;&#x3D;0)</span><br><span class="line">	进程继续；</span><br><span class="line">else</span><br><span class="line">	进程进入等待队列；</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">V(S)等价于S&#x3D;S+1</span><br><span class="line">if(S&gt;0)</span><br><span class="line">	该进程被唤醒，返回调用处继续执行</span><br><span class="line">else</span><br><span class="line">	从等待队列中唤醒一等待进程</span><br></pre></td></tr></table></figure>
+<p>S=0<br>P(S)则S=-1，进程等待<br>V(S)则S=0，进程等待</p>
+<h1 id="信号量与自旋锁的区别"><a href="#信号量与自旋锁的区别" class="headerlink" title="信号量与自旋锁的区别"></a>信号量与自旋锁的区别</h1><p>信号量表面看和自旋锁很相似，区别在于争用自旋锁的线程会一直循环尝试获取自旋锁，而争用信号量的线程在信号量为0时，会进入睡眠，信号量可用时再被唤醒。</p>
+<h1 id="计数信号量和二值信号量"><a href="#计数信号量和二值信号量" class="headerlink" title="计数信号量和二值信号量"></a>计数信号量和二值信号量</h1><p>信号量有二值信号量和计数信号量2种，其中二值信号量比较常用。</p>
+<p>二值信号量：<br>表示信号量只有2个值，即0和1。信号量为1时，表示临界区可用，信号量为0时，表示临界区不可访问。<br> <br>计数信号量：初始化时把数量设为大于1的非0值<br>计数信号量有个计数值，比如计数值为5，表示同时可以有5个线程访问临界区。</p>
+<h1 id="互斥体"><a href="#互斥体" class="headerlink" title="互斥体"></a>互斥体</h1><p>互斥体也是一种可以睡眠的锁，相当于二值信号量，只是提供的API更加简单，使用的场景也更严格一些，如下所示：<br>1：mutex的计数值只能为1，也就是最多只允许一个线程访问临界区<br>2：在同一个上下文中上锁和解锁，给mutex上锁者必须负责给其解锁<br>3：递归地上锁和解锁是不允许的。也就是说，你不能递归地持有同一个锁，同样你也不能再去解锁一个已经被       解开的mutex.<br>4：持有1个mutex时，进程不能退出<br>5：mutex不能在中断或者下半部中使用，也就是mutex只能在进程上下文中使用<br>6：mutex只能通过官方API来管理，不能自己写代码操作它</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">定义互斥体</span><br><span class="line">初始化互斥体</span><br><span class="line">获取互斥体</span><br><span class="line">释放互斥体</span><br></pre></td></tr></table></figure>
+<p><img src="8.png" alt="img"><br>互斥体的实现依赖于自旋体，互斥体是进程级的，用于多个进程之间对资源的互斥。</p>
+<h1 id="各种锁使用的场景pk"><a href="#各种锁使用的场景pk" class="headerlink" title="各种锁使用的场景pk"></a>各种锁使用的场景pk</h1><h1 id="完成量"><a href="#完成量" class="headerlink" title="完成量"></a>完成量</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/newnewman80/article/details/16112669">https://blog.csdn.net/newnewman80/article/details/16112669</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/tureno/articles/6080923.html">https://www.cnblogs.com/tureno/articles/6080923.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/linhaostudy/p/6670693.html">https://www.cnblogs.com/linhaostudy/p/6670693.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/edver/p/7260696.html">https://www.cnblogs.com/edver/p/7260696.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38619183/article/details/83097475">https://blog.csdn.net/qq_38619183/article/details/83097475</a></p>
+<h1 id="实现设备只能被一个进程打开的3种方式"><a href="#实现设备只能被一个进程打开的3种方式" class="headerlink" title="实现设备只能被一个进程打开的3种方式"></a>实现设备只能被一个进程打开的3种方式</h1><h2 id="原子变量实现设备只能被一个进程打开"><a href="#原子变量实现设备只能被一个进程打开" class="headerlink" title="原子变量实现设备只能被一个进程打开"></a>原子变量实现设备只能被一个进程打开</h2><p>过程描述：</p>
+<ol>
+<li>假设线程A拿到了原子变量xxx_available，执行函数atomic_dec_and_test(&amp;xxx_available)，变量xxx_available由1减1变成了0，此时函数返回True。接着取反为FALSE，不走if{}内的内容了。执行后面打开设备的代码。</li>
+<li>假设现在又线程B想要打开设备，首先它来取原子变量xxx_available，此时变量值为0，执行行函数atomic_dec_and_test(&amp;xxx_available)，变量xxx_available由0减1变成-1，此时函数返回flase，取反为true，走if{}的内容。执行函数atomic_inc(&amp;xxx_available)，于是变量xxx_available由-1加1，变成0，返回-EBUSY。</li>
+<li>接着又一个线程C想打开设备，只要线程A未释放原子变量，其他线程都要经历步骤2.</li>
+<li>假设线程A此刻释放原子变量，即执行atmomic_inc(&amp;xxx_available);那么，变量恢复值1.其他线程想要打开设备，将执行步骤1.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">static atomic_t xxx_available &#x3D; ATOMIC_INIT(1); &#x2F;&#x2F;定义原子变量xxx_available，并赋初值1给它。</span><br><span class="line">static int xxx_open(struct inode *inode, struct file *filp)</span><br><span class="line">&#123;</span><br><span class="line">   ...</span><br><span class="line">if(!atomic_dec_and_test(&amp;xxx_available))&#123;</span><br><span class="line">    atomic_inc(&amp;xxx_available);</span><br><span class="line">    return -EBUSY; </span><br><span class="line"> &#125;</span><br><span class="line">...&#x2F;*这里才是打开的代码段*&#x2F;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line">static int xxx_release(struct inode *inode, struct file *filp)</span><br><span class="line">&#123;</span><br><span class="line">    atmomic_inc(&amp;xxx_available);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">fd &#x3D; xxx_open (&quot;&#x2F;dev&#x2F;buttons&quot;, O_RDWR);</span><br><span class="line">if (fd &lt; 0)</span><br><span class="line">&#123;</span><br><span class="line">	printf(&quot;can&#39;t open!\n&quot;);</span><br><span class="line">	return -1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="自旋锁实现设备只能被一个进程打开"><a href="#自旋锁实现设备只能被一个进程打开" class="headerlink" title="自旋锁实现设备只能被一个进程打开"></a>自旋锁实现设备只能被一个进程打开</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">int xxx_count &#x3D; 0;&#x2F;&#x2F; 定义文件打开次计数</span><br><span class="line">static int xxx_open(struct inode *inode, struct file *filp)</span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">   spinlock(&amp;xxx_lock);</span><br><span class="line">    if(xxx_count)&#123; &#x2F;&#x2F;已经打开</span><br><span class="line">        spin_unlock(&amp;xxx_lock);</span><br><span class="line">        return -EBUSY;</span><br><span class="line">&#125;</span><br><span class="line">    xxx_count++;&#x2F;&#x2F;增加计数</span><br><span class="line">    spin_unlock(&amp;xxx_lock);</span><br><span class="line">    ...</span><br><span class="line">   return 0;</span><br><span class="line">&#125;</span><br><span class="line">static int xxx_release(struct inode *inode, struct file *filp)</span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">    spinlock(&amp;xxx_lock);</span><br><span class="line">    xxx_count--;</span><br><span class="line">    spin_unlock(&amp;xxx_lock);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="信号量实现设备只能被一个进程打开"><a href="#信号量实现设备只能被一个进程打开" class="headerlink" title="信号量实现设备只能被一个进程打开"></a>信号量实现设备只能被一个进程打开</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">static DECLARE_MUTEX(xxx_lock);</span><br><span class="line">&#x2F;*strcut semaphore sem</span><br><span class="line"> * init_MUTEX(&amp;sem);</span><br><span class="line"> * 2.6.25版本后不适用init_MUTEX,用sema_init(sem,1)代替 </span><br><span class="line">*&#x2F;</span><br><span class="line">static int xxx_open(struct inode *inode, struct file *filep)</span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">    if(down_trylock(&amp;xxx_lock))  &#x2F;&#x2F;第一次打开获取锁，第二次打开不能获取</span><br><span class="line">    return -EBUSY;</span><br><span class="line">...</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line">static int xxx_release(struct inode,struct file *filp)</span><br><span class="line">&#123;</span><br><span class="line">    up(&amp;xxx_lock);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/11/15/Qt2-signal-slot/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -173,7 +694,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-11-15 12:20:20 / 修改时间：13:44:41" itemprop="dateCreated datePublished" datetime="2020-11-15T12:20:20+08:00">2020-11-15</time>
+              <time title="创建时间：2020-11-15 12:20:20 / 修改时间：13:49:15" itemprop="dateCreated datePublished" datetime="2020-11-15T12:20:20+08:00">2020-11-15</time>
             </span>
 
           
@@ -239,7 +760,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/11/10/Qt2/">
+    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/11/10/Qt3-signal-slot/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -253,7 +774,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/10/Qt2/" class="post-title-link" itemprop="url">未命名</a>
+            <a href="/2020/11/10/Qt3-signal-slot/" class="post-title-link" itemprop="url">Qt 中信号与槽--第二篇</a>
         </h2>
 
         <div class="post-meta">
@@ -270,7 +791,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-11 07:45:50" itemprop="dateModified" datetime="2020-11-11T07:45:50+08:00">2020-11-11</time>
+                <time title="修改时间：2020-11-15 14:03:36" itemprop="dateModified" datetime="2020-11-15T14:03:36+08:00">2020-11-15</time>
               </span>
 
           
@@ -284,8 +805,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="Qt中界面与业务逻辑分离设计"><a href="#Qt中界面与业务逻辑分离设计" class="headerlink" title="Qt中界面与业务逻辑分离设计"></a>Qt中界面与业务逻辑分离设计</h1><h1 id="多继承方法"><a href="#多继承方法" class="headerlink" title="多继承方法"></a>多继承方法</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">## appMain2.py</span><br><span class="line">import </span><br></pre></td></tr></table></figure>
-
+          <p>#项目程序架构<br>##项目文件组成<br>##批处理文件<br>##窗体界面定义文件<br>##窗体业务逻辑类文件<br>##应用程序主程序文件</p>
 
       
     </div>
@@ -598,7 +1118,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
