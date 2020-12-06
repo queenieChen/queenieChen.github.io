@@ -148,6 +148,444 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/06/ImageFormat/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Queenie Chen">
+      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Queenie Chen">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/12/06/ImageFormat/" class="post-title-link" itemprop="url">未命名</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-12-06 16:00:48 / 修改时间：23:51:55" itemprop="dateCreated datePublished" datetime="2020-12-06T16:00:48+08:00">2020-12-06</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <hr>
+<h2 id="title-图形格式"><a href="#title-图形格式" class="headerlink" title="title:图形格式"></a>title:图形格式</h2><p>#图像有哪些格式？</p>
+<ol>
+<li>jpeg</li>
+<li>bmp</li>
+<li>png</li>
+</ol>
+<p>注：手机生成的图像格式大多为JPEG</p>
+<blockquote>
+<blockquote>
+<p>YUV：luma(Y)+chroma(UV)格式（亮度、色度），一般情况下sensor支持YUV422格式，即Y-U-Y-V次序输出数据。</p>
+</blockquote>
+</blockquote>
+<pre><code>&gt;&gt;RGB：传统的红绿蓝格式，比如RGB565,5bit R + 6bit G + 5bit B，G多一位是因为人眼对绿色比较敏感。
+
+&gt;&gt;RAW RGB：sensor的每一像素对应一个彩色滤光片，滤光片按Bayer Pattern(拜耳模板)分布，将每一个像素的数据直接输出，即Raw RGB Data。
+
+&gt;&gt;JPEG：有些sensor，特别是低分辨率的，其自带JPEG engine，可以直接输出压缩后的jpg格式的数据。
+
+注意：
+
+a&gt;YUV一个像素占2B，如果像素太大，在高时钟下基带芯片处理不过来，JPEG数据量就要小很多，因为基带芯片对输出数据的速率有要求，所以基带芯片低时钟下使用YUV sensor，高时钟下使用JPEG sensor。
+
+b&gt;如果直接输出RGB，对于LCD显示是最方便的，但是大多数基带芯片都是要求输出为YUV格式的数据再进行，这是因为，YUV输出数据的亮度信号没有任何损失，而色偏信号人眼并不是特别敏感，RGB565输出格式是R5G3 G3B5，会丢失很多原始信息，所以YUV图像质量和稳定性要比RGB565好的多。因此，很低端的基带芯片上才会输出RGB565格式。
+
+Raw和JPEG的区别：
+
+Raw优点：
+
+1&gt;Raw格式文件本质上是一个没有经过任何图像处理的源文件，它能原原本本地记录相机拍摄的信息，没有经过图像处理（锐化、色彩对比增强）和压缩而造成的信息丢失。相比之下，JPEG格式的数据经过压缩处理，无法完整的保存原图形的所有数据。
+
+2&gt;Raw是一种专业摄影师常用的格式，因为它能原原本本地保存信息，让用户能大幅度进行后期制作，并且无论怎么操作，照片都能无损的恢复到最初状态；但是JPEG就弱了些，虽然因为PS等技术的发展，也可以在JPEG上进行后期制作，但是如果做大幅度的调整还是Raw文件比较合适。
+
+3&gt;可以用专门的软件修正摄像机的不足，比如佳能DPP软件可以修正镜头失光、变形等。
+
+Raw缺点：
+
+1&gt;存储数据量太大，JPEG就小很多
+
+2&gt;需要专门的软件来打开，JPEG几乎所有的PC都可以直接打开
+
+3&gt;打开速度较慢，JPEG较快
+
+4&gt;不同的软件有不同的方式去演绎RAW文件，所以在不同的软件上会有细微的差别。
+
+5&gt;厂商卖的专用软件价格较高，而这方面JPEG几乎无成本</code></pre>
+<p>##图像采集的过程<br>图像采集的过程为：光照在成像物体被反射 -&gt; 镜头汇聚 -&gt; Sensor光电转换-&gt; ADC转换为raw。</p>
+<h3 id="sensor-感光原理"><a href="#sensor-感光原理" class="headerlink" title="sensor 感光原理"></a>sensor 感光原理</h3><ol>
+<li>模组<br>摄像头模组，Camera Compact Module，简写为CCM，就是已经包含了镜头，ISP，PCB接口的直接能用的，不需要再考虑sensor选型，设计sensor供电电路，时钟电路的。<br><img src="3.png" alt="img"></li>
+</ol>
+<p>摄像头模组硬件结构图：<br><img src="4.png" alt="img"></p>
+<p>光线通过镜头Lens进入摄像头内部，然后经过IR Filter过滤红外光，最后到达sensor（传感器），<strong>senor分为按照材质可以分为CMOS和CCD两种</strong>，可以将光学信号转换为电信号，再通过内部的ADC电路转换为数字信号，然后传输给DSP（如果有的话，如果没有则以DVP的方式传送数据到基带芯片baseband，此时的数据格式Raw Data，后面有讲进行加工）加工处理，转换成RGB、YUV等格式输出。</p>
+<ol start="2">
+<li>镜头 Lens：<br>镜头对成像有很重要的作用，相当于人眼中的晶状体，利用透镜的折射原理，景物光线透过镜头在聚焦平面上形成清晰的像，然后通过感光材料CMOS或CCD记录影像，并通过电路转换为电信号。镜头产业有比较高的技术门槛，国外主要集中在日本、韩国，国内主要是在台湾，业内比较知名的如：富士精机、柯尼卡美能达、大力光、Enplas等。</li>
+</ol>
+<p><img src="7.png" alt="img"><br>Lens一般由几片透镜组成透镜结构，按材质可分为塑胶透镜(plastic)或玻璃透镜(glass)，玻璃镜片比树脂镜片贵。塑胶透镜其实是树脂镜片，透光率和感光性等光学指标比不上镀膜镜片。通常摄像头采用的镜头结构有：1P、2P、1G1P、1G2P、2G2P、2G3P、4G、5G等。透镜越多，成本越高，相对成像效果会更出色（个人理解是光线更均匀、更细致；对光线的选通更丰富；成像畸变更小，但是会导致镜头变长，光通量变小）。</p>
+<ol start="3">
+<li><p>红外滤光片 IR Filter<br>主要是过滤掉进入镜头的光线中的红外光，这是因为人眼看不到红外光，但是sensor却能感受到红外光，所以需要将光线中的红外光滤掉，以便图像更接近人眼看到的效果。</p>
+</li>
+<li><p>传感器 Sensor<br>目前常用的sensor有两种，一种是CCD（电荷耦合）原件；一种是CMOS（金属氧化物导体）原件。</p>
+</li>
+</ol>
+<blockquote>
+<p>CCD（Charge Coupled Device），电荷耦合器件传感器：使用一种高感光度的半导体材料制成，能把光线转变成电荷，通过模数转换器芯片转换成电信号。CCD由许多独立的感光单位组成，通常以百万像素为单位。<strong>当CCD表面受到光照时，每个感光单位都会将电荷反映在组件上，所有的感光单位产生的信号加在一起，就构成了一幅完整的图像。</strong>CCD传感器以日本厂商为主导，全球市场上有90%被日本厂商垄断，索尼、松下、夏普是龙头。</p>
+</blockquote>
+<blockquote>
+<p>CMOS（Complementary Metal-Oxide Semiconductor），互补性氧化金属半导体：主要是利用硅和锗做成的半导体，使其在CMOS上共存着带N(-)和P(+)级的半导体，这两个互补效应所产生的电流可以被处理芯片记录并解读成影像。CMOS传感器主要以美国、韩国和中国台湾为主导，主要生产厂家是美国的OmnVison、Agilent、Micron，中国台湾的锐像、原相、泰视等，韩国的三星、现代。</p>
+</blockquote>
+<ol start="5">
+<li>图像处理芯片 DSP</li>
+</ol>
+<p>DSP是CCM的重要组成部分，它的作用是将感光芯片获得的数据及时地快速地传递到中央处理器并刷新感光芯片，因此DSP芯片的好坏，直接影响画面品质，如：色彩饱和度、清晰度、流畅度等。如果sensor没有集成DSP，则通过DVP的方式传输到baseband芯片中（可以理解为外挂DSP），进入DSP的数据是RAW Data，采集到的原始数据。如果集成了DSP，则RAW Data会经过AWB、color matrix、lens shading、gamma、sharpness、AE和de-noise处理，最终输出YUV或者RGB格式的数据。如下图中所示，ISP（Image Sensor Processor，不是Image Signal Processor）部分中使用的就是DSP来处理Image sensor的输出数据（Raw Data）：<br><img src="8.png" alt="img"></p>
+<ol start="6">
+<li><p>DVP<br>DVP分为三个部分：输出总线；输入总线；电源总线；如下图：<br><img src="9.png" alt="img"></p>
+<blockquote>
+<blockquote>
+<p>输入总线介绍</p>
+</blockquote>
+</blockquote>
+<p> a&gt;PWDN是camera的使能管脚，有两种配置方式，一种为standby，一种是normal work，设置为standby的时候，一切对camera的操作都是无效的，包括复位。所以在RESET之前，一定要将PWDN管脚设置为normal模式，否则RESET无效。</p>
+<p> b&gt;RESET是camera的复位管脚，此方式为硬复位模式，camera的各个IO口恢复到出厂默认状态。只有在XCLK开启后，将RESET置为低，硬复位才有效，否则复位无效。</p>
+<p> c&gt;XCLK是camera的工作时钟管脚，此管脚为BB提供camera的工作时钟。</p>
+<p> d&gt;IIC是camera和BB通信的总线通道。</p>
+<blockquote>
+<blockquote>
+<p>输出总线介绍</p>
+</blockquote>
+</blockquote>
+<p> a&gt;data为camera的数据管脚。此数据脚可以输出的格式有YUV、RGB、JPEG等。</p>
+<p> b&gt;VSYNC为camera的帧同步信号管脚。一个VYSNC信号结束表示一帧（即一个画面）的数据已经输出完毕。</p>
+<p> c&gt;HSYNC为camera行同步信号管脚。一个HSYNC信号结束表示一行的数据已经输出完毕。</p>
+<p> d&gt;PCLK为像素同步信号管脚。一个PCLK信号结束表示一个像素点的数据已经输出完毕。  </p>
+<blockquote>
+<blockquote>
+<p>Power线介绍</p>
+</blockquote>
+</blockquote>
+<p> a&gt;AVDD为camera的模拟电压。</p>
+<p> b&gt;DOVDD为camera的GPIO口数字电压。</p>
+<p> c&gt;DVDD为camera的核工作电压。<br>一般来说，要求先提供sensor的GPIO口电压，接着提供模拟电压，最后提供工作电压。时序如下图：<br><img src="10.png" alt="img"></p>
+</li>
+<li><p>FPC柔性电路板(柔性PCB)<br>简称”软板”, 又称”柔性线路板”,连接芯片和手机。起到电信号传输作用。</p>
+</li>
+<li><p>一些概念区别</p>
+<blockquote>
+<blockquote>
+<p>常见基带处理器或者基带芯片负责数据处理与储存，相当于一个协处理器，主要组件为DSP、微控制器、内存（如SRAM、Flash）等单元，主要功能为基带编码/译码、声音编码及语音编码 等。目前主流基带架构：DSP+ARM。可分为五个子块：CPU处理器、信道编码器、DSP、调制解调器和接口模块。</p>
+</blockquote>
+</blockquote>
+<p> 基带芯片是用来合成即将的发射的基带信号，或对接收到的基带信号进行解码。具体地说，就是：发射时，把音频信号编译成用来发射的基带码；接收时，把收到的基带码解译为音频信号。同时，也负责地址信息（手机号、网站地址）、文字信息（短讯文字、网站文字）、图片信息的编译。</p>
+</li>
+</ol>
+<blockquote>
+<blockquote>
+<p>ISP，Image Signal Processor，图像信号处理器；DSP，Data Signal Processor，数字信号处理器。</p>
+</blockquote>
+</blockquote>
+<pre><code>ISP一般用来处理Image Sensor（图像传感器）的输出数据，如进行：AEC（自动曝光控制）、AGC（自动增益控制）、AWB（自动白平衡）、色彩校正、Gamma校正、祛除坏点、Auto Black Level、Auto White Level 等等功能的处理。</code></pre>
+<blockquote>
+<blockquote>
+<p>而DSP功能就比较多了，它可以做些拍照以及回显（JPEG的编解码）、录像以及回放（Video 的编解码）、H.264的编解码、还有很多其他方面的处理，总之是处理数字信号了。可以认为ISP是一类特殊的处理图像信号的DSP。</p>
+</blockquote>
+</blockquote>
+<p>在摄像头这部分，要看清楚ISP表示的是什么，是Image Signal Processor（图像信号处理器），还是Image Sensor Processor（图像传感器处理器）。像上面的OV2665里面的ISP就是Image Sensor Processor，相当于Sensor模块中的一部分，由DSP做处理器。而下面的GC0308，则正好相反，是Image Signal Processor，是一个真正的处理器，所以在看到ISP的时候要根据语境看指的是一个具体的处理器还是模块的组成部分。<br><img src="11.png" alt="img"></p>
+<ol start="9">
+<li><p>图像解析度/分辨率(resolution)</p>
+<table>
+<thead>
+<tr>
+<th>QSIF/QQVGA</th>
+<th>160 x 120</th>
+<th>19200</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>QCIF</td>
+<td>176 x 144</td>
+<td>25344</td>
+<td></td>
+</tr>
+<tr>
+<td>SIF/QVGA</td>
+<td>320 x 240</td>
+<td>76800</td>
+<td></td>
+</tr>
+<tr>
+<td>CIF</td>
+<td>352 x 288</td>
+<td>101376</td>
+<td>10万像素</td>
+</tr>
+<tr>
+<td>VGA</td>
+<td>640 x 480</td>
+<td>307200</td>
+<td>30万像素(35万是指648X488)</td>
+</tr>
+<tr>
+<td>SVGA</td>
+<td>800 x 600</td>
+<td>480000</td>
+<td>50万像素</td>
+</tr>
+<tr>
+<td>XGA</td>
+<td>1024 x 768</td>
+<td>786438</td>
+<td>80万像素</td>
+</tr>
+<tr>
+<td>SXGA</td>
+<td>1280 x 1024</td>
+<td>1310720</td>
+<td>130万像素</td>
+</tr>
+<tr>
+<td>UXGA</td>
+<td>1600 x 1200</td>
+<td>1920000</td>
+<td>200万像素</td>
+</tr>
+<tr>
+<td>QXGA</td>
+<td>2048 x 1536</td>
+<td>3145728</td>
+<td>300万像素(320W)</td>
+</tr>
+<tr>
+<td>QSXGA</td>
+<td>2592 x 1944</td>
+<td>5038848</td>
+<td>500万像素</td>
+</tr>
+<tr>
+<td></td>
+<td>2816 x 2112</td>
+<td>2947392</td>
+<td>600万像素</td>
+</tr>
+<tr>
+<td></td>
+<td>3072 x 2304</td>
+<td>7077888</td>
+<td>700万像素</td>
+</tr>
+<tr>
+<td></td>
+<td>3200 x 2400</td>
+<td>7680000</td>
+<td>770万像素</td>
+</tr>
+<tr>
+<td></td>
+<td>3264 x 2448</td>
+<td>7990272</td>
+<td>800万像素</td>
+</tr>
+<tr>
+<td></td>
+<td>3876 x 2584</td>
+<td>10015584</td>
+<td>1000万像素</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>Sensor的感光原理<br>Sensor负责通过一个一个的感光点对光进行采样和量化，但，在Sensor中，每一个感光点只能感光RGB中的一种颜色。所以，通常所说的30万像素或130万像素等，指的是有30万或130万个感光点。<strong>每一个感光点只能感光一种颜色，一个感光点就是一个像素。</strong></p>
+</li>
+</ol>
+<p>因为sensor上每个像素只采集特定颜色的光的强度，因此sensor每个像素只能为R或G或B，形成的数据就成为了raw数据。raw数据是sensor的经过光电转换后通过ADC采样后直接输出数据，是未经处理过的数据，表示sensor接受到的各种光的强度。</p>
+<p>解释：sensor上是由一个个感光的小点（你可以这么理解，就是只有几个微米大小的感光器件组成，多少个感光小点就有多少个像素），但是一个像素上要采集多种最基本的颜色，如rgb三种颜色，最简单的方法就是用滤镜的方法，红色的滤镜透过红色的波长，绿色的滤镜透过绿色的波长，蓝色的滤镜透过蓝色的波长。如果要采集rgb三个基本色，则需要三块滤镜，这样价格昂贵，且不好制造，因为三块滤镜都必须保证每一个像素点都对齐显然是不可能的。</p>
+<p>所以就有了bayer这种方式，<strong>bayer 格式图片在一块滤镜上设置的不同的颜色，</strong>通过分析人眼对颜色的感知发现，人眼对绿色比较敏感，所以一般bayer格式的图片绿色格式的像素是是r和g像素的和。</p>
+<p>Bayer是相机内部的原始图片, 一般后缀名为.raw，bayer图一个像素就只有一个颜色, 或R或G或B。要还原一个真正图像，需要每一个点都有RGB三种颜色。RGB图, 即为三色图, 一个像素点就由RGB三种颜色构成的混合色。</p>
+<p>在Sensor模组的内部会有一个ISP模块（应该理解为Image Sensor Processor，是Sensor模块的组成部分，），会对Sensor采集到的数据进行插值和特效处理。如果一个像素点感应为R值，那么ISP会根据该感光点周围的G、B的值，通过插值和特效处理等，计算出该R点的G、B值。</p>
+<p>摄像头模组里面干了这个几件事</p>
+<p>（1）sensor芯片需要的电源和时钟等信号的设计</p>
+<p>（2）有些sensor自己就带内部ISP，或者说集成了，所以输出的直接是YUV或者RGB格式</p>
+<p>（3）没有ISP的sensor就需要外部挂一个ISP。电路上就是一个sensor的信号连接到ISP上，信号和传输YUV的这种DVP信号很类似，但是传输的信息是完全不一样的。</p>
+<p><img src="5.png" alt="img"></p>
+<p>摄像头上有这几个参数，有效像素，和像素尺寸大小：</p>
+<p><img src="6.png" alt="img"></p>
+<p>对于不同的sensor，在其内部形成的raw数据格式也是有区别的。raw数据排列格式（Bayer pattern）有四种：</p>
+<table>
+<thead>
+<tr>
+<th>G</th>
+<th>R</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>B</td>
+<td>G</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>G</th>
+<th>B</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R</td>
+<td>G</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>R</th>
+<th>G</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>G</td>
+<td>B</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>B</th>
+<th>G</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>G</td>
+<td>R</td>
+</tr>
+</tbody></table>
+<p>假设一个sensor的像素是8<em>8（分辨率为8</em>8），那么这个sensor就有8*8个感光点，每个感光点就是一个晶体管。那么对于上表中四种排列格式的rawRGB数据如下图所示：</p>
+<p><img src="2.png" alt="img"></p>
+<p>由上图可以看出，每一种格式的rawRGB数据的G分量都是B、R分量的两倍，是因为人眼对于绿色的更加敏感，所以加重了其在感光点的权重，增加了对绿色信息的采样。)</p>
+<h3 id="摄像头工作原理"><a href="#摄像头工作原理" class="headerlink" title="摄像头工作原理"></a>摄像头工作原理</h3><table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>I/O</th>
+<th>Description</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HREF</td>
+<td>I</td>
+<td>行同步信号</td>
+<td></td>
+</tr>
+<tr>
+<td>PCLK</td>
+<td>I</td>
+<td>像素时钟</td>
+<td></td>
+</tr>
+<tr>
+<td>DATA[7:0]</td>
+<td>I</td>
+<td>像素数据</td>
+<td></td>
+</tr>
+<tr>
+<td>FIELD</td>
+<td>O</td>
+<td>FIELD信号</td>
+<td></td>
+</tr>
+<tr>
+<td>MCLK</td>
+<td>O</td>
+<td>系统时钟信号</td>
+<td></td>
+</tr>
+<tr>
+<td>每个摄像头都有三个时钟域，第一个是系统总线时钟域；第二个是摄像头像素时钟域PCLK；第三个是内部时钟MCLK。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>系统总线时钟必须高于PCLK，CAM_MCLK必须固定频率发呢拼比，如：PLL时钟。</p>
+<p>一旦给摄像头提供了时钟，并且复位了摄像头，摄像头就可以工作了，通过PCLK、HSYNC、VSYNC听不传输数字图像信号。</p>
+<pre><code>摄像头的驱动需要完成三大步：
+
+&gt;&gt;摄像头的上电、时钟这些基本条件
+
+&gt;&gt;IIC保证摄像头的初始化
+
+&gt;&gt;摄像头工作后传回数据到主控</code></pre>
+<p><img src="12.png" alt="img"></p>
+<p>控制部分是摄像头上电、IIC控制接口；数据输出是摄像头拍摄的图像数据传到主控芯片，所以，需要有Data、行场同步时钟(告诉主控芯片哪些数据是一行，哪些是一帧)、以及时钟（PCLK，像素时钟，告诉主控芯片哪些数据是一个像素点）。<br>（1）、MCLK</p>
+<pre><code>摄像头要 工作，必须要有个时钟进行同步，这个时钟就是MCLK，必须要有，否则摄像头就是一个死物，这个时钟由主控芯片提供，确切的说是有主控芯片的控制器提供，下面会提到。</code></pre>
+<p>（2）、RESET</p>
+<pre><code>复位信号，上面有提</code></pre>
+<p>（3）、SDA、SCL</p>
+<pre><code>IIC总线，主要作用就是为主控芯片配置或者读取摄像头的寄存器提供通道。mini2440音频模块中的L3协议，也是这个作用。不要看见协议就怕，协议就是一条路，数据传输的路，有规定的数据传输的道路。</code></pre>
+<p><img src="13.png" alt="img"></p>
+<p>4）、Configuration Register</p>
+<pre><code>配置寄存器，控制器（在主控芯片中）通过IIC来设置，相当于告诉摄像头如何工作等。</code></pre>
+<p>（5）、Timing Control</p>
+<pre><code>时序控制，主要是根据主控芯片提供的MCLK时钟来控制行场同步、自动曝光AEC等。因为这些都需要时钟的配合。</code></pre>
+<p>（6）、Pixel Array</p>
+<pre><code>gc0308物理上的阵列是648H*492V，实际采样阵列是648H*488V，也是有效阵列。实际取像的阵列是640H*480V。如下图所示：</code></pre>
+<p><img src="14.png" alt="img"></p>
+<p>（7）、CDS</p>
+<pre><code>Correlated Double Sampling，相关双联取样电路。CCD传感器的每个像素点输出波形只在一部分时间内是图像信号，其余时间是复位电平和干扰，为了提取图像信号并消除干扰，就要采用取样保持电路。</code></pre>
+<p>（8）、Analog Processing、10bit ADC</p>
+<pre><code>主要是将sensor得到的电信号转换为数字信号，方便ISP或者DSP处理。</code></pre>
+<p>（9）、Image Signal Processing</p>
+<pre><code>图像信号处理器，可以理解为DSP的一种，主要是对sensor经过ADC处理后的Raw Data进行处理，主要有自动白平衡AWB、插值计算（Bayer interpolation主要是对Raw Data进行格式转换，转为YUV /RGB等）、去噪、gamaa修正、色彩修正、边缘增强等。这些都是由寄存器决定，寄存器又是通过IIC总线来设置的。</code></pre>
+<p>（10）、Output Mode &amp; Sync Control</p>
+<p>** 输出接口，从光线进入镜头、过滤、光感应、ADC，然后到图像数据处理，最终数据到达外部接口。摄像头取一幅图像的整个工作完成，摄像头本质上还是一个终端节点，所以需要将采集好的图像数据传递给主控芯片，所以要有数据引脚，图形格式不是Raw Data，而是YUV或者RGB数据。进行数据传输，肯定需要时钟进行同步，所以需要PCLK，告诉主控芯片，哪个数据代表了一个像素点；VSYNC负责告诉芯片哪些是一帧数据，HSYNC则同步行数据。**</p>
+<p>#jpeg文件是如何生成的？</p>
+<ol>
+<li>首先是要有光学信息。物体自己发光，或者反射光。</li>
+<li>sensor(光信号感应器)，将光信号转换为数字信号。<br> input：光信号<br> output：数字信号，格式为raw</li>
+<li>raw数据被送往ISP，先转换成RGB，再转换成YUV。</li>
+<li>jpeg编码器将ISP输出的YUV数据进行编码压缩，最终输出jpeg文件。</li>
+</ol>
+<p><img src="1.png" alt="img"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/11/28/power-hint/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1162,106 +1600,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/11/08/Qt1-mine/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Queenie Chen">
-      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Queenie Chen">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/11/08/Qt1-mine/" class="post-title-link" itemprop="url">使用Qt Create创建hello word 界面</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-11-08 15:20:41" itemprop="dateCreated datePublished" datetime="2020-11-08T15:20:41+08:00">2020-11-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-10 23:30:59" itemprop="dateModified" datetime="2020-11-10T23:30:59+08:00">2020-11-10</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>本文旨在介绍如何用qt create创建一个简单的界面hello word，以及阐述相关代码。</p>
-<h1 id="如何创建？"><a href="#如何创建？" class="headerlink" title="如何创建？"></a>如何创建？</h1><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ol>
-<li>python安装</li>
-<li>Qt Create安装</li>
-</ol>
-<h2 id="创建步骤"><a href="#创建步骤" class="headerlink" title="创建步骤"></a>创建步骤</h2><p>1.新建工程<br><img src="1.PNG" alt="img"><br><img src="2.PNG" alt="img"><br>2.拖动label和push button<br><img src="3.PNG" alt="img"><br><img src="4.PNG" alt="img"><br>3.修改label的属性<br>objectName是组件对象的名称 ，每个组件都有唯一对应的对象名称。<br><img src="5.PNG" alt="img"></p>
-<p>类的继承关系：<br><img src="6.PNG" alt="img"></p>
-<p>修改属性对应的值，这里改变文本显示的内容：<br><img src="7.PNG" alt="img"></p>
-<p>窗体是QWidget类，其objectName是FormHello：<br><img src="8.PNG" alt="img"><br>4.保存为formhello.ui文件<br>其内容为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;ui version&#x3D;&quot;4.0&quot;&gt;</span><br><span class="line"> &lt;class&gt;FormHello&lt;&#x2F;class&gt;</span><br><span class="line"> &lt;widget class&#x3D;&quot;QWidget&quot; name&#x3D;&quot;FormHello&quot;&gt;</span><br><span class="line">  &lt;property name&#x3D;&quot;geometry&quot;&gt;</span><br><span class="line">   &lt;rect&gt;</span><br><span class="line">    &lt;x&gt;0&lt;&#x2F;x&gt;</span><br><span class="line">    &lt;y&gt;0&lt;&#x2F;y&gt;</span><br><span class="line">    &lt;width&gt;400&lt;&#x2F;width&gt;</span><br><span class="line">    &lt;height&gt;300&lt;&#x2F;height&gt;</span><br><span class="line">   &lt;&#x2F;rect&gt;</span><br><span class="line">  &lt;&#x2F;property&gt;</span><br><span class="line">  &lt;property name&#x3D;&quot;windowTitle&quot;&gt;</span><br><span class="line">   &lt;string&gt;Demo2_2&lt;&#x2F;string&gt;</span><br><span class="line">  &lt;&#x2F;property&gt;</span><br><span class="line">  &lt;widget class&#x3D;&quot;QPushButton&quot; name&#x3D;&quot;btnClose&quot;&gt;</span><br><span class="line">   &lt;property name&#x3D;&quot;geometry&quot;&gt;</span><br><span class="line">    &lt;rect&gt;</span><br><span class="line">     &lt;x&gt;150&lt;&#x2F;x&gt;</span><br><span class="line">     &lt;y&gt;190&lt;&#x2F;y&gt;</span><br><span class="line">     &lt;width&gt;75&lt;&#x2F;width&gt;</span><br><span class="line">     &lt;height&gt;23&lt;&#x2F;height&gt;</span><br><span class="line">    &lt;&#x2F;rect&gt;</span><br><span class="line">   &lt;&#x2F;property&gt;</span><br><span class="line">   &lt;property name&#x3D;&quot;text&quot;&gt;</span><br><span class="line">    &lt;string&gt;关闭&lt;&#x2F;string&gt;</span><br><span class="line">   &lt;&#x2F;property&gt;</span><br><span class="line">  &lt;&#x2F;widget&gt;</span><br><span class="line">  &lt;widget class&#x3D;&quot;QLabel&quot; name&#x3D;&quot;LabelHello&quot;&gt;</span><br><span class="line">   &lt;property name&#x3D;&quot;geometry&quot;&gt;</span><br><span class="line">    &lt;rect&gt;</span><br><span class="line">     &lt;x&gt;120&lt;&#x2F;x&gt;</span><br><span class="line">     &lt;y&gt;70&lt;&#x2F;y&gt;</span><br><span class="line">     &lt;width&gt;181&lt;&#x2F;width&gt;</span><br><span class="line">     &lt;height&gt;31&lt;&#x2F;height&gt;</span><br><span class="line">    &lt;&#x2F;rect&gt;</span><br><span class="line">   &lt;&#x2F;property&gt;</span><br><span class="line">   &lt;property name&#x3D;&quot;font&quot;&gt;</span><br><span class="line">    &lt;font&gt;</span><br><span class="line">     &lt;pointsize&gt;12&lt;&#x2F;pointsize&gt;</span><br><span class="line">     &lt;weight&gt;75&lt;&#x2F;weight&gt;</span><br><span class="line">     &lt;bold&gt;true&lt;&#x2F;bold&gt;</span><br><span class="line">    &lt;&#x2F;font&gt;</span><br><span class="line">   &lt;&#x2F;property&gt;</span><br><span class="line">   &lt;property name&#x3D;&quot;text&quot;&gt;</span><br><span class="line">    &lt;string&gt;Hello，Qt Creator!&lt;&#x2F;string&gt;</span><br><span class="line">   &lt;&#x2F;property&gt;</span><br><span class="line">  &lt;&#x2F;widget&gt;</span><br><span class="line"> &lt;&#x2F;widget&gt;</span><br><span class="line"> &lt;resources&#x2F;&gt;</span><br><span class="line"> &lt;connections&#x2F;&gt;</span><br><span class="line">&lt;&#x2F;ui&gt;</span><br></pre></td></tr></table></figure>
-<p>5.将.ui文件编译成.py文件<br>命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyuic5 -o ui_formhello.py formhello.ui</span><br></pre></td></tr></table></figure>
-
-<p>上述命令可写成.bat文件，方便执行</p>
-<p>执行结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"></span><br><span class="line"># Form implementation generated from reading ui file &#39;formhello.ui&#39;</span><br><span class="line">#</span><br><span class="line"># Created by: PyQt5 UI code generator 5.13.2</span><br><span class="line">#</span><br><span class="line"># WARNING! All changes made in this file will be lost!</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">from PyQt5 import QtCore, QtGui, QtWidgets</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Ui_FormHello(object):</span><br><span class="line">    def setupUi(self, FormHello):</span><br><span class="line">        FormHello.setObjectName(&quot;FormHello&quot;)</span><br><span class="line">        FormHello.resize(400, 300)</span><br><span class="line">        self.btnClose &#x3D; QtWidgets.QPushButton(FormHello)</span><br><span class="line">        self.btnClose.setGeometry(QtCore.QRect(150, 190, 75, 23))</span><br><span class="line">        self.btnClose.setObjectName(&quot;btnClose&quot;)</span><br><span class="line">        self.LabelHello &#x3D; QtWidgets.QLabel(FormHello)</span><br><span class="line">        self.LabelHello.setGeometry(QtCore.QRect(120, 70, 181, 31))</span><br><span class="line">        font &#x3D; QtGui.QFont()</span><br><span class="line">        font.setPointSize(12)</span><br><span class="line">        font.setBold(True)</span><br><span class="line">        font.setWeight(75)</span><br><span class="line">        self.LabelHello.setFont(font)</span><br><span class="line">        self.LabelHello.setObjectName(&quot;LabelHello&quot;)</span><br><span class="line"></span><br><span class="line">        self.retranslateUi(FormHello)</span><br><span class="line">        QtCore.QMetaObject.connectSlotsByName(FormHello)</span><br><span class="line"></span><br><span class="line">    def retranslateUi(self, FormHello):</span><br><span class="line">        _translate &#x3D; QtCore.QCoreApplication.translate</span><br><span class="line">        FormHello.setWindowTitle(_translate(&quot;FormHello&quot;, &quot;Demo2_2&quot;))</span><br><span class="line">        self.btnClose.setText(_translate(&quot;FormHello&quot;, &quot;关闭&quot;))</span><br><span class="line">        self.LabelHello.setText(_translate(&quot;FormHello&quot;, &quot;Hello，Qt Creator!&quot;))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>6.编写appMain1.py，使用类Ui_FormHello创建GUI应用程序基本框架</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;env python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import sys</span><br><span class="line">sys.path.append(r&quot;D:\MyLearing\QtProj\Demo2_2&quot;)</span><br><span class="line">from PyQt5 import QtWidgets</span><br><span class="line">from ui_formhello import Ui_FormHello</span><br><span class="line"></span><br><span class="line">app &#x3D; QtWidgets.QApplication(sys.argv)</span><br><span class="line">baseWidget &#x3D;QtWidgets.QWidget()</span><br><span class="line"></span><br><span class="line">ui &#x3D; Ui_FormHello()</span><br><span class="line">ui.setupUi(baseWidget)</span><br><span class="line"></span><br><span class="line">baseWidget.show()</span><br><span class="line">## ui.LabHello.setText(&quot;这样可修改窗体上标签的文字&quot;)</span><br><span class="line"></span><br><span class="line">sys.exit(app.exec_())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ol start="7">
-<li>运行<br>命令：<br><img src="9.PNG" alt="img"></li>
-</ol>
-<p><img src="10.PNG" alt="img"><br>结果：<br><img src="11.PNG" alt="img"></p>
-<h1 id="代码阐述"><a href="#代码阐述" class="headerlink" title="代码阐述"></a>代码阐述</h1><h2 id="appMain1-py"><a href="#appMain1-py" class="headerlink" title="appMain1.py"></a>appMain1.py</h2><p>通过拖动组件，设置好属性及布局后的界面，会自动生成formhello.ui文件。再通过命令将窗体文件formhello.ui编译转换为类定义文件ui_formhello.py，通过编写appMain1.py文件来调用ui_formhello.py中的类Ui_FormHello，从而创建GUI应用程序。</p>
-<p>1.模块导入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import sys </span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">导入模块sys。这种直接import模块的方法，在后面如需使用该模块内的属性和方法时，必须使用   模块名.属性   和   模块名.方法   来进行调用</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">sys.path.append(r&quot;D:\MyLearing\QtProj\Demo2_2&quot;)</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">python解释器的搜索路径存放在sys.path中，当我们新添模块时，需要自己将搜索目录添加进去</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">from PyQt5 import QtWidgets</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">可直接使用模块QtWidgets内的属性和方法，但是若遇上该模块内包含的属性和方法与咱自定义的模块同名时就会导致冲突，所以一般尽可能直接导入模块，避免debug</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">from ui_formhello import Ui_FormHello</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">从文件ui_formhello.py中导入模块Ui_FormHello</span><br><span class="line">&quot;&quot;&quot;</span><br></pre></td></tr></table></figure>
-
-<p>2.先创建应用程序实例，再创建窗体</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">app &#x3D; QtWidgets.QApplication(sys.argv)</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">首先使用模块QtWidgets中的类QApplication来创建应用程序实例app</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">baseWidget &#x3D;QtWidgets.QWidget()</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">使用模块QtWidgets中的类QWidget，创建了QWidget类的对象baseWidget，目前baseWidget是没有任何设置的QWidget类窗体</span><br><span class="line">&quot;&quot;&quot;</span><br></pre></td></tr></table></figure>
-
-<p>3.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ui &#x3D; Ui_FormHello()</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">创建了一个Ui_FormHello类对象ui</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">ui.setupUi(baseWidget)</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">baseWidget作为QWidget类窗体传入给函数setupUi，setupUi只创建窗体上其他组件。</span><br><span class="line">&quot;&quot;&quot;</span><br></pre></td></tr></table></figure>
-
-<p>4.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">baseWidget.show()</span><br><span class="line">## ui.LabHello.setText(&quot;这样可修改窗体上标签的文字&quot;)</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">ui是Ui_FormHello类的实例对象，窗体上所有界面组件都是ui的实例对象。</span><br><span class="line">baseWidget虽然是窗体，是LabHello的父容器，但baseWidget并没有定义公共属性LabHello。</span><br><span class="line">&quot;&quot;&quot;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1331,7 +1669,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
