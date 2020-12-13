@@ -20,30 +20,35 @@
     var CONFIG = {"hostname":"queeniechen.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="我叫小白，初来乍到，请多指教~">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Queenie Chen">
-<meta property="og:url" content="https://queeniechen.github.io/index.html">
+  <meta name="description" content="1. 背景这里camera场景指camera执行的不同阶段，比如open ,preview, take picture.  不同场景对camera性能和功耗要求不一样，比如open时想要快速，必须提频，此时功耗也就高了。如何设置调节策略使得各场景既能达到想要的反应速度，流畅水平，又使得能耗消耗在预期水平？由此引入power hint 机制。 总结一下：性能和功耗平衡需要策略 不同的平台软、硬件配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="power hint机制">
+<meta property="og:url" content="https://queeniechen.github.io/2020/12/13/power-hint/index.html">
 <meta property="og:site_name" content="Queenie Chen">
-<meta property="og:description" content="我叫小白，初来乍到，请多指教~">
+<meta property="og:description" content="1. 背景这里camera场景指camera执行的不同阶段，比如open ,preview, take picture.  不同场景对camera性能和功耗要求不一样，比如open时想要快速，必须提频，此时功耗也就高了。如何设置调节策略使得各场景既能达到想要的反应速度，流畅水平，又使得能耗消耗在预期水平？由此引入power hint 机制。 总结一下：性能和功耗平衡需要策略 不同的平台软、硬件配置">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://queeniechen.github.io/2020/12/13/power-hint/1.png">
+<meta property="og:image" content="https://queeniechen.github.io/2020/12/13/power-hint/2.png">
+<meta property="article:published_time" content="2020-12-13T13:25:33.020Z">
+<meta property="article:modified_time" content="2020-12-13T13:25:33.021Z">
 <meta property="article:author" content="Queenie Chen">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://queeniechen.github.io/2020/12/13/power-hint/1.png">
 
-<link rel="canonical" href="https://queeniechen.github.io/">
+<link rel="canonical" href="https://queeniechen.github.io/2020/12/13/power-hint/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>Queenie Chen</title>
+  <title>power hint机制 | Queenie Chen</title>
   
 
 
@@ -142,90 +147,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/8-Everyday-Work-Study-Plan/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Queenie Chen">
-      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Queenie Chen">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/13/8-Everyday-Work-Study-Plan/" class="post-title-link" itemprop="url">未命名</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-13 21:26:32" itemprop="dateCreated datePublished" datetime="2020-12-13T21:26:32+08:00">2020-12-13</time>
-            </span>
-
-          
-
-        </div>
-      </header>
 
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>20201127工作学习计划：</p>
-<ol>
-<li><p><a target="_blank" rel="noopener" href="https://bugzilla.unisoc.com/bugzilla/show_bug.cgi?id=1459939"><strong>Bug 1459939</strong></a> <strong>- [Multimedia][Camera][T7510_AndroidQ_FDDNR][HNR551T][PTR2Block]闪光灯拍照耗时2.603s，与PTR指标2.5s差距为0.103s</strong></p>
-<p>请测试复测最大频点情况下拍照耗时是否达标；</p>
-<p>理清楚拍照过程中，powerhint设置是否合理？</p>
-<p>powerhint的机制搞清楚。</p>
-<p>拍照过程中，ae帧率的变化是怎样？是否合理？</p>
-<p>春平哥之前闪光灯拍照优化是如何设计的？</p>
-<p>8核全固定住最高频仍然耗时长</p>
-</li>
-<li><p>【内部】【XUNRUI】【JIO3 VALUE SC9820E】 SPCSS00739433 [VIT_F371i]: Current Drain of device during 3gpp Video Recording 20% deviation from target (Actual: 221.07 mA Vs. Target:185 mA)</p>
-<p>版本，怎么烧</p>
-<p>功耗分解</p>
-<p>带宽分析</p>
-<p>图层</p>
-</li>
-<li><p>idea的构思和实现</p>
-</li>
-<li><p>UTIT原理</p>
-<p>懂汇编</p>
-</li>
-<li><p>19b分支优化同步到Q上的情况</p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -241,10 +166,9 @@
       <meta itemprop="name" content="Queenie Chen">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/13/power-hint/" class="post-title-link" itemprop="url">power hint机制</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          power hint机制
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -267,7 +191,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="1-背景"><a href="#1-背景" class="headerlink" title="1. 背景"></a>1. 背景</h1><p>这里camera场景指camera执行的不同阶段，比如open ,preview, take picture.  不同场景对camera性能和功耗要求不一样，比如open时想要快速，必须提频，此时功耗也就高了。如何设置调节策略使得各场景既能达到想要的反应速度，流畅水平，又使得能耗消耗在预期水平？由此引入power hint 机制。</p>
+        <h1 id="1-背景"><a href="#1-背景" class="headerlink" title="1. 背景"></a>1. 背景</h1><p>这里camera场景指camera执行的不同阶段，比如open ,preview, take picture.  不同场景对camera性能和功耗要求不一样，比如open时想要快速，必须提频，此时功耗也就高了。如何设置调节策略使得各场景既能达到想要的反应速度，流畅水平，又使得能耗消耗在预期水平？由此引入power hint 机制。</p>
 <p>总结一下：性能和功耗平衡需要策略</p>
 <h1 id=""><a href="#" class="headerlink" title=""></a></h1><p>不同的平台软、硬件配置不一样，性能不同，那么策略也有所不同。这里分为3个等级，分别是performance, normal, low power。</p>
 <table>
@@ -469,660 +393,34 @@
 </li>
 </ol>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/19-IT/">
+        
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Queenie Chen">
-      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
-    </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Queenie Chen">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/13/19-IT/" class="post-title-link" itemprop="url">IT</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-13 21:08:48" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-12 16:54:12" itemprop="dateModified" datetime="2020-12-12T16:54:12+08:00">2020-12-12</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="1.png" alt="img"></p>
-<p><img src="2.png" alt="img"></p>
-<p><img src="3.png" alt="img"></p>
-<p><img src="4.png" alt="img"></p>
-<p><img src="5.png" alt="img"></p>
-<p><img src="6.png" alt="img"></p>
-<p><img src="7.png" alt="img"></p>
-<p><img src="8.png" alt="img"></p>
-<p><img src="9.png" alt="img"></p>
-<p><img src="10.png" alt="img"></p>
-<p><img src="11.png" alt="img"></p>
-
-      
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/12/13/19-IT/" rel="prev" title="IT">
+      <i class="fa fa-chevron-left"></i> IT
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/12/13/8-Everyday-Work-Study-Plan/" rel="next" title="">
+       <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
   
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/18-Email/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Queenie Chen">
-      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Queenie Chen">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/13/18-Email/" class="post-title-link" itemprop="url">How To Write Email？</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-12-13 21:08:48 / 修改时间：21:21:14" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="写邮件的基本原则"><a href="#写邮件的基本原则" class="headerlink" title="写邮件的基本原则"></a>写邮件的基本原则</h1><ol>
-<li>以终为始</li>
-<li>传递正能量</li>
-<li>让问题收敛，为邮件增加价值</li>
-<li>让最合适的人来回复邮件</li>
-<li>邮件永远都是公共场合</li>
-</ol>
-<h1 id="邮件撰写顺序"><a href="#邮件撰写顺序" class="headerlink" title="邮件撰写顺序"></a>邮件撰写顺序</h1><ol>
-<li>附件</li>
-<li>标题</li>
-<li>正文</li>
-<li>收件人</li>
-</ol>
-<h2 id="邮件Subject"><a href="#邮件Subject" class="headerlink" title="邮件Subject"></a>邮件Subject</h2><p>邮件的主题是编写邮件的中心思想，许多读者是以标题来决定是否继续详读信件的内容。主题所以需要：<br>明确主旨，简明扼要<br>邮件标题应力求简洁，让人一望即知，以便对方快速了解与记忆。 </p>
-<p>常见问题：<br>Re:回复:XXXRe:转发:Re:答复:XXXRe:Foward:<br>标题和邮件内容已毫无关系<br>标题超长<br>没有标题</p>
-<p>解决思路：<br>修正邮件标题，简短有效<br>裁剪邮件发送范围<br>另起邮件</p>
-<h2 id="邮件正文"><a href="#邮件正文" class="headerlink" title="邮件正文"></a>邮件正文</h2><p>基本结构：<br>内容分段：背景 or 问题、结论、措施<br>同类分类：(1)… (2)… (3)…，标注序号<br>目的：减少NeedInfo Email，以满足不同读者关注点</p>
-<p>抬头：按照公司文化写，可以用“Dear”开头</p>
-<p>注意事项：<br>遵循金字塔原理，先说中心思想，再详细阐述细节<br>一行内容不要太长<br>建议用微软雅黑字体，字号适中（小四/五号）<br>强调的关键词用其他加粗，但不可用太多，建议不用<br>人名不能标红<br>多条并列内容要用编号/或符号排列<br>一个邮件一个主题思想<br>说的事情不要太多，事情多了就开会</p>
-<h2 id="收件人-抄送-密送"><a href="#收件人-抄送-密送" class="headerlink" title="收件人/抄送/密送"></a>收件人/抄送/密送</h2><p>收件人需精准，不宜过多，责任更清晰（旁观者效应）</p>
-<p>抄送：<br>什么情况，工作邮件应该抄送双方领导？<br>如何小心抄给客户怂么办？</p>
-<p>密送：<br>什么情况下，工作邮件需要密送(BCC)？<br>密送背后的心理学。</p>
-<h2 id="邮件转发"><a href="#邮件转发" class="headerlink" title="邮件转发"></a>邮件转发</h2><p>邮件转发时建议添加转发的缘由，尤其含有多位收件人的邮件时，注明转发的目的，若是指派任务，需要简要说明。让收件人更明确需要做什么。</p>
-<p>如：<br>Add somebody + 说明Add的目的<br>FYI + 简要的说明</p>
-<h2 id="邮件附件"><a href="#邮件附件" class="headerlink" title="邮件附件"></a>邮件附件</h2><p>附件少的时候最好不要打包（压缩成一个包）<br>附件尽可能小<br>邮件正文里做一下附件说明：附件中是 xx，请查收<br>收件人/抄送多人时，附件可单独发送问题处理人，并在含有多人的邮件中说明<br>因附件较多必须打包发送时，邮件正文应说明：<br>    压缩包中包括：<br>    1、xxxx 文档，是对 xxx 的说明<br>    2、xxxx 文档，是对 xxx 的说明<br>    3、xxxx 文档，是对 xxx 的说明</p>
-<h2 id="表扬、感谢、批评邮件"><a href="#表扬、感谢、批评邮件" class="headerlink" title="表扬、感谢、批评邮件"></a>表扬、感谢、批评邮件</h2><p>什么情况应该感谢？<br>什么情况应该表扬？<br>如何进行批评？ —— 尽可能避免邮件</p>
-<p>正面：聚焦具体行为和贡献，可抄送对方主管<br>负面：针对员工待改进行为及具体要求，缩小邮件范围</p>
-<h2 id="群发邮件背后沟通问题"><a href="#群发邮件背后沟通问题" class="headerlink" title="群发邮件背后沟通问题"></a>群发邮件背后沟通问题</h2><p>大量垃圾邮件，导致大量无效沟通成本。<br>研发抱怨：邮件中没有告知Log，缺少CR号<br>测试抱怨：部分问题无人关注、无人反馈<br>对于尚未确定的客户需求/问题，群发某研发团队<br>导致FM/PM疲于奔命，客户还不满意</p>
-<h2 id="邮件的类型"><a href="#邮件的类型" class="headerlink" title="邮件的类型"></a>邮件的类型</h2><h3 id="确认类型"><a href="#确认类型" class="headerlink" title="确认类型"></a>确认类型</h3><p>口头形成结论后，需要邮件确认和总结</p>
-<ol>
-<li><p>会议内容、结论，以及会后任务</p>
-</li>
-<li><p>电话沟通的结论</p>
-</li>
-<li><p>当面沟通达成的一致</p>
-</li>
-</ol>
-<h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><p>需要对需求描述具体、清晰、精确、可量化。避免因理解错误，实现与需求不一致，导致项目延期。</p>
-<h3 id="反馈类"><a href="#反馈类" class="headerlink" title="反馈类"></a>反馈类</h3><p>迅速、有计划、可执行、跟踪和收尾</p>
-<h3 id="广播类"><a href="#广播类" class="headerlink" title="广播类"></a>广播类</h3><p>纯粹知会性的广播邮件，一般不需要回复</p>
-<h2 id="如何处理冲突邮件"><a href="#如何处理冲突邮件" class="headerlink" title="如何处理冲突邮件"></a>如何处理冲突邮件</h2><h3 id="客户批评你，抄送老板"><a href="#客户批评你，抄送老板" class="headerlink" title="客户批评你，抄送老板"></a>客户批评你，抄送老板</h3><p>第一步：<br>客户永远是对的<br>F2F或电话调查，确认问题原因<br>有初步方案后，第一时间和领导说明</p>
-<p>第二步：<br>客户关注：你是否关注他？（抱怨、问题、想法）<br>上下游工作接口都是客户<br>经营你的人脉</p>
-<p>改进思路：<br>每天电话/邮件沟通<br>避免客户犯错<br>逐步建立信任</p>
-<h3 id="同事批评你，抄送主管"><a href="#同事批评你，抄送主管" class="headerlink" title="同事批评你，抄送主管"></a>同事批评你，抄送主管</h3><p>第一步：<br>无论善意恶意，别急于回复<br>对事不对人<br>有初步方案，与领导说明</p>
-<p>第二步：<br>弄清来龙去脉<br>和对方当面沟通，了解背后原因<br>把双方认可结论，邮件告知相关人员<br>请主管回复</p>
-<p>改进思路：<br>了解自身哪些需要改进<br>加强和对方的沟通频率</p>
-<h3 id="吵架邮件"><a href="#吵架邮件" class="headerlink" title="吵架邮件"></a>吵架邮件</h3><h3 id="邮件中的情绪"><a href="#邮件中的情绪" class="headerlink" title="邮件中的情绪"></a>邮件中的情绪</h3><p>邮件格式-注意事项：<br>减少“！”的使用，尤其是多个“！”。<br>避免大量红色字体使用。<br>避免重复强调效果：加粗字体、红色字体、下划线、大号字体等。<br>多用“我们”，少用“你”和“我”。</p>
-<h3 id="当你的邮件没有反馈"><a href="#当你的邮件没有反馈" class="headerlink" title="当你的邮件没有反馈"></a>当你的邮件没有反馈</h3><h2 id="邮件常用功能"><a href="#邮件常用功能" class="headerlink" title="邮件常用功能"></a>邮件常用功能</h2><h3 id="创建文件夹"><a href="#创建文件夹" class="headerlink" title="创建文件夹"></a>创建文件夹</h3><p>在Outlook系统中可以新建不同的文件夹，邮件可以进行分类存放，便于邮件的管理与查找。</p>
-<p>步骤：<br>邮件文件夹列表→右键→ 新建文件夹→ 命名文件夹</p>
-<h3 id="设置规则"><a href="#设置规则" class="headerlink" title="设置规则"></a>设置规则</h3><p>低关注度的邮件无法避免，可以通过设置规则管理好这部分邮件，避免淹没高价值邮件。</p>
-<p>步骤：<br>邮件[开始] →规则→创建规则</p>
-<h3 id="Out-Of-Office"><a href="#Out-Of-Office" class="headerlink" title="Out Of Office"></a>Out Of Office</h3><p>假如你休假了，可能长时间无法查看或及时回复邮件，可以在休假前设置好Out Of Office模式。设置好休假时间，代理人信息或方便联系到的方式。期间有人发邮件找你，可以第一时间告知发件人相关信息。</p>
-<h3 id="邮件签名"><a href="#邮件签名" class="headerlink" title="邮件签名"></a>邮件签名</h3><p>签名中留下祝福语<br>要有联系方式<br>可以有紧急联系人及相关联系方式<br>可以有免职申明</p>
-<h3 id="邮件与职业安全"><a href="#邮件与职业安全" class="headerlink" title="邮件与职业安全"></a>邮件与职业安全</h3><p>不要过于随便 —— 公司邮箱属于公共场合<br>内容公开原则 —— 过于担心，那不要写邮件<br>避免在邮件中宣泄情绪</p>
-<h2 id="邮件的信息安全"><a href="#邮件的信息安全" class="headerlink" title="邮件的信息安全"></a>邮件的信息安全</h2><p>公司内部的如下邮件，都属于公司技术或管理机密：<br>公示批评/表扬邮件——避免对手散步不利我司信息<br>项目Kick-Off邮件——避免对手了解我司项目规划<br>项目测试报告——避免对手了解我司项目发展<br>研发技术讨论等</p>
-<p>公司内部技术讨论邮件：<br>勿转发公司外部人员，避免机密技术信息泄露；<br>发给外部人员使用‘Replay’，而不是‘Replay With History’</p>
-<p>回复客户邮件（CPM&amp;FAE）：<br>推荐养成新建习惯，可规避无意间“泄露公司机密”的风险。<br>邮件内容有误，第一时间通知收件人澄清，重新拟制。</p>
-<h1 id="做人"><a href="#做人" class="headerlink" title="做人"></a>做人</h1><p>现在所做的每一件事都与未来人生息息相关。<br>真诚对待身边每一个人<br>认真做好日常每一件事</p>
-<p>利他之心——生活与工作<br>保持个人利益与组织利益统一，利己利人<br>决策出发点：同时有益团队、公司、社会</p>
-<p>胸怀不大度——构建良好团队人际关系<br>让每次合作变成积累，而不是消耗<br>让自己成为被组合的热门选手。</p>
-<h1 id="做事"><a href="#做事" class="headerlink" title="做事"></a>做事</h1><p>永进不要忘记我们的目的<br>不是谁是谁非，而是解决问题<br>费斯汀格法则： 90/10定律<br>往者已矣，来者可追。<br>多关注问题发生后的回溯改进。<br>可以主导的最重要动作永远是下一个！</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/17-multiCameraId/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Queenie Chen">
-      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Queenie Chen">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/13/17-multiCameraId/" class="post-title-link" itemprop="url">multi camera id</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-13 21:08:48" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-12 15:09:46" itemprop="dateModified" datetime="2020-12-12T15:09:46+08:00">2020-12-12</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>【物理摄像头】：真实的实体，一颗sensor表示一个物理摄像头<br>【逻辑摄像头】：逻辑摄像头就是两个或更多这些物理摄像头的分组。逻辑摄像头的输出可以是来自其中一个底层物理摄像机的一个流，也可以是同时来自多个底层物理摄像机的融合流；这两种方式都是由相机的 HAL（Hardware Abstraction Layer）来处理的。</p>
-<p>具体一点：<br>对于物理摄像头来说，目前我们的代码中id:0 代表主摄，id:1代表前置摄像头，id:2，id:3等代表辅摄，这就是相机的物理ID。<br>相机的logical Camera id，就是上层通过一个id号，就可以调用多个摄像头完成其功能。</p>
-<p><img src="1.png" alt="img"></p>
-<p><img src="2.png" alt="img"></p>
-<p>假如multiCameraId现在是SPRD_BLUR_ID，对应到case后，mainCameraId=1,即前摄。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/16-camera-buffer/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Queenie Chen">
-      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Queenie Chen">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/13/16-camera-buffer/" class="post-title-link" itemprop="url">camera-buffer</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-13 21:08:48" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-12 16:28:35" itemprop="dateModified" datetime="2020-12-12T16:28:35+08:00">2020-12-12</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="1.png" alt="img"></p>
-<p><img src="2.PNG" alt="img"></p>
-<p><img src="3.PNG" alt="img"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/15-camera-preview/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Queenie Chen">
-      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Queenie Chen">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/13/15-camera-preview/" class="post-title-link" itemprop="url">camera-preview</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-13 21:08:48" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-12 16:13:08" itemprop="dateModified" datetime="2020-12-12T16:13:08+08:00">2020-12-12</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="1.png" alt="img"></p>
-<p>DCAM:<br>(1)红色箭头表示Capture的数据流；–full path<br>(2)绿色箭头表示Preview/Video的数据流；–bin path</p>
-<p>在ISP模块：<br>(1)Capture和Preview共用一条数据通路，如图紫色箭头；–scl_pre_cap<br>(2)Video的数据流如图蓝色箭头;–scl_vid</p>
-<p>Preview大概流程如下：<br>1.数据获取：走online，由sensor传来图像数据；<br>2.DCAM模块：获得图像数据后，Preview/Video走Bin_path(DCAM模块绿色箭头的通路)，Capture走full_path(DCAM模块红色箭头的通路)，DCAM模块处理完图像以后，将处理好的图像数据写进DDR中；<br>3.ISP模块：ISP模块启动后，从DDR中拿到DCAM处理的图像数据，作进一步处理；在ISP模块，Capture/Preview走同一条通路，如图ISP模块紫色箭头；Video单独走一条通路，如图ISP模块蓝色箭头；同样，ISP处理完后，会将数据写进DDR；<br>4.在cam_core.c文件中，通过与User层交互，将处理好的图像上传给User层。</p>
-<p>Camera_Preview代码走读流程图</p>
-<p><img src="2.png" alt="img"></p>
-<p>Camera_Preview代码走读注意事项：<br>1.User层与Driver层的交互：主要集中在Cam_core.c中，包括参数的传输，启动相应模块等，主要是通过ioctl函数传输，如图中的标号①，是preview流程中user向kernel传输参数和命令操作的最后一个ioctl函数。<br>2.Dcam模块处理；如图中的标号② 到⑧，对应的函数是在进行对应的参数的配置和dcam硬件的启动；真正启动dcam的操作在是在标号5对应的函数中，cam_hw_if_xxxx.c文件中的xxx.dcam_start()函数中，xxx表示不同的手机版本；如sharkl5pro、sharkl3等，最后配置有关寄存器启动dcam，前面都是在做一些参数的传输、配置、相关线程的启动等；dcam处理完图像,出一个硬件中断，然后走bin_path_done;如图标号⑥到⑧。<br>3.在dcam处理完以后，会启动isp继续处理图像，这个过程如图中标号⑨到⑾，dcam处理完，返回cam_core.c去启动isp；注意，isp_offline_thread_loop()在①对应的传参初始化过程中就启动Isp_offline_thread_loop()时，走到该函数中循环等待thread.thread_com完成量。<br>4.isp模块的处理： 如图标号⑿到⒃是启动isp硬件处理图像，流程同dcam；<br>5.同样，isp处理完后会返回cam_core.c,然后从cam_core.c中将处理完的图像传到user层；如图标号⒄到⒇；</p>
-<p><img src="3.bmp" alt="img"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/14-camera-capture/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Queenie Chen">
-      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Queenie Chen">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/13/14-camera-capture/" class="post-title-link" itemprop="url">Camera_capture</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-12-13 21:08:48 / 修改时间：21:22:28" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>sharkl5pro pipeline:<br><img src="1.png" alt="img"></p>
-<p>1、DCAM获取图像数据有两种方式：online:图像数据由sensor传入；offline:图像数据通过fetch模块从DDR中获取。<br>2、capture 模式下DCAM处理后的图像数据通过full_path放入DDR，如图中红色路径所示。<br>3、ISP通过fetch模块从DDR中获取图像数据进行处理，待处理完毕由scl_pre_cap路径放入DDR。</p>
-<p>Camera_capture代码执行时序图:<br><img src="2.png" alt="img"></p>
-<p>1、由camioctl_stream_on函数开始通过dcam_pipe_ops-&gt;start调用sprd_dcam_dev_start函数开启dcam处理图像数据；</p>
-<p>2、capture功能通过camioctl_start_capture设置相应参数，在dcam处理数据完毕触发中断，通过dcamint_full_path_done调用camcore_dcam_callback回调函数；</p>
-<p>3、camcore_dcam_callback回调函数通过置完成量执行到camcore_capture_proc， camcore_capture_proc通过isp_ops-&gt;proc_frame调用sprd_isp_proc_frame函数，进而再通过置完成量执行isp_offline_start_frame函数，触发isp处理图像数据。  </p>
-<p>4、isp处理完图像数据触发中断，通过ispint_all_done函数调用isp_postproc_irq，最终通过pctx-&gt;isp_cb_func(ISP_CB_RET_DST_BUF,x,x)调用camcore_isp_callback函数并置完成量，执行到camcore_read函数中while循环部分读取数据传输给usr层。</p>
-<p>注：示例代码基于sprdroidr_trunk分支。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/13-%E5%86%85%E6%A0%B8%E5%90%8C%E6%AD%A5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Queenie Chen">
-      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Queenie Chen">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/13/13-%E5%86%85%E6%A0%B8%E5%90%8C%E6%AD%A5/" class="post-title-link" itemprop="url">内核同步</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-13 21:08:48" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-18 19:23:41" itemprop="dateModified" datetime="2020-11-18T19:23:41+08:00">2020-11-18</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>#锁的争用<br>锁lock：使程序以串行方式对资源进行访问<br>lock contention：锁被占用时，其他线程等待获得该锁</p>
-<p>锁的扩展性：<br>锁的粒度：粗锁保护大块数据，细锁保护小块数据<br>运行队列锁被争用：本质是在调度程序中把整个调度进程下放到单个处理器执行</p>
-<h1 id="原子"><a href="#原子" class="headerlink" title="原子"></a>原子</h1><h2 id="原子整数操作"><a href="#原子整数操作" class="headerlink" title="原子整数操作"></a>原子整数操作</h2><h3 id="32位原子整数操作"><a href="#32位原子整数操作" class="headerlink" title="32位原子整数操作"></a>32位原子整数操作</h3><h3 id="64位原子整数操作"><a href="#64位原子整数操作" class="headerlink" title="64位原子整数操作"></a>64位原子整数操作</h3><h2 id="原子位操作"><a href="#原子位操作" class="headerlink" title="原子位操作"></a>原子位操作</h2><h1 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h1><p>自旋锁同一时刻只能被一个执行线程持有，其余想持有的必须等待，cpu一直忙等待，未睡眠。自旋就是等待自己释放锁。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">定义自旋锁</span><br><span class="line">初始化自旋锁</span><br><span class="line">获取自旋锁，保护临界区</span><br><span class="line">&#x2F;*临界区code &amp; data *&#x2F;</span><br><span class="line">解锁</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="读写自旋锁"><a href="#读写自旋锁" class="headerlink" title="读写自旋锁"></a>读写自旋锁</h1><p>允许读的并发，即可多个读进程，但只允许1个写进程</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">定义和初始化读写自旋锁</span><br><span class="line">读锁定</span><br><span class="line">读解锁</span><br><span class="line">写锁定</span><br><span class="line">写解锁</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="顺序锁"><a href="#顺序锁" class="headerlink" title="顺序锁"></a>顺序锁</h1><p>被顺序锁保护的共享资源，读和写不互斥。读期间发生了写，则需要重新读取数据</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">写顺序锁</span><br><span class="line">&#x2F;*写代码*&#x2F;</span><br><span class="line">释放写顺序锁</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="读-复制-更新"><a href="#读-复制-更新" class="headerlink" title="读-复制-更新"></a>读-复制-更新</h1><p>RCU：read-copy-update</p>
-<h1 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h1><p>信号量，又名semaphore，是一种  用于同步和互斥的手段。<br>信号量的值可以是0，1，n。总之非负整数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">定义信号量</span><br><span class="line">初始化信号量</span><br><span class="line">获得信号量</span><br><span class="line">释放信号量</span><br></pre></td></tr></table></figure>
-<p>信号量用于互斥和同步<br>互斥：<br>同步：</p>
-<h1 id="PV原语"><a href="#PV原语" class="headerlink" title="PV原语"></a>PV原语</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">P(S)等价于S&#x3D;S-1</span><br><span class="line">if (S&gt;&#x3D;0)</span><br><span class="line">	进程继续；</span><br><span class="line">else</span><br><span class="line">	进程进入等待队列；</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">V(S)等价于S&#x3D;S+1</span><br><span class="line">if(S&gt;0)</span><br><span class="line">	该进程被唤醒，返回调用处继续执行</span><br><span class="line">else</span><br><span class="line">	从等待队列中唤醒一等待进程</span><br></pre></td></tr></table></figure>
-<p>S=0<br>P(S)则S=-1，进程等待<br>V(S)则S=0，进程等待</p>
-<h1 id="信号量与自旋锁的区别"><a href="#信号量与自旋锁的区别" class="headerlink" title="信号量与自旋锁的区别"></a>信号量与自旋锁的区别</h1><h1 id="计数信号量和二值信号量"><a href="#计数信号量和二值信号量" class="headerlink" title="计数信号量和二值信号量"></a>计数信号量和二值信号量</h1><h1 id="互斥体"><a href="#互斥体" class="headerlink" title="互斥体"></a>互斥体</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">定义互斥体</span><br><span class="line">初始化互斥体</span><br><span class="line">获取互斥体</span><br><span class="line">释放互斥体</span><br></pre></td></tr></table></figure>
-
-<p>互斥体的实现依赖于自旋体，互斥体是进程级的，用于多个进程之间对资源的互斥。</p>
-<h1 id="各种锁使用的场景pk"><a href="#各种锁使用的场景pk" class="headerlink" title="各种锁使用的场景pk"></a>各种锁使用的场景pk</h1><h1 id="完成量"><a href="#完成量" class="headerlink" title="完成量"></a>完成量</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/newnewman80/article/details/16112669">https://blog.csdn.net/newnewman80/article/details/16112669</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/tureno/articles/6080923.html">https://www.cnblogs.com/tureno/articles/6080923.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/linhaostudy/p/6670693.html">https://www.cnblogs.com/linhaostudy/p/6670693.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/edver/p/7260696.html">https://www.cnblogs.com/edver/p/7260696.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38619183/article/details/83097475">https://blog.csdn.net/qq_38619183/article/details/83097475</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/12-SLAM/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Queenie Chen">
-      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Queenie Chen">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/13/12-SLAM/" class="post-title-link" itemprop="url">slam</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-12-13 21:08:48 / 修改时间：21:23:11" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id=""><a href="#" class="headerlink" title=""></a></h1><p>近处的物体移动快，远处的物体运动缓慢，why？</p>
-<p>单目：尺度不确定，平移才能计算深度<br>照片：场景在相机成像平面上留下的一个投影，以二维的形式反应三维的世界。</p>
-<p>双目：左和右单目的基线已知，通过这个基线来估计每个像素的空间位置，计算量大。基线越大，能估计的范围就越大。</p>
-<p>深度相机：RGB-D，使用红外结构光或TOF（time-of-flight）。主动向物体发射光并接收光来估计距离，容易受到日光干扰，无法测量透射材质。</p>
-<p>SLAM框架：</p>
-<ol>
-<li>传感器数据：相机图像信息的获取和预处理</li>
-<li>前端视觉里程计(visual odometry,VO)：估计相邻图像间相机的运动</li>
-<li>后端非线性优化(optimization)：接受不同时刻，前端测量的相机位姿，以及回环检测的信息，对它们进行优化。</li>
-<li>回环检测(loop closing)：判断是否曾经达到过先前的位置，如果检测到回环，则把它提供给后端处理。</li>
-<li>建图(mapping)：根据估计的轨迹，建立与任务要求对应的地图。</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
 
 
 
@@ -1174,6 +472,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">1. 背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">2. 如何实现？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E6%80%8E%E4%B9%88%E9%80%89%E6%8B%A9%E7%AD%96%E7%95%A5%EF%BC%9F"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 怎么选择策略？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1-setCamPreformaceScene"><span class="nav-number">3.1.1.</span> <span class="nav-text">2.1.1 setCamPreformaceScene</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E7%AD%96%E7%95%A5%E5%A6%82%E4%BD%95%E5%AE%9E%E6%96%BD%EF%BC%9F"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 策略如何实施？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-changeDfsPolicy"><span class="nav-number">3.2.1.</span> <span class="nav-text">2.2.1 changeDfsPolicy</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-1-releaseDfsPolicy"><span class="nav-number">3.2.1.1.</span> <span class="nav-text">2.2.1.1 releaseDfsPolicy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-2-setDfsPolicy"><span class="nav-number">3.2.1.2.</span> <span class="nav-text">2.2.1.2 setDfsPolicy</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-setPowerHint"><span class="nav-number">3.2.2.</span> <span class="nav-text">2.2.2 setPowerHint</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-1acquirePowerHint"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">2.2.2.1acquirePowerHint</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-2-releasePowerHint"><span class="nav-number">3.2.2.2.</span> <span class="nav-text">2.2.2.2 releasePowerHint</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%81%E6%9D%A5%E9%80%89%E6%8B%A9%E7%AD%96%E7%95%A5%EF%BC%9F"><span class="nav-number">3.3.</span> <span class="nav-text">谁来选择策略？</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
