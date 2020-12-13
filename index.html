@@ -600,75 +600,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/unisoc/17-multiCameraId/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Queenie Chen">
-      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Queenie Chen">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/13/unisoc/17-multiCameraId/" class="post-title-link" itemprop="url">multi camera id</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-13 21:08:48" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-12 15:09:46" itemprop="dateModified" datetime="2020-12-12T15:09:46+08:00">2020-12-12</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>【物理摄像头】：真实的实体，一颗sensor表示一个物理摄像头<br>【逻辑摄像头】：逻辑摄像头就是两个或更多这些物理摄像头的分组。逻辑摄像头的输出可以是来自其中一个底层物理摄像机的一个流，也可以是同时来自多个底层物理摄像机的融合流；这两种方式都是由相机的 HAL（Hardware Abstraction Layer）来处理的。</p>
-<p>具体一点：<br>对于物理摄像头来说，目前我们的代码中id:0 代表主摄，id:1代表前置摄像头，id:2，id:3等代表辅摄，这就是相机的物理ID。<br>相机的logical Camera id，就是上层通过一个id号，就可以调用多个摄像头完成其功能。</p>
-<p><img src="1.png" alt="img"></p>
-<p><img src="2.png" alt="img"></p>
-<p>假如multiCameraId现在是SPRD_BLUR_ID，对应到case后，mainCameraId=1,即前摄。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/13-%E5%86%85%E6%A0%B8%E5%90%8C%E6%AD%A5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1114,6 +1045,74 @@
 
 
 
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/5-c++_class_object/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Queenie Chen">
+      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Queenie Chen">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/12/13/5-c++_class_object/" class="post-title-link" itemprop="url">c++入门--类&对象</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-12-13 21:08:48 / 修改时间：21:25:55" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>date:2020.11.23</p>
+<p>类：用户定义的类型，指定数据表示法和处理数据的方法，data和method也被称为类的成员。</p>
+<p>how to define a class？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class Box&#x2F;&#x2F;关键字class，后面的Box是类名</span><br><span class="line">&#123;</span><br><span class="line">	public:&#x2F;&#x2F;关键字public指定了类成员的访问属性，公共成员在类的外部是可访问的</span><br><span class="line">		double length;</span><br><span class="line">		double breadth;</span><br><span class="line">		double height;</span><br><span class="line">&#125;;&#x2F;&#x2F;这里的分号不要忘了</span><br></pre></td></tr></table></figure>
+
+<p>how to define a object?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Box box1;&#x2F;&#x2F;声明box1,类型为Box</span><br></pre></td></tr></table></figure>
+
+<p>如何访问公有数据成员？私有数据成员？受保护的成员？</p>
+<p>结构体和类的区别？</p>
 
       
     </div>
