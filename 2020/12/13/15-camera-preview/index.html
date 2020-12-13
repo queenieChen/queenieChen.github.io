@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"queeniechen.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="DCAM:(1)红色箭头表示Capture的数据流；–full path(2)绿色箭头表示Preview&#x2F;Video的数据流；–bin path 在ISP模块：(1)Capture和Preview共用一条数据通路，如图紫色箭头；–scl_pre_cap(2)Video的数据流如图蓝色箭头;–scl_vid Preview大概流程如下：1.数据获取：走online，由sensor传来图像数据；2.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="camera-preview">
+<meta property="og:url" content="https://queeniechen.github.io/2020/12/13/15-camera-preview/index.html">
+<meta property="og:site_name" content="Queenie Chen">
+<meta property="og:description" content="DCAM:(1)红色箭头表示Capture的数据流；–full path(2)绿色箭头表示Preview&#x2F;Video的数据流；–bin path 在ISP模块：(1)Capture和Preview共用一条数据通路，如图紫色箭头；–scl_pre_cap(2)Video的数据流如图蓝色箭头;–scl_vid Preview大概流程如下：1.数据获取：走online，由sensor传来图像数据；2.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://queeniechen.github.io/2020/12/13/15-camera-preview/1.png">
+<meta property="og:image" content="https://queeniechen.github.io/2020/12/13/15-camera-preview/2.png">
+<meta property="og:image" content="https://queeniechen.github.io/2020/12/13/15-camera-preview/3.bmp">
+<meta property="article:published_time" content="2020-12-13T13:08:48.498Z">
+<meta property="article:modified_time" content="2020-12-12T08:13:08.126Z">
+<meta property="article:author" content="Queenie Chen">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://queeniechen.github.io/2020/12/13/15-camera-preview/1.png">
+
+<link rel="canonical" href="https://queeniechen.github.io/2020/12/13/15-camera-preview/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>camera-preview | Queenie Chen</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Queenie Chen</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">三十功名尘与土，八千里路云和月</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/15-camera-preview/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Queenie Chen">
+      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Queenie Chen">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          camera-preview
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-12-13 21:08:48" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-12-12 16:13:08" itemprop="dateModified" datetime="2020-12-12T16:13:08+08:00">2020-12-12</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="1.png" alt="img"></p>
+<p>DCAM:<br>(1)红色箭头表示Capture的数据流；–full path<br>(2)绿色箭头表示Preview/Video的数据流；–bin path</p>
+<p>在ISP模块：<br>(1)Capture和Preview共用一条数据通路，如图紫色箭头；–scl_pre_cap<br>(2)Video的数据流如图蓝色箭头;–scl_vid</p>
+<p>Preview大概流程如下：<br>1.数据获取：走online，由sensor传来图像数据；<br>2.DCAM模块：获得图像数据后，Preview/Video走Bin_path(DCAM模块绿色箭头的通路)，Capture走full_path(DCAM模块红色箭头的通路)，DCAM模块处理完图像以后，将处理好的图像数据写进DDR中；<br>3.ISP模块：ISP模块启动后，从DDR中拿到DCAM处理的图像数据，作进一步处理；在ISP模块，Capture/Preview走同一条通路，如图ISP模块紫色箭头；Video单独走一条通路，如图ISP模块蓝色箭头；同样，ISP处理完后，会将数据写进DDR；<br>4.在cam_core.c文件中，通过与User层交互，将处理好的图像上传给User层。</p>
+<p>Camera_Preview代码走读流程图</p>
+<p><img src="2.png" alt="img"></p>
+<p>Camera_Preview代码走读注意事项：<br>1.User层与Driver层的交互：主要集中在Cam_core.c中，包括参数的传输，启动相应模块等，主要是通过ioctl函数传输，如图中的标号①，是preview流程中user向kernel传输参数和命令操作的最后一个ioctl函数。<br>2.Dcam模块处理；如图中的标号② 到⑧，对应的函数是在进行对应的参数的配置和dcam硬件的启动；真正启动dcam的操作在是在标号5对应的函数中，cam_hw_if_xxxx.c文件中的xxx.dcam_start()函数中，xxx表示不同的手机版本；如sharkl5pro、sharkl3等，最后配置有关寄存器启动dcam，前面都是在做一些参数的传输、配置、相关线程的启动等；dcam处理完图像,出一个硬件中断，然后走bin_path_done;如图标号⑥到⑧。<br>3.在dcam处理完以后，会启动isp继续处理图像，这个过程如图中标号⑨到⑾，dcam处理完，返回cam_core.c去启动isp；注意，isp_offline_thread_loop()在①对应的传参初始化过程中就启动Isp_offline_thread_loop()时，走到该函数中循环等待thread.thread_com完成量。<br>4.isp模块的处理： 如图标号⑿到⒃是启动isp硬件处理图像，流程同dcam；<br>5.同样，isp处理完后会返回cam_core.c,然后从cam_core.c中将处理完的图像传到user层；如图标号⒄到⒇；</p>
+<p><img src="3.bmp" alt="img"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/12/13/14-camera-capture/" rel="prev" title="">
+      <i class="fa fa-chevron-left"></i> 
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/12/13/16-camera-buffer/" rel="next" title="camera-buffer">
+      camera-buffer <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Queenie Chen</p>
+  <div class="site-description" itemprop="description">我叫小白，初来乍到，请多指教~</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Queenie Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
