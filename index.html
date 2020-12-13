@@ -669,277 +669,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/unisoc/16-camera-buffer/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Queenie Chen">
-      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Queenie Chen">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/13/unisoc/16-camera-buffer/" class="post-title-link" itemprop="url">camera-buffer</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-13 21:08:48" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-12 16:28:35" itemprop="dateModified" datetime="2020-12-12T16:28:35+08:00">2020-12-12</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="1.png" alt="img"></p>
-<p><img src="2.PNG" alt="img"></p>
-<p><img src="3.PNG" alt="img"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/unisoc/15-camera-preview/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Queenie Chen">
-      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Queenie Chen">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/13/unisoc/15-camera-preview/" class="post-title-link" itemprop="url">camera-preview</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-13 21:08:48" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-12 16:13:08" itemprop="dateModified" datetime="2020-12-12T16:13:08+08:00">2020-12-12</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="1.png" alt="img"></p>
-<p>DCAM:<br>(1)红色箭头表示Capture的数据流；–full path<br>(2)绿色箭头表示Preview/Video的数据流；–bin path</p>
-<p>在ISP模块：<br>(1)Capture和Preview共用一条数据通路，如图紫色箭头；–scl_pre_cap<br>(2)Video的数据流如图蓝色箭头;–scl_vid</p>
-<p>Preview大概流程如下：<br>1.数据获取：走online，由sensor传来图像数据；<br>2.DCAM模块：获得图像数据后，Preview/Video走Bin_path(DCAM模块绿色箭头的通路)，Capture走full_path(DCAM模块红色箭头的通路)，DCAM模块处理完图像以后，将处理好的图像数据写进DDR中；<br>3.ISP模块：ISP模块启动后，从DDR中拿到DCAM处理的图像数据，作进一步处理；在ISP模块，Capture/Preview走同一条通路，如图ISP模块紫色箭头；Video单独走一条通路，如图ISP模块蓝色箭头；同样，ISP处理完后，会将数据写进DDR；<br>4.在cam_core.c文件中，通过与User层交互，将处理好的图像上传给User层。</p>
-<p>Camera_Preview代码走读流程图</p>
-<p><img src="2.png" alt="img"></p>
-<p>Camera_Preview代码走读注意事项：<br>1.User层与Driver层的交互：主要集中在Cam_core.c中，包括参数的传输，启动相应模块等，主要是通过ioctl函数传输，如图中的标号①，是preview流程中user向kernel传输参数和命令操作的最后一个ioctl函数。<br>2.Dcam模块处理；如图中的标号② 到⑧，对应的函数是在进行对应的参数的配置和dcam硬件的启动；真正启动dcam的操作在是在标号5对应的函数中，cam_hw_if_xxxx.c文件中的xxx.dcam_start()函数中，xxx表示不同的手机版本；如sharkl5pro、sharkl3等，最后配置有关寄存器启动dcam，前面都是在做一些参数的传输、配置、相关线程的启动等；dcam处理完图像,出一个硬件中断，然后走bin_path_done;如图标号⑥到⑧。<br>3.在dcam处理完以后，会启动isp继续处理图像，这个过程如图中标号⑨到⑾，dcam处理完，返回cam_core.c去启动isp；注意，isp_offline_thread_loop()在①对应的传参初始化过程中就启动Isp_offline_thread_loop()时，走到该函数中循环等待thread.thread_com完成量。<br>4.isp模块的处理： 如图标号⑿到⒃是启动isp硬件处理图像，流程同dcam；<br>5.同样，isp处理完后会返回cam_core.c,然后从cam_core.c中将处理完的图像传到user层；如图标号⒄到⒇；</p>
-<p><img src="3.bmp" alt="img"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/14-camera-capture/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Queenie Chen">
-      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Queenie Chen">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/13/14-camera-capture/" class="post-title-link" itemprop="url">Camera_capture</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-12-13 21:08:48 / 修改时间：21:22:28" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>sharkl5pro pipeline:<br><img src="1.png" alt="img"></p>
-<p>1、DCAM获取图像数据有两种方式：online:图像数据由sensor传入；offline:图像数据通过fetch模块从DDR中获取。<br>2、capture 模式下DCAM处理后的图像数据通过full_path放入DDR，如图中红色路径所示。<br>3、ISP通过fetch模块从DDR中获取图像数据进行处理，待处理完毕由scl_pre_cap路径放入DDR。</p>
-<p>Camera_capture代码执行时序图:<br><img src="2.png" alt="img"></p>
-<p>1、由camioctl_stream_on函数开始通过dcam_pipe_ops-&gt;start调用sprd_dcam_dev_start函数开启dcam处理图像数据；</p>
-<p>2、capture功能通过camioctl_start_capture设置相应参数，在dcam处理数据完毕触发中断，通过dcamint_full_path_done调用camcore_dcam_callback回调函数；</p>
-<p>3、camcore_dcam_callback回调函数通过置完成量执行到camcore_capture_proc， camcore_capture_proc通过isp_ops-&gt;proc_frame调用sprd_isp_proc_frame函数，进而再通过置完成量执行isp_offline_start_frame函数，触发isp处理图像数据。  </p>
-<p>4、isp处理完图像数据触发中断，通过ispint_all_done函数调用isp_postproc_irq，最终通过pctx-&gt;isp_cb_func(ISP_CB_RET_DST_BUF,x,x)调用camcore_isp_callback函数并置完成量，执行到camcore_read函数中while循环部分读取数据传输给usr层。</p>
-<p>注：示例代码基于sprdroidr_trunk分支。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/unisoc/14-camera-capture/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Queenie Chen">
-      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Queenie Chen">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/13/unisoc/14-camera-capture/" class="post-title-link" itemprop="url">Camera_capture</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-12-13 21:08:48 / 修改时间：21:22:28" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>sharkl5pro pipeline:<br><img src="1.png" alt="img"></p>
-<p>1、DCAM获取图像数据有两种方式：online:图像数据由sensor传入；offline:图像数据通过fetch模块从DDR中获取。<br>2、capture 模式下DCAM处理后的图像数据通过full_path放入DDR，如图中红色路径所示。<br>3、ISP通过fetch模块从DDR中获取图像数据进行处理，待处理完毕由scl_pre_cap路径放入DDR。</p>
-<p>Camera_capture代码执行时序图:<br><img src="2.png" alt="img"></p>
-<p>1、由camioctl_stream_on函数开始通过dcam_pipe_ops-&gt;start调用sprd_dcam_dev_start函数开启dcam处理图像数据；</p>
-<p>2、capture功能通过camioctl_start_capture设置相应参数，在dcam处理数据完毕触发中断，通过dcamint_full_path_done调用camcore_dcam_callback回调函数；</p>
-<p>3、camcore_dcam_callback回调函数通过置完成量执行到camcore_capture_proc， camcore_capture_proc通过isp_ops-&gt;proc_frame调用sprd_isp_proc_frame函数，进而再通过置完成量执行isp_offline_start_frame函数，触发isp处理图像数据。  </p>
-<p>4、isp处理完图像数据触发中断，通过ispint_all_done函数调用isp_postproc_irq，最终通过pctx-&gt;isp_cb_func(ISP_CB_RET_DST_BUF,x,x)调用camcore_isp_callback函数并置完成量，执行到camcore_read函数中while循环部分读取数据传输给usr层。</p>
-<p>注：示例代码基于sprdroidr_trunk分支。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/13-%E5%86%85%E6%A0%B8%E5%90%8C%E6%AD%A5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1103,6 +832,303 @@
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/10-makefile%E5%A6%82%E4%BD%95%E4%B9%A6%E5%86%99%EF%BC%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Queenie Chen">
+      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Queenie Chen">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/12/13/10-makefile%E5%A6%82%E4%BD%95%E4%B9%A6%E5%86%99%EF%BC%9F/" class="post-title-link" itemprop="url">makefile如何书写？</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-12-13 21:08:48" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-17 15:07:44" itemprop="dateModified" datetime="2020-11-17T15:07:44+08:00">2020-11-17</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>  1）如果这个工程没有编译过，那么我们的所有C文件都要编译并被链接。<br>  2）如果这个工程的某几个C文件被修改，那么我们只编译被修改的C文件，并链接目标程序。<br>  3）如果这个工程的头文件被改变了，那么我们需要编译引用了这几个头文件的C文件，并链接目标程序。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/9-hello.c%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Queenie Chen">
+      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Queenie Chen">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/12/13/9-hello.c%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" class="post-title-link" itemprop="url">hello.c的生命周期</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-12-13 21:08:48" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-16 20:53:27" itemprop="dateModified" datetime="2020-11-16T20:53:27+08:00">2020-11-16</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="编译的整个过程：预编译、编译、汇编、链接"><a href="#编译的整个过程：预编译、编译、汇编、链接" class="headerlink" title="编译的整个过程：预编译、编译、汇编、链接"></a>编译的整个过程：预编译、编译、汇编、链接</h1><p>.c–&gt;.i–&gt;.s–&gt;.o–&gt;exe</p>
+<p><img src="C:\Users\fuqu.chen\AppData\Roaming\Typora\typora-user-images\image-20201116203340097.png" alt="image-20201116203340097"></p>
+<p><img src="C:\Users\fuqu.chen\AppData\Roaming\Typora\typora-user-images\image-20201116204031119.png" alt="image-20201116204031119"></p>
+<p><img src="C:\Users\fuqu.chen\AppData\Roaming\Typora\typora-user-images\image-20201116204145238.png" alt="image-20201116204145238"></p>
+<p><img src="C:\Users\fuqu.chen\AppData\Roaming\Typora\typora-user-images\image-20201116204514439.png" alt="image-20201116204514439"></p>
+<p><img src="C:\Users\fuqu.chen\AppData\Roaming\Typora\typora-user-images\image-20201116204524509.png" alt="image-20201116204524509"></p>
+<p><strong>4.链接</strong></p>
+<blockquote>
+<p>链接器将生产的多个.o文件链接到一起生成一个可执行.exe文件；<br>但是在这个过程中，链接器做的一个重要的事情是将每个文件中call指令后面的地址补充上；方式是从当前文件的函数地址符表中开始找，如果没有，继续向别的文件的函数地址符表中找，找到后填补在call指令后面，如果找不到，则链接失败。**</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/7-c++_struct/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Queenie Chen">
+      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Queenie Chen">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/12/13/7-c++_struct/" class="post-title-link" itemprop="url">c++入门--struct</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-12-13 21:08:48 / 修改时间：21:26:05" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>date:2020.11.23</p>
+<p>结构体：<br>下面声明了一个结构体Books，变量为book：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">struct Books</span><br><span class="line">&#123;</span><br><span class="line">	char title[50];</span><br><span class="line">	char author[50];</span><br><span class="line">	char subject[100];</span><br><span class="line">	int book_id;</span><br><span class="line">&#125;book;&#x2F;&#x2F;这里有分号</span><br></pre></td></tr></table></figure>
+<p>如何访问结构体成员？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Books book1;&#x2F;&#x2F;定义结构体类型Books的变量book1</span><br><span class="line"></span><br><span class="line">book1.book_id &#x3D; 12;</span><br></pre></td></tr></table></figure>
+
+<p>结构体作为函数参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">void printBook(struct Books book)</span><br><span class="line">&#123;</span><br><span class="line">cout &lt;&lt; &quot;书标题&quot;&lt;&lt;book.title&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>指向结构的指针：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;定义</span><br><span class="line">struct Books *struct_pointer;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;在指针变量struct_pointer中存储结构变量book1的地址</span><br><span class="line">struct_pointer &#x3D; &amp;book1;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;使用指针访问结构的成员</span><br><span class="line">struct_pointer-&gt;title;</span><br></pre></td></tr></table></figure>
+
+<p>取别名：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">typedef struct Books</span><br><span class="line">&#123;</span><br><span class="line">char title[50];</span><br><span class="line">char author[50];</span><br><span class="line">int book_id;</span><br><span class="line">&#125;Books;</span><br><span class="line"></span><br><span class="line">Books cfq_book,cqq_book;&#x2F;&#x2F;使用Books定义</span><br><span class="line"></span><br><span class="line">typedef long int *pointer_int32;</span><br><span class="line"></span><br><span class="line">pointer_int32 a,b,c;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/6-c++_class-member-function/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Queenie Chen">
+      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Queenie Chen">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/12/13/6-c++_class-member-function/" class="post-title-link" itemprop="url">c++入门--类成员函数</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-12-13 21:08:48 / 修改时间：21:26:00" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>date:2020.11.23</p>
+<p>what is class member function?<br>定义和原型都写在类定义内部的函数，成为类成员函数。类成员函数是类的一个成员，它可以操作类的任意对象，可以访问对象中的所有成员。</p>
+<p>there are 2 methods to define a class member function:<br>the first method:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*</span><br><span class="line">在类定义中定义的成员函数把函数声明为内联的，即便没有使用 inline 标识符。所以您可以按照如下方式定义 Volume() 函数：</span><br><span class="line">*&#x2F;</span><br><span class="line">class Box</span><br><span class="line">&#123;</span><br><span class="line">   public:</span><br><span class="line">      double length;      &#x2F;&#x2F; 长度</span><br><span class="line">      double breadth;     &#x2F;&#x2F; 宽度</span><br><span class="line">      double height;      &#x2F;&#x2F; 高度</span><br><span class="line">   </span><br><span class="line">      double getVolume(void)</span><br><span class="line">      &#123;</span><br><span class="line">         return length * breadth * height;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>the second method:<br>范围解析运算符 ::</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">double Box::getVolume(void)</span><br><span class="line">&#123;</span><br><span class="line">    return length * breadth * height;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>调用成员函数是在对象上使用点运算符（.），这样它就能操作与该对象相关的数据:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Box myBox;          &#x2F;&#x2F; 创建一个对象</span><br><span class="line"> </span><br><span class="line">myBox.getVolume();  &#x2F;&#x2F; 调用该对象的成员函数</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
   <nav class="pagination">
@@ -1172,7 +1198,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

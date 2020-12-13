@@ -20,23 +20,21 @@
     var CONFIG = {"hostname":"queeniechen.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="DCAM:(1)红色箭头表示Capture的数据流；–full path(2)绿色箭头表示Preview&#x2F;Video的数据流；–bin path 在ISP模块：(1)Capture和Preview共用一条数据通路，如图紫色箭头；–scl_pre_cap(2)Video的数据流如图蓝色箭头;–scl_vid Preview大概流程如下：1.数据获取：走online，由sensor传来图像数据；2.">
-<meta property="og:type" content="article">
-<meta property="og:title" content="camera-preview">
-<meta property="og:url" content="https://queeniechen.github.io/2020/12/13/unisoc/15-camera-preview/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="camera-buffer">
+<meta property="og:url" content="https://queeniechen.github.io/unisoc/16-camera-buffer.html">
 <meta property="og:site_name" content="Queenie Chen">
-<meta property="og:description" content="DCAM:(1)红色箭头表示Capture的数据流；–full path(2)绿色箭头表示Preview&#x2F;Video的数据流；–bin path 在ISP模块：(1)Capture和Preview共用一条数据通路，如图紫色箭头；–scl_pre_cap(2)Video的数据流如图蓝色箭头;–scl_vid Preview大概流程如下：1.数据获取：走online，由sensor传来图像数据；2.">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://queeniechen.github.io/2020/12/13/unisoc/15-camera-preview/1.png">
-<meta property="og:image" content="https://queeniechen.github.io/2020/12/13/unisoc/15-camera-preview/2.png">
-<meta property="og:image" content="https://queeniechen.github.io/2020/12/13/unisoc/15-camera-preview/3.bmp">
-<meta property="article:published_time" content="2020-12-13T13:08:48.498Z">
-<meta property="article:modified_time" content="2020-12-12T08:13:08.126Z">
+<meta property="og:image" content="https://queeniechen.github.io/unisoc/1.png">
+<meta property="og:image" content="https://queeniechen.github.io/unisoc/2.PNG">
+<meta property="og:image" content="https://queeniechen.github.io/unisoc/3.PNG">
+<meta property="article:published_time" content="2020-12-13T13:44:27.781Z">
+<meta property="article:modified_time" content="2020-12-12T08:28:35.989Z">
 <meta property="article:author" content="Queenie Chen">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://queeniechen.github.io/2020/12/13/unisoc/15-camera-preview/1.png">
+<meta name="twitter:image" content="https://queeniechen.github.io/unisoc/1.png">
 
-<link rel="canonical" href="https://queeniechen.github.io/2020/12/13/unisoc/15-camera-preview/">
+<link rel="canonical" href="https://queeniechen.github.io/unisoc/16-camera-buffer">
 
 
 <script id="page-configurations">
@@ -44,12 +42,13 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : true,
+    isPost : false,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>camera-preview | Queenie Chen</title>
+  <title>camera-buffer | Queenie Chen
+</title>
   
 
 
@@ -147,96 +146,46 @@
       <div class="main-inner">
         <div class="content-wrap">
           
+  
+  
 
-          <div class="content post posts-expand">
+          <div class="content page posts-expand">
             
 
     
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/unisoc/15-camera-preview/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Queenie Chen">
-      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Queenie Chen">
-    </span>
+    
+    
+    <div class="post-block" lang="zh-CN">
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          camera-preview
-        </h1>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
+<h1 class="post-title" itemprop="name headline">camera-buffer
+</h1>
 
-              <time title="创建时间：2020-12-13 21:08:48" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-12 16:13:08" itemprop="dateModified" datetime="2020-12-12T16:13:08+08:00">2020-12-12</time>
-              </span>
+<div class="post-meta">
+  
 
-          
+</div>
 
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+</header>
 
       
-        <p><img src="1.png" alt="img"></p>
-<p>DCAM:<br>(1)红色箭头表示Capture的数据流；–full path<br>(2)绿色箭头表示Preview/Video的数据流；–bin path</p>
-<p>在ISP模块：<br>(1)Capture和Preview共用一条数据通路，如图紫色箭头；–scl_pre_cap<br>(2)Video的数据流如图蓝色箭头;–scl_vid</p>
-<p>Preview大概流程如下：<br>1.数据获取：走online，由sensor传来图像数据；<br>2.DCAM模块：获得图像数据后，Preview/Video走Bin_path(DCAM模块绿色箭头的通路)，Capture走full_path(DCAM模块红色箭头的通路)，DCAM模块处理完图像以后，将处理好的图像数据写进DDR中；<br>3.ISP模块：ISP模块启动后，从DDR中拿到DCAM处理的图像数据，作进一步处理；在ISP模块，Capture/Preview走同一条通路，如图ISP模块紫色箭头；Video单独走一条通路，如图ISP模块蓝色箭头；同样，ISP处理完后，会将数据写进DDR；<br>4.在cam_core.c文件中，通过与User层交互，将处理好的图像上传给User层。</p>
-<p>Camera_Preview代码走读流程图</p>
-<p><img src="2.png" alt="img"></p>
-<p>Camera_Preview代码走读注意事项：<br>1.User层与Driver层的交互：主要集中在Cam_core.c中，包括参数的传输，启动相应模块等，主要是通过ioctl函数传输，如图中的标号①，是preview流程中user向kernel传输参数和命令操作的最后一个ioctl函数。<br>2.Dcam模块处理；如图中的标号② 到⑧，对应的函数是在进行对应的参数的配置和dcam硬件的启动；真正启动dcam的操作在是在标号5对应的函数中，cam_hw_if_xxxx.c文件中的xxx.dcam_start()函数中，xxx表示不同的手机版本；如sharkl5pro、sharkl3等，最后配置有关寄存器启动dcam，前面都是在做一些参数的传输、配置、相关线程的启动等；dcam处理完图像,出一个硬件中断，然后走bin_path_done;如图标号⑥到⑧。<br>3.在dcam处理完以后，会启动isp继续处理图像，这个过程如图中标号⑨到⑾，dcam处理完，返回cam_core.c去启动isp；注意，isp_offline_thread_loop()在①对应的传参初始化过程中就启动Isp_offline_thread_loop()时，走到该函数中循环等待thread.thread_com完成量。<br>4.isp模块的处理： 如图标号⑿到⒃是启动isp硬件处理图像，流程同dcam；<br>5.同样，isp处理完后会返回cam_core.c,然后从cam_core.c中将处理完的图像传到user层；如图标号⒄到⒇；</p>
-<p><img src="3.bmp" alt="img"></p>
+      
+      
+      <div class="post-body">
+          <p><img src="1.png" alt="img"></p>
+<p><img src="2.PNG" alt="img"></p>
+<p><img src="3.PNG" alt="img"></p>
 
+      </div>
+      
+      
+      
     </div>
+    
 
     
     
     
-
-      <footer class="post-footer">
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2020/12/13/14-camera-capture/" rel="prev" title="Camera_capture">
-      <i class="fa fa-chevron-left"></i> Camera_capture
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/12/13/unisoc/16-camera-buffer/" rel="next" title="camera-buffer">
-      camera-buffer <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
 
 
           </div>
@@ -300,7 +249,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

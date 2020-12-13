@@ -20,21 +20,22 @@
     var CONFIG = {"hostname":"queeniechen.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="article">
-<meta property="og:title" content="camera-buffer">
-<meta property="og:url" content="https://queeniechen.github.io/2020/12/13/unisoc/16-camera-buffer/index.html">
+  <meta name="description" content="【物理摄像头】：真实的实体，一颗sensor表示一个物理摄像头【逻辑摄像头】：逻辑摄像头就是两个或更多这些物理摄像头的分组。逻辑摄像头的输出可以是来自其中一个底层物理摄像机的一个流，也可以是同时来自多个底层物理摄像机的融合流；这两种方式都是由相机的 HAL（Hardware Abstraction Layer）来处理的。 具体一点：对于物理摄像头来说，目前我们的代码中id:0 代表主摄，id:1代">
+<meta property="og:type" content="website">
+<meta property="og:title" content="multi camera id">
+<meta property="og:url" content="https://queeniechen.github.io/unisoc/17-multiCameraId.html">
 <meta property="og:site_name" content="Queenie Chen">
+<meta property="og:description" content="【物理摄像头】：真实的实体，一颗sensor表示一个物理摄像头【逻辑摄像头】：逻辑摄像头就是两个或更多这些物理摄像头的分组。逻辑摄像头的输出可以是来自其中一个底层物理摄像机的一个流，也可以是同时来自多个底层物理摄像机的融合流；这两种方式都是由相机的 HAL（Hardware Abstraction Layer）来处理的。 具体一点：对于物理摄像头来说，目前我们的代码中id:0 代表主摄，id:1代">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://queeniechen.github.io/2020/12/13/unisoc/16-camera-buffer/1.png">
-<meta property="og:image" content="https://queeniechen.github.io/2020/12/13/unisoc/16-camera-buffer/2.PNG">
-<meta property="og:image" content="https://queeniechen.github.io/2020/12/13/unisoc/16-camera-buffer/3.PNG">
-<meta property="article:published_time" content="2020-12-13T13:08:48.517Z">
-<meta property="article:modified_time" content="2020-12-12T08:28:35.989Z">
+<meta property="og:image" content="https://queeniechen.github.io/unisoc/1.png">
+<meta property="og:image" content="https://queeniechen.github.io/unisoc/2.png">
+<meta property="article:published_time" content="2020-12-13T13:44:23.895Z">
+<meta property="article:modified_time" content="2020-12-12T07:09:46.084Z">
 <meta property="article:author" content="Queenie Chen">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://queeniechen.github.io/2020/12/13/unisoc/16-camera-buffer/1.png">
+<meta name="twitter:image" content="https://queeniechen.github.io/unisoc/1.png">
 
-<link rel="canonical" href="https://queeniechen.github.io/2020/12/13/unisoc/16-camera-buffer/">
+<link rel="canonical" href="https://queeniechen.github.io/unisoc/17-multiCameraId">
 
 
 <script id="page-configurations">
@@ -42,12 +43,13 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : true,
+    isPost : false,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>camera-buffer | Queenie Chen</title>
+  <title>multi camera id | Queenie Chen
+</title>
   
 
 
@@ -145,91 +147,48 @@
       <div class="main-inner">
         <div class="content-wrap">
           
+  
+  
 
-          <div class="content post posts-expand">
+          <div class="content page posts-expand">
             
 
     
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/unisoc/16-camera-buffer/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Queenie Chen">
-      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Queenie Chen">
-    </span>
+    
+    
+    <div class="post-block" lang="zh-CN">
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          camera-buffer
-        </h1>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
+<h1 class="post-title" itemprop="name headline">multi camera id
+</h1>
 
-              <time title="创建时间：2020-12-13 21:08:48" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-12 16:28:35" itemprop="dateModified" datetime="2020-12-12T16:28:35+08:00">2020-12-12</time>
-              </span>
+<div class="post-meta">
+  
 
-          
+</div>
 
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+</header>
 
       
-        <p><img src="1.png" alt="img"></p>
-<p><img src="2.PNG" alt="img"></p>
-<p><img src="3.PNG" alt="img"></p>
+      
+      
+      <div class="post-body">
+          <p>【物理摄像头】：真实的实体，一颗sensor表示一个物理摄像头<br>【逻辑摄像头】：逻辑摄像头就是两个或更多这些物理摄像头的分组。逻辑摄像头的输出可以是来自其中一个底层物理摄像机的一个流，也可以是同时来自多个底层物理摄像机的融合流；这两种方式都是由相机的 HAL（Hardware Abstraction Layer）来处理的。</p>
+<p>具体一点：<br>对于物理摄像头来说，目前我们的代码中id:0 代表主摄，id:1代表前置摄像头，id:2，id:3等代表辅摄，这就是相机的物理ID。<br>相机的logical Camera id，就是上层通过一个id号，就可以调用多个摄像头完成其功能。</p>
+<p><img src="1.png" alt="img"></p>
+<p><img src="2.png" alt="img"></p>
+<p>假如multiCameraId现在是SPRD_BLUR_ID，对应到case后，mainCameraId=1,即前摄。</p>
 
+      </div>
+      
+      
+      
     </div>
+    
 
     
     
     
-
-      <footer class="post-footer">
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2020/12/13/unisoc/15-camera-preview/" rel="prev" title="camera-preview">
-      <i class="fa fa-chevron-left"></i> camera-preview
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/12/13/unisoc/17-multiCameraId/" rel="next" title="multi camera id">
-      multi camera id <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
 
 
           </div>
@@ -293,7 +252,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
