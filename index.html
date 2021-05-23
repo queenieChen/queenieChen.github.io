@@ -148,6 +148,606 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2021/05/22/102-IntroductionOfDataStructure/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Queenie Chen">
+      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Queenie Chen">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/22/102-IntroductionOfDataStructure/" class="post-title-link" itemprop="url">数据结构简介</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-22 18:28:36" itemprop="dateCreated datePublished" datetime="2021-05-22T18:28:36+08:00">2021-05-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-23 15:49:03" itemprop="dateModified" datetime="2021-05-23T15:49:03+08:00">2021-05-23</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="数据的组织方式"><a href="#数据的组织方式" class="headerlink" title="数据的组织方式"></a>数据的组织方式</h1><p>链表</p>
+<p>栈</p>
+<p>队列</p>
+<p>集合</p>
+<p>哈希表</p>
+<p>树</p>
+<p>堆</p>
+<p>图</p>
+<p>优先级队列</p>
+<h1 id="算法设计的一般方法"><a href="#算法设计的一般方法" class="headerlink" title="算法设计的一般方法"></a>算法设计的一般方法</h1><p>随机法：快速排序 需要找一个中间值，这个值就随机选取，随机数的正态分布使得划分结果相对平衡。</p>
+<p>分治法：分解，求解，合并。归并排序：划分子问题，子问题是独立的，采用递归方式解决每个子问题，最后将所有子问题的结果合并。</p>
+<p>动态规划：有分治的思想，但是子问题间可能有关联。</p>
+<p>贪心法：局部最优。霍夫曼编码：自底向上处理，将每个要压缩的符号和出现的频数一起作为二叉树的根节点保存，</p>
+<p>近似法：足够好。推销员问题：</p>
+<h1 id="指针操作"><a href="#指针操作" class="headerlink" title="指针操作"></a>指针操作</h1><p>##1、指针基础</p>
+<p>【画图理解】：指针也是变量，它存储的不是数据本身，而是数据在内存中的地址。</p>
+<p>【避免空指针】<br>空指针：指向无效的地址。产生空指针的情况：</p>
+<ol>
+<li>   将整型变量强制转换成为指针变量；</li>
+<li>   越界：超出数组边界的指针；</li>
+<li>   释放仍被引用的指针；</li>
+</ol>
+<p>##2、存储空间分配<br>编号001这个盒子里面装了一个苹果。</p>
+<p>声明指针和声明变量一样，会分配一定的存储空间给到指针，要注意没有为指向的数据分配空间。这里分配给指针的存储空间大小也跟编译器的设定和类型界定符有关。</p>
+<p>为数据分配存储空间的方法：</p>
+<ol>
+<li><p>直接声明这个变量:<br> 编译器直接根据变量类型预留足够的内存空间，但这个空间不会再整个生命周期中永久存在。<br> 自动变量：进入或离开一个模块时，存储空间能够自动分配和释放。</p>
+</li>
+<li><p>运行时动态分配：<br> 动态分配内存时，得到一个指向堆存储空间的指针，此空间我们自行管理，一直存在，除非显示释放。mallc–free<br> malloc / realloc；<br> 内存泄露：动态分配了内存空间，但是从未释放。<br>##数据集合和指针的算数运算<br>数据集合指结构和数组。指向结构的指针很重要。<br>【结构】<br>结构可以把数据捆绑在一起，指针可以将这些捆绑的数据在内存中连接起来。<br>结构不允许包含自身的实例，但是可以包含指向自身实例的指针。</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">typedef struct ListElmt_&#123;</span><br><span class="line">void *data;</span><br><span class="line">struct ListElmt_ *next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>【数组】<br>数组：在内存中连续排列的同类元素的序列。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a[i]等价于(a+i)</span><br><span class="line">a[i][j]等价于*(*(a+i)+j)</span><br></pre></td></tr></table></figure>
+<p>##作为函数参数的指针<br>传递数据或大型结构。<br>按引用传递参数的好处：</p>
+<ol>
+<li>   当函数改变参数时，被改变参数的值回一直存在，甚至函数退出后仍然存在。</li>
+<li>   使用指针传递大容量复杂的函数参数，可以节约内存空间。</li>
+</ol>
+<p>将多维数组传递给函数时，除了第一维度外，其他维的长度必须指定。这是因为，多维数组的元素在内存中是按照地址一行一行顺序排列的，想要访问任意一行的元素（除了第一行），必须确切知道为了到达这一行，我们需要跳过多少歌连续的元素。<br>##指向指针的指针<br>向函数传递一个指向指针的指针，这样函数就可以通过改变这个指针来改变它指向的指针了。</p>
+<p>##泛型指针和类型转换<br>泛型指针指向某一数据而不用管数据的具体类型。类型转换允许临时改变数据的类型。<br>通常声明一个void指针来表示泛型指针。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line"></span><br><span class="line">int swap2(void *x,void *y,int size)&#123;</span><br><span class="line">	void *tmp;</span><br><span class="line">	if((tmp &#x3D; malloc(size)) &#x3D;&#x3D; NULL)</span><br><span class="line">		return -1;</span><br><span class="line">	</span><br><span class="line">	memcpy(tmp,x,size);</span><br><span class="line">	memcpy(x,y,size);</span><br><span class="line">	memcpy(y,tmp,size);</span><br><span class="line">	</span><br><span class="line">	free(tmp);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>##函数指针<br>指针指向可执行的代码段。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2021/02/14/102-makefile/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Queenie Chen">
+      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Queenie Chen">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/14/102-makefile/" class="post-title-link" itemprop="url">makefile</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-14 20:02:04" itemprop="dateCreated datePublished" datetime="2021-02-14T20:02:04+08:00">2021-02-14</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="makefile-规则"><a href="#makefile-规则" class="headerlink" title="makefile 规则"></a>makefile 规则</h1><p>目标: 依赖<br><tab>命令</p>
+<p>【方式1】<br>例如：<br>makefile：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">test : main.c sub.c sub.h</span><br><span class="line">	gcc -o test main.c sub.c</span><br></pre></td></tr></table></figure>
+<p>只要依赖被修改，就会被重新编译。</p>
+<p>【方式2】<br>例如：<br>直接make一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">test : main.o sub.o</span><br><span class="line">	gcc -o test main.o sub.o</span><br><span class="line"></span><br><span class="line">main.o : main.c</span><br><span class="line">	gcc -c -o main.o main.c</span><br><span class="line"></span><br><span class="line">sub.o : sub.c</span><br><span class="line">	gcc -c -o sub.o sub.c</span><br><span class="line"></span><br><span class="line">clean :</span><br><span class="line">	rm *.o test -f</span><br></pre></td></tr></table></figure>
+<p>执行make clean直接删除所有.o文件</p>
+<p>【方式3】<br>假如有很多.c文件，使用<br>$@表示目标<br>$&lt;表示依赖<br>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">test : main.o sub.o</span><br><span class="line">	gcc -o test main.o sub.o</span><br><span class="line"></span><br><span class="line">%.o : %.c</span><br><span class="line">	gcc -c -o $@ $&lt;</span><br><span class="line">sub.c :sub.h</span><br><span class="line">clean:</span><br><span class="line">	rm *.o test -f</span><br></pre></td></tr></table></figure>
+<p>注意：TAB键不要随便加</p>
+<p>【方式4】</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">objs :&#x3D; main.o sub.o</span><br><span class="line"></span><br><span class="line">test : $(objs)</span><br><span class="line">	gcc -o test main.o sub.o</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#需要判断是否存在依赖文件</span><br><span class="line">dep_files :&#x3D; $(foreach f, $(objs), .$(f).d)</span><br><span class="line">dep_files :&#x3D; $(wildcard $(dep_files))</span><br><span class="line"></span><br><span class="line">#把依赖文件包含进来</span><br><span class="line">ifneq($(dep_files), )</span><br><span class="line">  include $(dep_files)</span><br><span class="line">endif</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">%.o : %.c</span><br><span class="line">	gcc -Wp, -MD, .$@.d -c -o $@ $&lt;</span><br><span class="line"></span><br><span class="line">clean:</span><br><span class="line">	rm *.o test -f</span><br><span class="line"></span><br><span class="line">distclean:</span><br><span class="line">	rm $(dep_files) *.o test -f</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2021/02/14/101-gcc%E7%BC%96%E8%AF%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Queenie Chen">
+      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Queenie Chen">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/14/101-gcc%E7%BC%96%E8%AF%91/" class="post-title-link" itemprop="url">gcc编译</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-02-14 10:40:56 / 修改时间：11:26:54" itemprop="dateCreated datePublished" datetime="2021-02-14T10:40:56+08:00">2021-02-14</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="历史溯源"><a href="#历史溯源" class="headerlink" title="历史溯源"></a>历史溯源</h1><p><img src="D:\MyLearing\hexo\queenieChen\source_posts\101-gcc编译\1.png" alt="img"></p>
+<h1 id="gcc编译过程-amp-命令"><a href="#gcc编译过程-amp-命令" class="headerlink" title="gcc编译过程&amp;命令"></a>gcc编译过程&amp;命令</h1><p><img src="D:\MyLearing\hexo\queenieChen\source_posts\101-gcc编译\2.png" alt="img"></p>
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><ol>
+<li>main.c    sub.c    sub.h    makefile</li>
+</ol>
+<p>main.c</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &quot;sub.h&quot;</span><br><span class="line"></span><br><span class="line">int main(int argc, char *argv[])</span><br><span class="line">&#123;</span><br><span class="line">	int i;</span><br><span class="line">	printf(&quot;main fun!\n&quot;);</span><br><span class="line">	sub_fun();</span><br><span class="line">	</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>sub.c</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">void sub_fun(void)</span><br><span class="line">&#123;</span><br><span class="line">	printf(&quot;sub fun!\n&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>sub.h</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void sub_fun(void);</span><br></pre></td></tr></table></figure>
+
+<p>开始编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -o test main.c sub.c</span><br></pre></td></tr></table></figure>
+
+<p>查看刚刚的编译过程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -o test main.c sub.c -v</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2021/02/13/101-linux-hello-world/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Queenie Chen">
+      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Queenie Chen">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/13/101-linux-hello-world/" class="post-title-link" itemprop="url">linux hello world</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-13 21:11:17" itemprop="dateCreated datePublished" datetime="2021-02-13T21:11:17+08:00">2021-02-13</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="app-的编译和运行"><a href="#app-的编译和运行" class="headerlink" title="app 的编译和运行"></a>app 的编译和运行</h1><ol>
+<li>编写代码<br>hello.c文件如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int main(int argc, char **argv)</span><br><span class="line">&#123;</span><br><span class="line">	if(argc &gt;&#x3D;2)</span><br><span class="line">		printf(&quot;hello,%s!\n&quot;,argv[1]);</span><br><span class="line">	else</span><br><span class="line">		printf(&quot;hello,world!\n&quot;);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>   编译代码<br>将hello.c放入ubuntu里面，进行编译<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -o hello hello.c</span><br></pre></td></tr></table></figure></li>
+<li>   运行</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;hello</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="gcc-和makefile"><a href="#gcc-和makefile" class="headerlink" title="gcc 和makefile"></a>gcc 和makefile</h1><h1 id=""><a href="#" class="headerlink" title=""></a></h1>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2021/02/12/100-linux1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Queenie Chen">
+      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Queenie Chen">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/12/100-linux1/" class="post-title-link" itemprop="url">linux入门</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-12 20:21:27" itemprop="dateCreated datePublished" datetime="2021-02-12T20:21:27+08:00">2021-02-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-13 20:46:03" itemprop="dateModified" datetime="2021-02-13T20:46:03+08:00">2021-02-13</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>创建文件&amp;目录</p>
+<p>Ctrl alt t<br>terminal<br>pwd显示当前所在目录<br>ls当前目录有哪些文件<br>cd切换目录<br>cd ..返回上一级路径<br>mkdir新建一个目录<br>touch 1.txt新建一个文件<br>gedit 1.txt进入编辑状态<br>cp 1.txt 2.txt将文件1.txt复制成2.txt<br>cat 1.txt显示1.txt文件内容在终端里面<br>rm 1.txt删除文件<br>rmdir 123删除目录<br>clear清屏</p>
+<p>Windows：<br>md 123<br>rd 123<br>cls清屏<br>dir md rd cls</p>
+<p>谁来执行linux命令？<br>ls -l</p>
+<p>shell是一个程序，它接收来自键盘的命令并将它回显在桌面上，回车后，它就知道字符输入结束了，解析收到的命令，执行对应的程序。</p>
+<p>shell会去path环境变量指示的位置寻找要执行的程序，然后启动该程序，传入参数。如果path路径下没有对应的程序，则需要使用相对路径，比如./hello。或者复制hello.exe到path指定的路径下去，然后再执行。<br>echo $path<br>等号前面的是变量，等号后面的是值<br>env</p>
+<p>如何修改环境变量？<br>hello.exe放在路径/home/book</p>
+<ol>
+<li>临时设置，只对当前终端有效，其他终端就无效了<br> export PATH=$PATH:/home/Sbook</li>
+<li>永久设置，修改~/.bashrc，这个只对当前用户SA有效<br> （1）gedit ~/.bashrc<br> （2）行尾添加export PATH=$PATH:/home/book</li>
+<li>永久设置，修改/eStc/environment，这个对所有用户都有效<br> （1）sudo gedit /etc/environment<br> （2）在最后添加:/home/book</li>
+</ol>
+<p>//===================================================<br>命令提示符：表示当前终端的状态<br><img src="D:\MyLearing\hexo\queenieChen\source_posts\100-linux1\2.png" alt="img"></p>
+<p>linux命令的格式：</p>
+<p>命令    [选项]    [参数]</p>
+<p>ls</p>
+<p>ls -l</p>
+<p>ls -l /home</p>
+<p>选项和参数是可选的，命令是必须的<br>选项是以 - 来指明的<br>命令，选项，参数是以空格隔开，多个空格视为一个空格</p>
+<p>man ls可以查看ls的用法</p>
+<p>//============================================</p>
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th>directory</th>
+<th>目录</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2</td>
+<td>change</td>
+<td>改变</td>
+</tr>
+<tr>
+<td>3</td>
+<td>list</td>
+<td>列出</td>
+</tr>
+<tr>
+<td>4</td>
+<td>print</td>
+<td>打印</td>
+</tr>
+<tr>
+<td>5</td>
+<td>remove</td>
+<td>删除</td>
+</tr>
+<tr>
+<td>6</td>
+<td>copy</td>
+<td>复制</td>
+</tr>
+<tr>
+<td>7</td>
+<td>move</td>
+<td>移动</td>
+</tr>
+<tr>
+<td>8</td>
+<td>clear</td>
+<td>清除</td>
+</tr>
+</tbody></table>
+<p>pwd<br>print working directory</p>
+<p>cd<br>change directory</p>
+<p>cd ~表示家目录<br>cd .当前目录<br>cd ..切换到上一级目录<br>cd ../..切换到上上级路径<br>cd -切换到上一次路径</p>
+<p>//=======================<br>绝对路径</p>
+<p>相对路径，一般以./和../构成</p>
+<p>cd ../Videos</p>
+<p>tab键自动补全</p>
+<p>ls<br>list列出目录内容<br><a href="3.png">!img</a></p>
+<p>ls -l 显示目录下文件更详细的信息，文件权限，大小，最后修改时间等。l是long的缩写<br>ls -la显示隐藏文件，a是all的缩写<br>ls -lh将文件大小以k，kb，Mb，Gb来表示</p>
+<p>mkdir<br>make directory</p>
+<p>mkdir 目录名<br>mkdir -p 父目录/子目录</p>
+<p>-p 连续创建多级目录，p是parent缩写</p>
+<p>rmdir<br>remove directory</p>
+<p>rmdir dir0不能删除非空目录<br>rm -rf 删除非空目录</p>
+<p>touch用来新建文件<br>touch filename1</p>
+<p>同一目录无法创建同名的文件，区分大小写</p>
+<p>mv用来修改文件名，或者移动路径<br>mv oldfilename newfilename<br>mv 旧目录名 新目录名<br>mv 文件名 目录名</p>
+<p>mv ~/flie1 ..将家目录下的file1文件移动到上一个路径</p>
+<p>cp即copy<br>cp 源文件名 目标文件名<br>cp 源文件名 目标目录名</p>
+<p>cp -r 目录名1 目录名2   表示将目录1下的所有文件都复制到目录2下去，-r表示递归</p>
+<p>cp -i file2 dir1  如果dir1目录下有与file2同名的文件，-i表示同意覆盖</p>
+<p>rm file2删除当前目录下file2文件</p>
+<p>rm -i file2删除文件file2前，会先征求意见，y表示同意，n表示不同意</p>
+<p>rm -r dir1表示递归删除目录dir1</p>
+<p>rm -ir dir1</p>
+<p>cat file2<br>cat -n file2显示文件内容，并在内容前显示行号<br>cat file2 file1串联打印</p>
+<p>gedit 图形应用程序的编辑器</p>
+<p>clear：刷新屏幕，会保留历史操作记录，只是向后翻一页</p>
+<p>reset：重新初始化屏幕，清除历史</p>
+<p>man man可知man手册一共9册<br><img src="D:\MyLearing\hexo\queenieChen\source_posts\100-linux1\4.png" alt="img"><br>man ls<br>man 1 ls<br>man 1 gcc 其中gcc是编译器</p>
+<p><img src="D:\MyLearing\hexo\queenieChen\source_posts\100-linux1\5.png" alt="img"></p>
+<p><img src="D:\MyLearing\hexo\queenieChen\source_posts\100-linux1\6.png" alt="img"><br><img src="D:\MyLearing\hexo\queenieChen\source_posts\100-linux1\7.png" alt="img"></p>
+<p>info ls查看ls命令的帮助信息</p>
+<p>ls –help</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2021/01/30/93-linux-%E9%A9%B1%E5%8A%A8%E4%B8%89----%E5%8E%9F%E7%90%86%E5%9B%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Queenie Chen">
+      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Queenie Chen">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/30/93-linux-%E9%A9%B1%E5%8A%A8%E4%B8%89----%E5%8E%9F%E7%90%86%E5%9B%BE/" class="post-title-link" itemprop="url">linux 驱动三----原理图</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-30 19:51:35" itemprop="dateCreated datePublished" datetime="2021-01-30T19:51:35+08:00">2021-01-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-11 11:13:32" itemprop="dateModified" datetime="2021-02-11T11:13:32+08:00">2021-02-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="GPIO"><a href="#GPIO" class="headerlink" title="GPIO"></a>GPIO</h1><h2 id="输出引脚"><a href="#输出引脚" class="headerlink" title="输出引脚"></a>输出引脚</h2><p><img src="D:\MyLearing\hexo\queenieChen\source_posts\93-Linux驱动三\1.png" alt="image-20210130195930670"></p>
+<p>上图中A点若为3.3V高电平，则下面的灯泡会亮。A点是由芯片2440来输出电平的，这里是输出引脚，它也可以输出低电平，此时灯灭。</p>
+<h2 id="输入引脚"><a href="#输入引脚" class="headerlink" title="输入引脚"></a>输入引脚</h2><p><img src="D:\MyLearing\hexo\queenieChen\source_posts\93-Linux驱动三\2.png" alt="image-20210130195930670"></p>
+<p>上图中A点位3.3V高电平，C点若为高电平，说明开关是断开的，灯未亮。我们通过读取芯片2440的寄存器D的某一位来判断C点是不是低电平，这里是作为输入引脚的。</p>
+<h2 id="配置引脚功能"><a href="#配置引脚功能" class="headerlink" title="配置引脚功能"></a>配置引脚功能</h2><ol>
+<li><p>配置是输入还是输出</p>
+</li>
+<li><p>输出引脚：写值到某个寄存器</p>
+</li>
+<li><p>输入引脚：读寄存器的值</p>
+</li>
+</ol>
+<p><img src="D:\MyLearing\hexo\queenieChen\source_posts\93-Linux驱动三\3.png" alt="image-20210130203316340"></p>
+<p>若想LED1亮，则nLED 1引脚要输出低电平，搜索一下nLED 1，结果如下：</p>
+<p><img src="D:\MyLearing\hexo\queenieChen\source_posts\93-Linux驱动三\4.png" alt="image-20210130203600725"></p>
+<p>可以看到，我们需要看芯片手册来配置这个引脚的功能，我们看I/O PORTS，gpio是通用外设IO接口。这里我们在芯片手册里搜GPF4，可以看到第9:8位为01的时候是输出功能。</p>
+<p><img src="D:\MyLearing\hexo\queenieChen\source_posts\93-Linux驱动三\5.png" alt="image-20210130204407035"></p>
+<p><img src="C:\Users\nhov\AppData\Roaming\Typora\typora-user-images\image-20210130204519645.png" alt="image-20210130204519645"></p>
+<p><img src="D:\MyLearing\hexo\queenieChen\source_posts\93-Linux驱动三\7.png" alt="image-20210130210634485"></p>
+<p>三极管知识：</p>
+<p><img src="D:\MyLearing\hexo\queenieChen\source_posts\93-Linux驱动三\6.png" alt="image-20210130210434829"></p>
+<p>上拉电阻作用：</p>
+<p>对于输入引脚，可以确定某点的状态</p>
+<h1 id="协议类"><a href="#协议类" class="headerlink" title="协议类"></a>协议类</h1><ol>
+<li>你说的别人能听懂–双方约定协议</li>
+<li>你的语速，别人要接受–双方满足时序要求</li>
+</ol>
+<h2 id="UART"><a href="#UART" class="headerlink" title="UART"></a>UART</h2><p>universal async receive/transmic通用异步接收发射</p>
+<p><img src="D:\MyLearing\hexo\queenieChen\source_posts\93-Linux驱动三\8.png" alt="image-20210131214540957"></p>
+<p>UART如何传输数据？例如，芯片24404如何将字符A发送给PC?</p>
+<ol>
+<li><p>2440想发送数据时，让RXD0变为低电平，并保持一段时间T；（RXD0不想发送数据一直保持高电平）</p>
+</li>
+<li><p>PC感觉到RXD0从1变成0，知道了2440即将发送数据</p>
+</li>
+<li><p>传输包括一个起始位（时间T），8个bit，最后保持最后一个电平时间T（即停止位）</p>
+</li>
+</ol>
+<p>这里时间T是约定的时间，T=1/波特率；字符A的十六进制为0x41，即0x0100 0001</p>
+<p><img src="D:\MyLearing\hexo\queenieChen\source_posts\93-Linux驱动三\9.png" alt="image-20210131220858860"></p>
+<p>串口控制器：只需将字符A扔给它，就会自动完成后面的步骤。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2021/01/24/92-%E7%BB%93%E6%9E%84%E5%85%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -482,694 +1082,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/power-hint/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Queenie Chen">
-      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Queenie Chen">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/13/power-hint/" class="post-title-link" itemprop="url">power hint机制</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-13 21:25:33" itemprop="dateCreated datePublished" datetime="2020-12-13T21:25:33+08:00">2020-12-13</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="1-背景"><a href="#1-背景" class="headerlink" title="1. 背景"></a>1. 背景</h1><p>这里camera场景指camera执行的不同阶段，比如open ,preview, take picture.  不同场景对camera性能和功耗要求不一样，比如open时想要快速，必须提频，此时功耗也就高了。如何设置调节策略使得各场景既能达到想要的反应速度，流畅水平，又使得能耗消耗在预期水平？由此引入power hint 机制。</p>
-<p>总结一下：性能和功耗平衡需要策略</p>
-<h1 id=""><a href="#" class="headerlink" title=""></a></h1><p>不同的平台软、硬件配置不一样，性能不同，那么策略也有所不同。这里分为3个等级，分别是performance, normal, low power。</p>
-<table>
-<thead>
-<tr>
-<th>Power scene</th>
-<th>CPU DVFS，</th>
-<th>Thermal</th>
-<th>DDR DFS</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>Performance</strong></td>
-<td>Generally，at least 4 CPU online &amp; Freq is veryhigh</td>
-<td>Disable</td>
-<td>Very  high/Normal</td>
-</tr>
-<tr>
-<td><strong>Normal</strong></td>
-<td>Default</td>
-<td>Enable</td>
-<td>Very high/Normal/Low</td>
-</tr>
-<tr>
-<td><strong>Low power</strong></td>
-<td>Some  projects have cpu hotplug &amp; Increase the proportion of running low Freq</td>
-<td>Enable</td>
-<td>Very  high//Normal/Low</td>
-</tr>
-</tbody></table>
-<ol>
-<li>performance：<br> 1）通常，至少4个cpu online，cpu freq很高<br> 2）拔核策略disable<br> 3）ddr dfs为high或者normal</li>
-<li>normal：<br> 1）cpu频点默认<br> 2）拔核策略enable<br> 3）ddr dfs：high/normal/low</li>
-<li>low power：<br> 1)增加跑低频的概率<br> 2)拔核策略enable<br> 3)ddr dfs：high/normal/low</li>
-</ol>
-<p>##1.1 hal3_2v1<br>对于open camera, close camera, stop preview(flush)，走的都是perforemance等级，ddr dfs走normal即可。</p>
-<p>take picture走performance，ddr dfs走high。</p>
-<p>recording走low power,ddr dfs也是normal。</p>
-<p>普通预览走low power,ddr dfs也是low。</p>
-<p>bokeh预览走normal，ddr dfs也是normal。</p>
-<table>
-<thead>
-<tr>
-<th>Power scene</th>
-<th>CPU DVFS，</th>
-<th>Thermal</th>
-<th>DDR DFS</th>
-<th>Camera  scene</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Performance</td>
-<td>Generally，at least 4 CPU online  &amp;  Freq is veryhigh</td>
-<td>Disable</td>
-<td>normal</td>
-<td>Open/close  Camera，stop preview (flush)</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td>Very High</td>
-<td>Take  picture</td>
-</tr>
-<tr>
-<td>Normal</td>
-<td>Default</td>
-<td>Enable</td>
-<td>Normal</td>
-<td>Preview  with Blu /Bokeh/Panorama</td>
-</tr>
-<tr>
-<td>Low power</td>
-<td>Some  projects have cpu hotplug /Increase the proportion of running low Freq</td>
-<td>Enable</td>
-<td>Normal</td>
-<td>Recording</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td>Low</td>
-<td>preview  under normal scene</td>
-</tr>
-</tbody></table>
-<p><img src="1.png" alt="img"></p>
-<p>##1.2 hal3_2v4</p>
-<table>
-<thead>
-<tr>
-<th>Power scene</th>
-<th>CPU DVFS，</th>
-<th>DDR DFS</th>
-<th>Camera  scene</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Performance</td>
-<td>Generally，at least 4 CPU online  &amp;  Freq is veryhigh</td>
-<td>Normal（as default is Very high）</td>
-<td>Open /close  Camera，</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>Very high</td>
-<td>Take  picture</td>
-</tr>
-<tr>
-<td>Normal</td>
-<td>Default</td>
-<td>Normal （as default is Very high）</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>Low power</td>
-<td>Just  Increase the proportion of running low Freq</td>
-<td>Very high</td>
-<td>Preview /  recording</td>
-</tr>
-</tbody></table>
-<p><img src="2.png" alt="img"></p>
-<h1 id="2-如何实现？"><a href="#2-如何实现？" class="headerlink" title="2. 如何实现？"></a>2. 如何实现？</h1><h2 id="2-1-怎么选择策略？"><a href="#2-1-怎么选择策略？" class="headerlink" title="2.1 怎么选择策略？"></a>2.1 怎么选择策略？</h2><p>各场景根据需要从如下的结构体中选择对应的策略：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">typedef enum CAMERA_PERFORMACE_SCENE &#123;</span><br><span class="line">    CAM_PERFORMANCE_LEVEL_1 &#x3D; 1,</span><br><span class="line">    CAM_PERFORMANCE_LEVEL_2,</span><br><span class="line">    CAM_PERFORMANCE_LEVEL_3,</span><br><span class="line">    CAM_PERFORMANCE_LEVEL_4,</span><br><span class="line">    CAM_PERFORMANCE_LEVEL_5,</span><br><span class="line">    CAM_PERFORMANCE_LEVEL_6,</span><br><span class="line">    CAM_PERFORMNCE_LEVEL_MAX</span><br><span class="line">&#125; sys_performance_camera_scene;</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-1-1-setCamPreformaceScene"><a href="#2-1-1-setCamPreformaceScene" class="headerlink" title="2.1.1 setCamPreformaceScene"></a>2.1.1 setCamPreformaceScene</h3><p>问题来了，谁来选这个策略？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">void SprdCameraSystemPerformance::setCamPreformaceScene(</span><br><span class="line">    sys_performance_camera_scene camera_scene) &#123;</span><br><span class="line">    Mutex::Autolock l(&amp;mLock);</span><br><span class="line">#ifndef CONFIG_CAMERA_DFS_FIXED_MAXLEVEL</span><br><span class="line">    switch (camera_scene) &#123;</span><br><span class="line">    case CAM_PERFORMANCE_LEVEL_6:</span><br><span class="line">        setPowerHint(CAM_POWER_PERFORMACE_ON);</span><br><span class="line">        changeDfsPolicy(CAM_VERYHIGH);</span><br><span class="line">        break;</span><br><span class="line">    case CAM_PERFORMANCE_LEVEL_5:</span><br><span class="line">    case CAM_PERFORMANCE_LEVEL_4:</span><br><span class="line">        setPowerHint(CAM_POWER_NORMAL);</span><br><span class="line">        changeDfsPolicy(CAM_NORMAL);</span><br><span class="line">        break;</span><br><span class="line">    case CAM_PERFORMANCE_LEVEL_3:</span><br><span class="line">    case CAM_PERFORMANCE_LEVEL_2:</span><br><span class="line">        setPowerHint(CAM_POWER_LOWPOWER_ON);</span><br><span class="line">        changeDfsPolicy(CAM_NORMAL);</span><br><span class="line">        break;</span><br><span class="line">    case CAM_PERFORMANCE_LEVEL_1:</span><br><span class="line">        setPowerHint(CAM_POWER_LOWPOWER_ON);</span><br><span class="line">        changeDfsPolicy(CAM_LOW);</span><br><span class="line">        break;</span><br><span class="line">    default:</span><br><span class="line">        HAL_LOGI(&quot;camera scene not support&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">#else</span><br><span class="line">#if (CONFIG_CAMERA_DFS_FIXED_MAXLEVEL &#x3D;&#x3D; 3)</span><br><span class="line">    changeDfsPolicy(CAM_VERYHIGH);</span><br><span class="line">#elif(CONFIG_CAMERA_DFS_FIXED_MAXLEVEL &#x3D;&#x3D; 2)</span><br><span class="line">    changeDfsPolicy(CAM_NORMAL);</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">    switch (camera_scene) &#123;</span><br><span class="line">    case CAM_PERFORMANCE_LEVEL_6:</span><br><span class="line">        setPowerHint(CAM_POWER_PERFORMACE_ON);</span><br><span class="line">        break;</span><br><span class="line">    case CAM_PERFORMANCE_LEVEL_5:</span><br><span class="line">    case CAM_PERFORMANCE_LEVEL_4:</span><br><span class="line">        setPowerHint(CAM_POWER_NORMAL);</span><br><span class="line">        break;</span><br><span class="line">    case CAM_PERFORMANCE_LEVEL_3:</span><br><span class="line">    case CAM_PERFORMANCE_LEVEL_2:</span><br><span class="line">    case CAM_PERFORMANCE_LEVEL_1:</span><br><span class="line">        setPowerHint(CAM_POWER_LOWPOWER_ON);</span><br><span class="line">        break;</span><br><span class="line">    default:</span><br><span class="line">        HAL_LOGI(&quot;camera scene not support&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">#endif</span><br><span class="line">    mCurrentPowerHintScene &#x3D; camera_scene;</span><br><span class="line"></span><br><span class="line">    HAL_LOGD(&quot;x camera scene:%d&quot;, camera_scene);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>又有2个问题，通过给函数setCamPreformaceScene传入具体参数camera_scene来选择策略，那么</p>
-<ol>
-<li>选择策略后，又是如何实现策略实施的呢？</li>
-<li>谁给setCamPreformaceScene传的这个参数？</li>
-</ol>
-<h2 id="2-2-策略如何实施？"><a href="#2-2-策略如何实施？" class="headerlink" title="2.2 策略如何实施？"></a>2.2 策略如何实施？</h2><p>在setCamPreformaceScene这个函数体的实现中可以看到，根据不同配置有不同的策略方案。主要是：</p>
-<ol>
-<li>int SprdCameraSystemPerformance::changeDfsPolicy(dfs_policy_t dfs_policy)这个是来选择ddr dfs策略的</li>
-<li>void SprdCameraSystemPerformance::setPowerHint(power_hint_state_type_t powerhint_id)这个是设置power hint的等级的</li>
-</ol>
-<p>ddr dfs等级结构体：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">typedef enum DFS_POLICY &#123;</span><br><span class="line">    CAM_EXIT,</span><br><span class="line">    CAM_LOW,</span><br><span class="line">    CAM_NORMAL,</span><br><span class="line">    CAM_VERYHIGH,</span><br><span class="line">&#125; dfs_policy_t;</span><br></pre></td></tr></table></figure>
-
-<p>power scene结构体：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">typedef enum CURRENT_POWER_HINT &#123;</span><br><span class="line">    CAM_POWER_NORMAL,</span><br><span class="line">    CAM_POWER_PERFORMACE_ON,</span><br><span class="line">    CAM_POWER_PERFORMACE_ON</span><br><span class="line">&#125; power_hint_state_type_t;</span><br></pre></td></tr></table></figure>
-<p>现在结构体是不是有点混乱？我们来理一理：<br>power_hint_state_type_t总共3个档次，对应之前说的NORMAL，PERFORMACE和PERFORMACE这3种策略。从表格中可以看出，不同的camera scene除了要选刚刚3种策略外，还要选中ddr dfs策略（这里dfs_policy_t有4档）。所以，由于cpu dvfs和ddr dfs都要选中，于是sys_performance_camera_scene就配出了多个来，这里是7个。实际代码实现顺序是先传camera_scene这个参数，再去适配cpu dvfs和ddr dfs。</p>
-<h3 id="2-2-1-changeDfsPolicy"><a href="#2-2-1-changeDfsPolicy" class="headerlink" title="2.2.1 changeDfsPolicy"></a>2.2.1 changeDfsPolicy</h3><p>changeDfsPolicy这个函数是用来实现dfs_policy的选择的，当dfs_policy为CAM_EXIT时，根据当前dfs策略进行releaseDfsPolicy（mCameraDfsPolicyCur），设置完后将mCameraDfsPolicyCur = CAM_EXIT；当dfs_policyCAM_LOW时，setDfsPolicy（CAM_LOW），并且根据当前mCameraDfsPolicyCur来选择releaseDfsPolicy（）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">int SprdCameraSystemPerformance::changeDfsPolicy(dfs_policy_t dfs_policy) &#123;</span><br><span class="line"></span><br><span class="line">    switch (dfs_policy) &#123;</span><br><span class="line">    case CAM_EXIT:</span><br><span class="line">        if (CAM_LOW &#x3D;&#x3D; mCameraDfsPolicyCur) &#123;</span><br><span class="line">            releaseDfsPolicy(CAM_LOW);</span><br><span class="line">        &#125; else if (CAM_NORMAL &#x3D;&#x3D; mCameraDfsPolicyCur) &#123;</span><br><span class="line">            releaseDfsPolicy(CAM_NORMAL);</span><br><span class="line">        &#125; else if (CAM_VERYHIGH &#x3D;&#x3D; mCameraDfsPolicyCur)</span><br><span class="line">            releaseDfsPolicy(CAM_VERYHIGH);</span><br><span class="line">        mCameraDfsPolicyCur &#x3D; CAM_EXIT;</span><br><span class="line">        break;</span><br><span class="line">    case CAM_LOW:</span><br><span class="line">        if (CAM_EXIT &#x3D;&#x3D; mCameraDfsPolicyCur) &#123;</span><br><span class="line">            setDfsPolicy(CAM_LOW);</span><br><span class="line">        &#125; else if (CAM_NORMAL &#x3D;&#x3D; mCameraDfsPolicyCur) &#123;</span><br><span class="line">            setDfsPolicy(CAM_LOW);</span><br><span class="line">            releaseDfsPolicy(CAM_NORMAL);</span><br><span class="line">        &#125; else if (CAM_VERYHIGH &#x3D;&#x3D; mCameraDfsPolicyCur) &#123;</span><br><span class="line">            setDfsPolicy(CAM_LOW);</span><br><span class="line">            releaseDfsPolicy(CAM_VERYHIGH);</span><br><span class="line">        &#125;</span><br><span class="line">        mCameraDfsPolicyCur &#x3D; CAM_LOW;</span><br><span class="line">        break;</span><br><span class="line">    case CAM_NORMAL:</span><br><span class="line">        if (CAM_EXIT &#x3D;&#x3D; mCameraDfsPolicyCur) &#123;</span><br><span class="line">            setDfsPolicy(CAM_NORMAL);</span><br><span class="line">        &#125; else if (CAM_LOW &#x3D;&#x3D; mCameraDfsPolicyCur) &#123;</span><br><span class="line">            setDfsPolicy(CAM_NORMAL);</span><br><span class="line">            releaseDfsPolicy(CAM_LOW);</span><br><span class="line">        &#125; else if (CAM_VERYHIGH &#x3D;&#x3D; mCameraDfsPolicyCur) &#123;</span><br><span class="line">            setDfsPolicy(CAM_NORMAL);</span><br><span class="line">            releaseDfsPolicy(CAM_VERYHIGH);</span><br><span class="line">        &#125;</span><br><span class="line">        mCameraDfsPolicyCur &#x3D; CAM_NORMAL;</span><br><span class="line">        break;</span><br><span class="line">    case CAM_VERYHIGH:</span><br><span class="line">        if (CAM_EXIT &#x3D;&#x3D; mCameraDfsPolicyCur) &#123;</span><br><span class="line">            setDfsPolicy(CAM_VERYHIGH);</span><br><span class="line">        &#125; else if (CAM_LOW &#x3D;&#x3D; mCameraDfsPolicyCur) &#123;</span><br><span class="line">            setDfsPolicy(CAM_VERYHIGH);</span><br><span class="line">            releaseDfsPolicy(CAM_LOW);</span><br><span class="line">        &#125; else if (CAM_NORMAL &#x3D;&#x3D; mCameraDfsPolicyCur) &#123;</span><br><span class="line">            setDfsPolicy(CAM_VERYHIGH);</span><br><span class="line">            releaseDfsPolicy(CAM_NORMAL);</span><br><span class="line">        &#125;</span><br><span class="line">        mCameraDfsPolicyCur &#x3D; CAM_VERYHIGH;</span><br><span class="line">        break;</span><br><span class="line">    default:</span><br><span class="line">        HAL_LOGW(&quot;unrecognize dfs policy&quot;);</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line">    HAL_LOGD(&quot;mCameraDfsPolicyCur: %d&quot;, mCameraDfsPolicyCur);</span><br><span class="line"></span><br><span class="line">    return NO_ERROR;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-2-1-1-releaseDfsPolicy"><a href="#2-2-1-1-releaseDfsPolicy" class="headerlink" title="2.2.1.1 releaseDfsPolicy"></a>2.2.1.1 releaseDfsPolicy</h4><p>在releaseDfsPolicy（）这个函数里，根据不同的dfs_policy，设置dfs_scene值，并将其写入文件节点exit_scene</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">int SprdCameraSystemPerformance::releaseDfsPolicy(int dfs_policy) &#123;</span><br><span class="line"></span><br><span class="line">    const char *dfs_scene &#x3D; NULL;</span><br><span class="line">    const char *const scenario_dfs &#x3D;</span><br><span class="line">        &quot;&#x2F;sys&#x2F;class&#x2F;devfreq&#x2F;scene-frequency&#x2F;sprd_governor&#x2F;exit_scene&quot;;</span><br><span class="line">    FILE *fp &#x3D; fopen(scenario_dfs, &quot;wb&quot;);</span><br><span class="line">    if (NULL &#x3D;&#x3D; fp) &#123;</span><br><span class="line">        HAL_LOGW(&quot;failed to open %s X&quot;, scenario_dfs);</span><br><span class="line">        return BAD_VALUE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    switch (dfs_policy) &#123;</span><br><span class="line">    case CAM_LOW:</span><br><span class="line">        dfs_scene &#x3D; CAM_LOW_STR;</span><br><span class="line">        break;</span><br><span class="line">    case CAM_NORMAL:</span><br><span class="line">        dfs_scene &#x3D; CAM_NORMAL_STR;</span><br><span class="line">        break;</span><br><span class="line">    case CAM_VERYHIGH:</span><br><span class="line">        dfs_scene &#x3D; CAM_VERYHIGH_STR;</span><br><span class="line">        break;</span><br><span class="line">    default:</span><br><span class="line">        HAL_LOGW(&quot;unrecognize dfs policy&quot;);</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line">    HAL_LOGD(&quot;release dfs_scene: %s&quot;, dfs_scene);</span><br><span class="line">    &#x2F;&#x2F; echo dfs_scene &gt; scenario_dfs</span><br><span class="line">    fprintf(fp, &quot;%s&quot;, dfs_scene);</span><br><span class="line">    fclose(fp);</span><br><span class="line">    fp &#x3D; NULL;</span><br><span class="line">    return NO_ERROR;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-2-1-2-setDfsPolicy"><a href="#2-2-1-2-setDfsPolicy" class="headerlink" title="2.2.1.2 setDfsPolicy"></a>2.2.1.2 setDfsPolicy</h4><p>在 setDfsPolicy（）这个函数里，根据不同的dfs_policy，设置dfs_scene值，并将其写入文件节点scenario_dfs</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">int SprdCameraSystemPerformance::setDfsPolicy(int dfs_policy) &#123;</span><br><span class="line"></span><br><span class="line">    const char *dfs_scene &#x3D; NULL;</span><br><span class="line">    const char *const scenario_dfs &#x3D;</span><br><span class="line">        &quot;&#x2F;sys&#x2F;class&#x2F;devfreq&#x2F;scene-frequency&#x2F;sprd_governor&#x2F;scenario_dfs&quot;;</span><br><span class="line">    FILE *fp &#x3D; fopen(scenario_dfs, &quot;wb&quot;);</span><br><span class="line">    if (NULL &#x3D;&#x3D; fp) &#123;</span><br><span class="line">        HAL_LOGW(&quot;failed to open %s X&quot;, scenario_dfs);</span><br><span class="line">        return BAD_VALUE;</span><br><span class="line">    &#125;</span><br><span class="line">    switch (dfs_policy) &#123;</span><br><span class="line">    case CAM_LOW:</span><br><span class="line">        dfs_scene &#x3D; CAM_LOW_STR;</span><br><span class="line">        break;</span><br><span class="line">    case CAM_NORMAL:</span><br><span class="line">        dfs_scene &#x3D; CAM_NORMAL_STR;</span><br><span class="line">        break;</span><br><span class="line">    case CAM_VERYHIGH:</span><br><span class="line">        dfs_scene &#x3D; CAM_VERYHIGH_STR;</span><br><span class="line">        break;</span><br><span class="line">    default:</span><br><span class="line">        HAL_LOGW(&quot;unrecognize dfs policy&quot;);</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line">    HAL_LOGD(&quot;dfs_scene: %s&quot;, dfs_scene);</span><br><span class="line">    &#x2F;&#x2F; echo dfs_scene &gt; scenario_dfs</span><br><span class="line">    fprintf(fp, &quot;%s&quot;, dfs_scene);</span><br><span class="line">    fclose(fp);</span><br><span class="line">    fp &#x3D; NULL;</span><br><span class="line"></span><br><span class="line">    return NO_ERROR;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="2-2-2-setPowerHint"><a href="#2-2-2-setPowerHint" class="headerlink" title="2.2.2 setPowerHint"></a>2.2.2 setPowerHint</h3><p>setPowerHint函数的实现，首先要考虑和判断当前powerhint策略。例如要设置成CAM_POWER_PERFORMACE_ON，而当前已经是CAM_POWER_PERFORMACE_ON了，就无需多做什么了。若当前策略为CAM_POWER_NORMAL，而目标等级CAM_POWER_PERFORMACE_ON，则</p>
-<p>1）acquirePowerHint</p>
-<p>2）重新设置mCurrentPowerHint</p>
-<p>当前策略不是CAM_POWER_NORMAL时，而策略有变化时，需要先releasePowerHint当前策略，再获取策略，置状态。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">void SprdCameraSystemPerformance::setPowerHint(</span><br><span class="line">    power_hint_state_type_t powerhint_id) &#123;</span><br><span class="line"></span><br><span class="line">    if (!mPowermanageInited) &#123;</span><br><span class="line">        HAL_LOGE(&quot;need init.&quot;);</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    HAL_LOGD(&quot;IN, mCurrentPowerHint&#x3D;%d&quot;, mCurrentPowerHint);</span><br><span class="line"></span><br><span class="line">#if (CONFIG_HAS_CAMERA_HINTS_VERSION &#x3D;&#x3D; ANDROID_VERSION_P)</span><br><span class="line">    switch (mCurrentPowerHint) &#123;</span><br><span class="line">    case CAM_POWER_NORMAL:</span><br><span class="line">        if (powerhint_id &#x3D;&#x3D; CAM_POWER_PERFORMACE_ON) &#123;</span><br><span class="line">            &#x2F;&#x2F; thermalEnabled(false);</span><br><span class="line">            acquirePowerHint(mScenePerformance);</span><br><span class="line">            mCurrentPowerHint &#x3D; CAM_POWER_PERFORMACE_ON;</span><br><span class="line">        &#125; else if (powerhint_id &#x3D;&#x3D; CAM_POWER_LOWPOWER_ON) &#123;</span><br><span class="line">            acquirePowerHint(mSceneLowPower);</span><br><span class="line">            mCurrentPowerHint &#x3D; CAM_POWER_LOWPOWER_ON;</span><br><span class="line">        &#125; else if (powerhint_id &#x3D;&#x3D; CAM_POWER_NORMAL) &#123;</span><br><span class="line">            HAL_LOGD(&quot;current power state is already CAM_POWER_NORMAL,&quot;</span><br><span class="line">                     &quot;state are both 0, just return&quot;);</span><br><span class="line">            goto exit;</span><br><span class="line">        &#125;</span><br><span class="line">        break;</span><br><span class="line">    case CAM_POWER_PERFORMACE_ON:</span><br><span class="line">        if (powerhint_id &#x3D;&#x3D; CAM_POWER_PERFORMACE_ON) &#123;</span><br><span class="line">            HAL_LOGD(&quot;current power state is already CAM_POWER_PERFORMACE_ON,&quot;</span><br><span class="line">                     &quot;state are both 1, just return&quot;);</span><br><span class="line">            goto exit;</span><br><span class="line">        &#125; else if (powerhint_id &#x3D;&#x3D; CAM_POWER_LOWPOWER_ON) &#123;</span><br><span class="line">            releasePowerHint(mScenePerformance);</span><br><span class="line">            acquirePowerHint(mSceneLowPower);</span><br><span class="line">            &#x2F;&#x2F; thermalEnabled(true);</span><br><span class="line">            mCurrentPowerHint &#x3D; CAM_POWER_LOWPOWER_ON;</span><br><span class="line">        &#125; else if (powerhint_id &#x3D;&#x3D; CAM_POWER_NORMAL) &#123;</span><br><span class="line">            releasePowerHint(mScenePerformance);</span><br><span class="line">            &#x2F;&#x2F; thermalEnabled(true);</span><br><span class="line">            mCurrentPowerHint &#x3D; CAM_POWER_NORMAL;</span><br><span class="line">        &#125;</span><br><span class="line">        break;</span><br><span class="line">    case CAM_POWER_LOWPOWER_ON:</span><br><span class="line">        if (powerhint_id &#x3D;&#x3D; CAM_POWER_PERFORMACE_ON) &#123;</span><br><span class="line">            &#x2F;&#x2F; thermalEnabled(false);</span><br><span class="line">            releasePowerHint(mSceneLowPower);</span><br><span class="line">            acquirePowerHint(mScenePerformance);</span><br><span class="line">            mCurrentPowerHint &#x3D; CAM_POWER_PERFORMACE_ON;</span><br><span class="line">        &#125; else if (powerhint_id &#x3D;&#x3D; CAM_POWER_LOWPOWER_ON) &#123;</span><br><span class="line">            HAL_LOGD(&quot;current power state is already CAM_POWER_LOWPOWER_ON,&quot;</span><br><span class="line">                     &quot;state are both 0, just return&quot;);</span><br><span class="line">            goto exit;</span><br><span class="line">        &#125; else if (powerhint_id &#x3D;&#x3D; CAM_POWER_NORMAL) &#123;</span><br><span class="line">            releasePowerHint(mSceneLowPower);</span><br><span class="line">            mCurrentPowerHint &#x3D; CAM_POWER_NORMAL;</span><br><span class="line">        &#125;</span><br><span class="line">        break;</span><br><span class="line">    default:</span><br><span class="line">        HAL_LOGE(&quot;should not be here&quot;);</span><br><span class="line">        goto exit;</span><br><span class="line">    &#125;</span><br><span class="line">#endif</span><br><span class="line">exit:</span><br><span class="line">    HAL_LOGD(&quot;out, mCurrentPowerHint&#x3D;%d&quot;, mCurrentPowerHint);</span><br><span class="line">    return;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="2-2-2-1acquirePowerHint"><a href="#2-2-2-1acquirePowerHint" class="headerlink" title="2.2.2.1acquirePowerHint"></a>2.2.2.1acquirePowerHint</h4><p>acquirePowerHint主要由acquire()实现。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#if (CONFIG_HAS_CAMERA_HINTS_VERSION &#x3D;&#x3D; ANDROID_VERSION_P)</span><br><span class="line">void SprdCameraSystemPerformance::acquirePowerHint(</span><br><span class="line">    ::android::sp&lt;::android::PowerHintScene&gt; mScene) &#123;</span><br><span class="line"></span><br><span class="line">    if (mScene !&#x3D; NULL) &#123;</span><br><span class="line">        mScene-&gt;acquire();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-2-2-2-releasePowerHint"><a href="#2-2-2-2-releasePowerHint" class="headerlink" title="2.2.2.2 releasePowerHint"></a>2.2.2.2 releasePowerHint</h4><p>releasePowerHint主要由release()实现。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">void SprdCameraSystemPerformance::releasePowerHint(</span><br><span class="line">    ::android::sp&lt;::android::PowerHintScene&gt; mScene) &#123;</span><br><span class="line"></span><br><span class="line">    if (mScene !&#x3D; NULL) &#123;</span><br><span class="line">        mScene-&gt;release();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="谁来选择策略？"><a href="#谁来选择策略？" class="headerlink" title="谁来选择策略？"></a>谁来选择策略？</h2><p>我们来看看哪些地方调用了setCamPreformaceScene：</p>
-<ol>
-<li><p>关闭相机的时候</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int SprdCamera3HWI::closeCamera() &#123;</span><br><span class="line">mOEMIf-&gt;setCamPreformaceScene(CAM_PERFORMANCE_LEVEL_6);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>切换</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">int SprdCamera3HWI::flush() &#123;</span><br><span class="line">    if (mOEMIf) &#123;</span><br><span class="line">        mOEMIf-&gt;setFlushFlag(1);</span><br><span class="line">        mOEMIf-&gt;setCamPreformaceScene(CAM_PERFORMANCE_LEVEL_6);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int SprdCamera3OEMIf::start(camera_channel_type_t channel_type,</span><br><span class="line">                            uint32_t frame_number) &#123;</span><br><span class="line">	setCamPreformaceScene(CAM_PERFORMANCE_LEVEL_6);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>自动对焦</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">status_t SprdCamera3OEMIf::autoFocus() &#123;</span><br><span class="line">    if (mSysPerformace) &#123;</span><br><span class="line">        mGetLastPowerHint &#x3D; mSysPerformace-&gt;mCurrentPowerHintScene;</span><br><span class="line">        setCamPreformaceScene(CAM_PERFORMANCE_LEVEL_6);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>接收预览帧时，根据预览流，当时的模式选择不同的档次</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">void SprdCamera3OEMIf::receivePreviewFrame(struct camera_frame_type *frame) &#123;</span><br><span class="line">	if (pre_stream) &#123;</span><br><span class="line">		if (!isCapturing() &amp;&amp; mIsPowerhintWait &amp;&amp; !mIsAutoFocus) &#123;</span><br><span class="line">			if ((frame_num &gt; mStartFrameNum) &amp;&amp;(frame_num - 						mStartFrameNum &gt; CAM_POWERHINT_WAIT_COUNT)) &#123;</span><br><span class="line">				if (getMultiCameraMode() &#x3D;&#x3D; MODE_BLUR ||</span><br><span class="line">                    getMultiCameraMode() &#x3D;&#x3D; MODE_BOKEH ||</span><br><span class="line">                    mSprdAppmodeId &#x3D;&#x3D; CAMERA_MODE_PANORAMA ||</span><br><span class="line">                    mSprdAppmodeId &#x3D;&#x3D; CAMERA_MODE_3DNR_PHOTO ||</span><br><span class="line">                    mSprdAppmodeId &#x3D;&#x3D; CAMERA_MODE_FILTER ||</span><br><span class="line">                    mSprdAppmodeId &#x3D;&#x3D; -1 ||</span><br><span class="line">                    (mRecordingMode &amp;&amp; !mVideoWidth &amp;&amp; !mVideoHeight))&#123;</span><br><span class="line">                    setCamPreformaceScene(CAM_PERFORMANCE_LEVEL_4);</span><br><span class="line">				&#125; else if (mSprdAppmodeId &#x3D;&#x3D; CAMERA_MODE_CONTINUE ||</span><br><span class="line">                           sprddefInfo-&gt;slowmotion &gt; 1) &#123;</span><br><span class="line">                    setCamPreformaceScene(CAM_PERFORMANCE_LEVEL_6);&#x2F;&#x2F;</span><br><span class="line">				&#125; else if (mRecordingMode &#x3D;&#x3D; true) &#123;</span><br><span class="line">                    setCamPreformaceScene(CAM_PERFORMANCE_LEVEL_3);&#x2F;&#x2F;录像模式</span><br><span class="line">				&#125; else if (getMultiCameraMode() !&#x3D; 											MODE_SINGLE_FACEID_UNLOCK) &#123;</span><br><span class="line">                    setCamPreformaceScene(CAM_PERFORMANCE_LEVEL_1);</span><br><span class="line">                &#125;</span><br><span class="line">                mIsPowerhintWait &#x3D; 0;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>接收jpeg图片时</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">void SprdCamera3OEMIf::receiveJpegPicture(struct camera_frame_type *frame) &#123;</span><br><span class="line">    if (getMultiCameraMode() &#x3D;&#x3D; MODE_BLUR ||</span><br><span class="line">        getMultiCameraMode() &#x3D;&#x3D; MODE_BOKEH ||</span><br><span class="line">        mSprdAppmodeId &#x3D;&#x3D; CAMERA_MODE_3DNR_PHOTO) &#123;</span><br><span class="line">        setCamPreformaceScene(CAM_PERFORMANCE_LEVEL_4);</span><br><span class="line">    &#125; else if (mRecordingMode &#x3D;&#x3D; true) &#123;</span><br><span class="line">        setCamPreformaceScene(CAM_PERFORMANCE_LEVEL_3);</span><br><span class="line">    &#125; else if (mSprdAppmodeId &#x3D;&#x3D; CAMERA_MODE_CONTINUE) &#123;</span><br><span class="line">        setCamPreformaceScene(CAM_PERFORMANCE_LEVEL_6);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        setCamPreformaceScene(CAM_PERFORMANCE_LEVEL_1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">void SprdCamera3OEMIf::HandleFocus(enum camera_cb_type cb, void *parm4) &#123;</span><br><span class="line">switch (cb) &#123;</span><br><span class="line">    case CAMERA_EXIT_CB_DONE:</span><br><span class="line">        HAL_LOGV(&quot;camera cb: autofocus succeeded.&quot;);</span><br><span class="line">        &#123;</span><br><span class="line">            if (mIsAutoFocus) &#123;</span><br><span class="line">                setCamPreformaceScene(mGetLastPowerHint);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    case CAMERA_EXIT_CB_FAILED: &#123;</span><br><span class="line">        if (mIsAutoFocus) &#123;</span><br><span class="line">            setCamPreformaceScene(mGetLastPowerHint);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">SprdCamera3OEMIf::SprdCamera3OEMIf(int cameraId, SprdCamera3Setting *setting)</span><br><span class="line">    : mSetCapRatioFlag(false), mVideoCopyFromPreviewFlag(false),</span><br><span class="line">      mSprdPipVivEnabled(0), mSprdHighIsoEnabled(0), mSprdFullscanEnabled(0),</span><br><span class="line">      mSprdRefocusEnabled(0), mSprd3dCalibrationEnabled(0), mSprdYuvCallBack(0),</span><br><span class="line">      mSprdMultiYuvCallBack(0), mSprdReprocessing(0), mNeededTimestamp(0),</span><br><span class="line">      mIsUnpopped(false), mIsBlur2Zsl(false),</span><br><span class="line">      mPreviewFormat(CAM_IMG_FMT_YUV420_NV21),</span><br><span class="line">      mVideoFormat(CAM_IMG_FMT_YUV420_NV21),</span><br><span class="line">      mCallbackFormat(CAM_IMG_FMT_YUV420_NV21),</span><br><span class="line">      mPictureFormat(CAM_IMG_FMT_YUV420_NV21),</span><br><span class="line">      mRawFormat(CAM_IMG_FMT_BAYER_MIPI_RAW), mPreviewStartFlag(0),</span><br><span class="line">      mIsDvPreview(0), mIsStoppingPreview(0), mRecordingMode(0),</span><br><span class="line">      mIsSetCaptureMode(false), mRecordingFirstFrameTime(0), mUser(0),</span><br><span class="line">      mPreviewWindow(NULL), mHalOem(NULL), mIsStoreMetaData(false),</span><br><span class="line">      mIsFreqChanged(false), mCameraId(cameraId), miSPreviewFirstFrame(1),</span><br><span class="line">      mCaptureMode(CAMERA_NORMAL_MODE), mCaptureRawMode(0), mFlashMask(false),</span><br><span class="line">      mReleaseFLag(false), mTimeCoeff(1), mIsPerformanceTestable(false),</span><br><span class="line">      mIsAndroidZSL(false), mSetting(setting), BurstCapCnt(0), mCapIntent(0),</span><br><span class="line">      mPrvTimerID(NULL), mFlashMode(-1), mIsAutoFocus(false),</span><br><span class="line">      mIspToolStart(false), mSubRawHeapNum(0), mGraphicBufNum(0), mEisGraphicBufNum(0),</span><br><span class="line">      mSubRawHeapSize(0), mPathRawHeapNum(0), mPathRawHeapSize(0),</span><br><span class="line">      mPreviewDcamAllocBufferCnt(0), mIsRecording(false),</span><br><span class="line">      mZSLModeMonitorMsgQueHandle(0), mZSLModeMonitorInited(0), mCNRMode(0),</span><br><span class="line">      mGyroInit(0), mGyroExit(0), mEisPreviewInit(false), mEisVideoInit(false),</span><br><span class="line">      mGyroNum(0), mSprdEisEnabled(false), mVideoSnapshotType(0),</span><br><span class="line">      mIommuEnabled(false), mFlashCaptureFlag(0),</span><br><span class="line">      mFlashCaptureSkipNum(FLASH_CAPTURE_SKIP_FRAME_NUM), mFixedFpsEnabled(0),</span><br><span class="line">      mSprdAppmodeId(-1), mTempStates(CAMERA_NORMAL_TEMP), mIsTempChanged(0),</span><br><span class="line">      mFlagOffLineZslStart(0), mZslSnapshotTime(0), mIsIspToolMode(0),</span><br><span class="line">      mIsUltraWideMode(false), mIsRawCapture(0), mIsCameraClearQBuf(0),</span><br><span class="line">      mLatestFocusDoneTime(0), mFaceDetectStartedFlag(0),</span><br><span class="line">      mIsJpegWithBigSizePreview(0)</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    SprdCameraSystemPerformance::getSysPerformance(&amp;mSysPerformace);</span><br><span class="line">    if (mSysPerformace) &#123;</span><br><span class="line">        setCamPreformaceScene(CAM_PERFORMANCE_LEVEL_6);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
-
-
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/19-IT/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Queenie Chen">
-      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Queenie Chen">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/13/19-IT/" class="post-title-link" itemprop="url">IT</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-13 21:08:48" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-12 16:54:12" itemprop="dateModified" datetime="2020-12-12T16:54:12+08:00">2020-12-12</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="1.png" alt="img"></p>
-<p><img src="2.png" alt="img"></p>
-<p><img src="3.png" alt="img"></p>
-<p><img src="4.png" alt="img"></p>
-<p><img src="5.png" alt="img"></p>
-<p><img src="6.png" alt="img"></p>
-<p><img src="7.png" alt="img"></p>
-<p><img src="8.png" alt="img"></p>
-<p><img src="9.png" alt="img"></p>
-<p><img src="10.png" alt="img"></p>
-<p><img src="11.png" alt="img"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/18-Email/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Queenie Chen">
-      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Queenie Chen">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/13/18-Email/" class="post-title-link" itemprop="url">How To Write Email？</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-12-13 21:08:48 / 修改时间：21:21:14" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="写邮件的基本原则"><a href="#写邮件的基本原则" class="headerlink" title="写邮件的基本原则"></a>写邮件的基本原则</h1><ol>
-<li>以终为始</li>
-<li>传递正能量</li>
-<li>让问题收敛，为邮件增加价值</li>
-<li>让最合适的人来回复邮件</li>
-<li>邮件永远都是公共场合</li>
-</ol>
-<h1 id="邮件撰写顺序"><a href="#邮件撰写顺序" class="headerlink" title="邮件撰写顺序"></a>邮件撰写顺序</h1><ol>
-<li>附件</li>
-<li>标题</li>
-<li>正文</li>
-<li>收件人</li>
-</ol>
-<h2 id="邮件Subject"><a href="#邮件Subject" class="headerlink" title="邮件Subject"></a>邮件Subject</h2><p>邮件的主题是编写邮件的中心思想，许多读者是以标题来决定是否继续详读信件的内容。主题所以需要：<br>明确主旨，简明扼要<br>邮件标题应力求简洁，让人一望即知，以便对方快速了解与记忆。 </p>
-<p>常见问题：<br>Re:回复:XXXRe:转发:Re:答复:XXXRe:Foward:<br>标题和邮件内容已毫无关系<br>标题超长<br>没有标题</p>
-<p>解决思路：<br>修正邮件标题，简短有效<br>裁剪邮件发送范围<br>另起邮件</p>
-<h2 id="邮件正文"><a href="#邮件正文" class="headerlink" title="邮件正文"></a>邮件正文</h2><p>基本结构：<br>内容分段：背景 or 问题、结论、措施<br>同类分类：(1)… (2)… (3)…，标注序号<br>目的：减少NeedInfo Email，以满足不同读者关注点</p>
-<p>抬头：按照公司文化写，可以用“Dear”开头</p>
-<p>注意事项：<br>遵循金字塔原理，先说中心思想，再详细阐述细节<br>一行内容不要太长<br>建议用微软雅黑字体，字号适中（小四/五号）<br>强调的关键词用其他加粗，但不可用太多，建议不用<br>人名不能标红<br>多条并列内容要用编号/或符号排列<br>一个邮件一个主题思想<br>说的事情不要太多，事情多了就开会</p>
-<h2 id="收件人-抄送-密送"><a href="#收件人-抄送-密送" class="headerlink" title="收件人/抄送/密送"></a>收件人/抄送/密送</h2><p>收件人需精准，不宜过多，责任更清晰（旁观者效应）</p>
-<p>抄送：<br>什么情况，工作邮件应该抄送双方领导？<br>如何小心抄给客户怂么办？</p>
-<p>密送：<br>什么情况下，工作邮件需要密送(BCC)？<br>密送背后的心理学。</p>
-<h2 id="邮件转发"><a href="#邮件转发" class="headerlink" title="邮件转发"></a>邮件转发</h2><p>邮件转发时建议添加转发的缘由，尤其含有多位收件人的邮件时，注明转发的目的，若是指派任务，需要简要说明。让收件人更明确需要做什么。</p>
-<p>如：<br>Add somebody + 说明Add的目的<br>FYI + 简要的说明</p>
-<h2 id="邮件附件"><a href="#邮件附件" class="headerlink" title="邮件附件"></a>邮件附件</h2><p>附件少的时候最好不要打包（压缩成一个包）<br>附件尽可能小<br>邮件正文里做一下附件说明：附件中是 xx，请查收<br>收件人/抄送多人时，附件可单独发送问题处理人，并在含有多人的邮件中说明<br>因附件较多必须打包发送时，邮件正文应说明：<br>    压缩包中包括：<br>    1、xxxx 文档，是对 xxx 的说明<br>    2、xxxx 文档，是对 xxx 的说明<br>    3、xxxx 文档，是对 xxx 的说明</p>
-<h2 id="表扬、感谢、批评邮件"><a href="#表扬、感谢、批评邮件" class="headerlink" title="表扬、感谢、批评邮件"></a>表扬、感谢、批评邮件</h2><p>什么情况应该感谢？<br>什么情况应该表扬？<br>如何进行批评？ —— 尽可能避免邮件</p>
-<p>正面：聚焦具体行为和贡献，可抄送对方主管<br>负面：针对员工待改进行为及具体要求，缩小邮件范围</p>
-<h2 id="群发邮件背后沟通问题"><a href="#群发邮件背后沟通问题" class="headerlink" title="群发邮件背后沟通问题"></a>群发邮件背后沟通问题</h2><p>大量垃圾邮件，导致大量无效沟通成本。<br>研发抱怨：邮件中没有告知Log，缺少CR号<br>测试抱怨：部分问题无人关注、无人反馈<br>对于尚未确定的客户需求/问题，群发某研发团队<br>导致FM/PM疲于奔命，客户还不满意</p>
-<h2 id="邮件的类型"><a href="#邮件的类型" class="headerlink" title="邮件的类型"></a>邮件的类型</h2><h3 id="确认类型"><a href="#确认类型" class="headerlink" title="确认类型"></a>确认类型</h3><p>口头形成结论后，需要邮件确认和总结</p>
-<ol>
-<li><p>会议内容、结论，以及会后任务</p>
-</li>
-<li><p>电话沟通的结论</p>
-</li>
-<li><p>当面沟通达成的一致</p>
-</li>
-</ol>
-<h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><p>需要对需求描述具体、清晰、精确、可量化。避免因理解错误，实现与需求不一致，导致项目延期。</p>
-<h3 id="反馈类"><a href="#反馈类" class="headerlink" title="反馈类"></a>反馈类</h3><p>迅速、有计划、可执行、跟踪和收尾</p>
-<h3 id="广播类"><a href="#广播类" class="headerlink" title="广播类"></a>广播类</h3><p>纯粹知会性的广播邮件，一般不需要回复</p>
-<h2 id="如何处理冲突邮件"><a href="#如何处理冲突邮件" class="headerlink" title="如何处理冲突邮件"></a>如何处理冲突邮件</h2><h3 id="客户批评你，抄送老板"><a href="#客户批评你，抄送老板" class="headerlink" title="客户批评你，抄送老板"></a>客户批评你，抄送老板</h3><p>第一步：<br>客户永远是对的<br>F2F或电话调查，确认问题原因<br>有初步方案后，第一时间和领导说明</p>
-<p>第二步：<br>客户关注：你是否关注他？（抱怨、问题、想法）<br>上下游工作接口都是客户<br>经营你的人脉</p>
-<p>改进思路：<br>每天电话/邮件沟通<br>避免客户犯错<br>逐步建立信任</p>
-<h3 id="同事批评你，抄送主管"><a href="#同事批评你，抄送主管" class="headerlink" title="同事批评你，抄送主管"></a>同事批评你，抄送主管</h3><p>第一步：<br>无论善意恶意，别急于回复<br>对事不对人<br>有初步方案，与领导说明</p>
-<p>第二步：<br>弄清来龙去脉<br>和对方当面沟通，了解背后原因<br>把双方认可结论，邮件告知相关人员<br>请主管回复</p>
-<p>改进思路：<br>了解自身哪些需要改进<br>加强和对方的沟通频率</p>
-<h3 id="吵架邮件"><a href="#吵架邮件" class="headerlink" title="吵架邮件"></a>吵架邮件</h3><h3 id="邮件中的情绪"><a href="#邮件中的情绪" class="headerlink" title="邮件中的情绪"></a>邮件中的情绪</h3><p>邮件格式-注意事项：<br>减少“！”的使用，尤其是多个“！”。<br>避免大量红色字体使用。<br>避免重复强调效果：加粗字体、红色字体、下划线、大号字体等。<br>多用“我们”，少用“你”和“我”。</p>
-<h3 id="当你的邮件没有反馈"><a href="#当你的邮件没有反馈" class="headerlink" title="当你的邮件没有反馈"></a>当你的邮件没有反馈</h3><h2 id="邮件常用功能"><a href="#邮件常用功能" class="headerlink" title="邮件常用功能"></a>邮件常用功能</h2><h3 id="创建文件夹"><a href="#创建文件夹" class="headerlink" title="创建文件夹"></a>创建文件夹</h3><p>在Outlook系统中可以新建不同的文件夹，邮件可以进行分类存放，便于邮件的管理与查找。</p>
-<p>步骤：<br>邮件文件夹列表→右键→ 新建文件夹→ 命名文件夹</p>
-<h3 id="设置规则"><a href="#设置规则" class="headerlink" title="设置规则"></a>设置规则</h3><p>低关注度的邮件无法避免，可以通过设置规则管理好这部分邮件，避免淹没高价值邮件。</p>
-<p>步骤：<br>邮件[开始] →规则→创建规则</p>
-<h3 id="Out-Of-Office"><a href="#Out-Of-Office" class="headerlink" title="Out Of Office"></a>Out Of Office</h3><p>假如你休假了，可能长时间无法查看或及时回复邮件，可以在休假前设置好Out Of Office模式。设置好休假时间，代理人信息或方便联系到的方式。期间有人发邮件找你，可以第一时间告知发件人相关信息。</p>
-<h3 id="邮件签名"><a href="#邮件签名" class="headerlink" title="邮件签名"></a>邮件签名</h3><p>签名中留下祝福语<br>要有联系方式<br>可以有紧急联系人及相关联系方式<br>可以有免职申明</p>
-<h3 id="邮件与职业安全"><a href="#邮件与职业安全" class="headerlink" title="邮件与职业安全"></a>邮件与职业安全</h3><p>不要过于随便 —— 公司邮箱属于公共场合<br>内容公开原则 —— 过于担心，那不要写邮件<br>避免在邮件中宣泄情绪</p>
-<h2 id="邮件的信息安全"><a href="#邮件的信息安全" class="headerlink" title="邮件的信息安全"></a>邮件的信息安全</h2><p>公司内部的如下邮件，都属于公司技术或管理机密：<br>公示批评/表扬邮件——避免对手散步不利我司信息<br>项目Kick-Off邮件——避免对手了解我司项目规划<br>项目测试报告——避免对手了解我司项目发展<br>研发技术讨论等</p>
-<p>公司内部技术讨论邮件：<br>勿转发公司外部人员，避免机密技术信息泄露；<br>发给外部人员使用‘Replay’，而不是‘Replay With History’</p>
-<p>回复客户邮件（CPM&amp;FAE）：<br>推荐养成新建习惯，可规避无意间“泄露公司机密”的风险。<br>邮件内容有误，第一时间通知收件人澄清，重新拟制。</p>
-<h1 id="做人"><a href="#做人" class="headerlink" title="做人"></a>做人</h1><p>现在所做的每一件事都与未来人生息息相关。<br>真诚对待身边每一个人<br>认真做好日常每一件事</p>
-<p>利他之心——生活与工作<br>保持个人利益与组织利益统一，利己利人<br>决策出发点：同时有益团队、公司、社会</p>
-<p>胸怀不大度——构建良好团队人际关系<br>让每次合作变成积累，而不是消耗<br>让自己成为被组合的热门选手。</p>
-<h1 id="做事"><a href="#做事" class="headerlink" title="做事"></a>做事</h1><p>永进不要忘记我们的目的<br>不是谁是谁非，而是解决问题<br>费斯汀格法则： 90/10定律<br>往者已矣，来者可追。<br>多关注问题发生后的回溯改进。<br>可以主导的最重要动作永远是下一个！</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/13-%E5%86%85%E6%A0%B8%E5%90%8C%E6%AD%A5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Queenie Chen">
-      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Queenie Chen">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/13/13-%E5%86%85%E6%A0%B8%E5%90%8C%E6%AD%A5/" class="post-title-link" itemprop="url">内核同步</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-13 21:08:48" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-18 19:23:41" itemprop="dateModified" datetime="2020-11-18T19:23:41+08:00">2020-11-18</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>#锁的争用<br>锁lock：使程序以串行方式对资源进行访问<br>lock contention：锁被占用时，其他线程等待获得该锁</p>
-<p>锁的扩展性：<br>锁的粒度：粗锁保护大块数据，细锁保护小块数据<br>运行队列锁被争用：本质是在调度程序中把整个调度进程下放到单个处理器执行</p>
-<h1 id="原子"><a href="#原子" class="headerlink" title="原子"></a>原子</h1><h2 id="原子整数操作"><a href="#原子整数操作" class="headerlink" title="原子整数操作"></a>原子整数操作</h2><h3 id="32位原子整数操作"><a href="#32位原子整数操作" class="headerlink" title="32位原子整数操作"></a>32位原子整数操作</h3><h3 id="64位原子整数操作"><a href="#64位原子整数操作" class="headerlink" title="64位原子整数操作"></a>64位原子整数操作</h3><h2 id="原子位操作"><a href="#原子位操作" class="headerlink" title="原子位操作"></a>原子位操作</h2><h1 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h1><p>自旋锁同一时刻只能被一个执行线程持有，其余想持有的必须等待，cpu一直忙等待，未睡眠。自旋就是等待自己释放锁。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">定义自旋锁</span><br><span class="line">初始化自旋锁</span><br><span class="line">获取自旋锁，保护临界区</span><br><span class="line">&#x2F;*临界区code &amp; data *&#x2F;</span><br><span class="line">解锁</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="读写自旋锁"><a href="#读写自旋锁" class="headerlink" title="读写自旋锁"></a>读写自旋锁</h1><p>允许读的并发，即可多个读进程，但只允许1个写进程</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">定义和初始化读写自旋锁</span><br><span class="line">读锁定</span><br><span class="line">读解锁</span><br><span class="line">写锁定</span><br><span class="line">写解锁</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="顺序锁"><a href="#顺序锁" class="headerlink" title="顺序锁"></a>顺序锁</h1><p>被顺序锁保护的共享资源，读和写不互斥。读期间发生了写，则需要重新读取数据</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">写顺序锁</span><br><span class="line">&#x2F;*写代码*&#x2F;</span><br><span class="line">释放写顺序锁</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="读-复制-更新"><a href="#读-复制-更新" class="headerlink" title="读-复制-更新"></a>读-复制-更新</h1><p>RCU：read-copy-update</p>
-<h1 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h1><p>信号量，又名semaphore，是一种  用于同步和互斥的手段。<br>信号量的值可以是0，1，n。总之非负整数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">定义信号量</span><br><span class="line">初始化信号量</span><br><span class="line">获得信号量</span><br><span class="line">释放信号量</span><br></pre></td></tr></table></figure>
-<p>信号量用于互斥和同步<br>互斥：<br>同步：</p>
-<h1 id="PV原语"><a href="#PV原语" class="headerlink" title="PV原语"></a>PV原语</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">P(S)等价于S&#x3D;S-1</span><br><span class="line">if (S&gt;&#x3D;0)</span><br><span class="line">	进程继续；</span><br><span class="line">else</span><br><span class="line">	进程进入等待队列；</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">V(S)等价于S&#x3D;S+1</span><br><span class="line">if(S&gt;0)</span><br><span class="line">	该进程被唤醒，返回调用处继续执行</span><br><span class="line">else</span><br><span class="line">	从等待队列中唤醒一等待进程</span><br></pre></td></tr></table></figure>
-<p>S=0<br>P(S)则S=-1，进程等待<br>V(S)则S=0，进程等待</p>
-<h1 id="信号量与自旋锁的区别"><a href="#信号量与自旋锁的区别" class="headerlink" title="信号量与自旋锁的区别"></a>信号量与自旋锁的区别</h1><h1 id="计数信号量和二值信号量"><a href="#计数信号量和二值信号量" class="headerlink" title="计数信号量和二值信号量"></a>计数信号量和二值信号量</h1><h1 id="互斥体"><a href="#互斥体" class="headerlink" title="互斥体"></a>互斥体</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">定义互斥体</span><br><span class="line">初始化互斥体</span><br><span class="line">获取互斥体</span><br><span class="line">释放互斥体</span><br></pre></td></tr></table></figure>
-
-<p>互斥体的实现依赖于自旋体，互斥体是进程级的，用于多个进程之间对资源的互斥。</p>
-<h1 id="各种锁使用的场景pk"><a href="#各种锁使用的场景pk" class="headerlink" title="各种锁使用的场景pk"></a>各种锁使用的场景pk</h1><h1 id="完成量"><a href="#完成量" class="headerlink" title="完成量"></a>完成量</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/newnewman80/article/details/16112669">https://blog.csdn.net/newnewman80/article/details/16112669</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/tureno/articles/6080923.html">https://www.cnblogs.com/tureno/articles/6080923.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/linhaostudy/p/6670693.html">https://www.cnblogs.com/linhaostudy/p/6670693.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/edver/p/7260696.html">https://www.cnblogs.com/edver/p/7260696.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38619183/article/details/83097475">https://blog.csdn.net/qq_38619183/article/details/83097475</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/12-SLAM/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Queenie Chen">
-      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Queenie Chen">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/13/12-SLAM/" class="post-title-link" itemprop="url">slam</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-12-13 21:08:48 / 修改时间：21:23:11" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id=""><a href="#" class="headerlink" title=""></a></h1><p>近处的物体移动快，远处的物体运动缓慢，why？</p>
-<p>单目：尺度不确定，平移才能计算深度<br>照片：场景在相机成像平面上留下的一个投影，以二维的形式反应三维的世界。</p>
-<p>双目：左和右单目的基线已知，通过这个基线来估计每个像素的空间位置，计算量大。基线越大，能估计的范围就越大。</p>
-<p>深度相机：RGB-D，使用红外结构光或TOF（time-of-flight）。主动向物体发射光并接收光来估计距离，容易受到日光干扰，无法测量透射材质。</p>
-<p>SLAM框架：</p>
-<ol>
-<li>传感器数据：相机图像信息的获取和预处理</li>
-<li>前端视觉里程计(visual odometry,VO)：估计相邻图像间相机的运动</li>
-<li>后端非线性优化(optimization)：接受不同时刻，前端测量的相机位姿，以及回环检测的信息，对它们进行优化。</li>
-<li>回环检测(loop closing)：判断是否曾经达到过先前的位置，如果检测到回环，则把它提供给后端处理。</li>
-<li>建图(mapping)：根据估计的轨迹，建立与任务要求对应的地图。</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/10-makefile%E5%A6%82%E4%BD%95%E4%B9%A6%E5%86%99%EF%BC%9F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Queenie Chen">
-      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Queenie Chen">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/13/10-makefile%E5%A6%82%E4%BD%95%E4%B9%A6%E5%86%99%EF%BC%9F/" class="post-title-link" itemprop="url">makefile如何书写？</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-13 21:08:48" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-17 15:07:44" itemprop="dateModified" datetime="2020-11-17T15:07:44+08:00">2020-11-17</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>  1）如果这个工程没有编译过，那么我们的所有C文件都要编译并被链接。<br>  2）如果这个工程的某几个C文件被修改，那么我们只编译被修改的C文件，并链接目标程序。<br>  3）如果这个工程的头文件被改变了，那么我们需要编译引用了这几个头文件的C文件，并链接目标程序。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1235,7 +1151,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">34</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

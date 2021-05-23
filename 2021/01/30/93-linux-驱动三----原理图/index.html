@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"queeniechen.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="GPIO输出引脚 上图中A点若为3.3V高电平，则下面的灯泡会亮。A点是由芯片2440来输出电平的，这里是输出引脚，它也可以输出低电平，此时灯灭。 输入引脚 上图中A点位3.3V高电平，C点若为高电平，说明开关是断开的，灯未亮。我们通过读取芯片2440的寄存器D的某一位来判断C点是不是低电平，这里是作为输入引脚的。 配置引脚功能 配置是输入还是输出  输出引脚：写值到某个寄存器  输入引脚：读寄存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux 驱动三----原理图">
+<meta property="og:url" content="https://queeniechen.github.io/2021/01/30/93-linux-%E9%A9%B1%E5%8A%A8%E4%B8%89----%E5%8E%9F%E7%90%86%E5%9B%BE/index.html">
+<meta property="og:site_name" content="Queenie Chen">
+<meta property="og:description" content="GPIO输出引脚 上图中A点若为3.3V高电平，则下面的灯泡会亮。A点是由芯片2440来输出电平的，这里是输出引脚，它也可以输出低电平，此时灯灭。 输入引脚 上图中A点位3.3V高电平，C点若为高电平，说明开关是断开的，灯未亮。我们通过读取芯片2440的寄存器D的某一位来判断C点是不是低电平，这里是作为输入引脚的。 配置引脚功能 配置是输入还是输出  输出引脚：写值到某个寄存器  输入引脚：读寄存">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="d:/MyLearing/hexo/queenieChen/source_posts/93-Linux驱动三/1.png">
+<meta property="og:image" content="d:/MyLearing/hexo/queenieChen/source_posts/93-Linux驱动三/2.png">
+<meta property="og:image" content="d:/MyLearing/hexo/queenieChen/source_posts/93-Linux驱动三/3.png">
+<meta property="og:image" content="d:/MyLearing/hexo/queenieChen/source_posts/93-Linux驱动三/4.png">
+<meta property="og:image" content="d:/MyLearing/hexo/queenieChen/source_posts/93-Linux驱动三/5.png">
+<meta property="og:image" content="c:/Users/nhov/AppData/Roaming/Typora/typora-user-images/image-20210130204519645.png">
+<meta property="og:image" content="d:/MyLearing/hexo/queenieChen/source_posts/93-Linux驱动三/7.png">
+<meta property="og:image" content="d:/MyLearing/hexo/queenieChen/source_posts/93-Linux驱动三/6.png">
+<meta property="og:image" content="d:/MyLearing/hexo/queenieChen/source_posts/93-Linux驱动三/8.png">
+<meta property="og:image" content="d:/MyLearing/hexo/queenieChen/source_posts/93-Linux驱动三/9.png">
+<meta property="article:published_time" content="2021-01-30T11:51:35.903Z">
+<meta property="article:modified_time" content="2021-02-11T03:13:32.888Z">
+<meta property="article:author" content="Queenie Chen">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="d:/MyLearing/hexo/queenieChen/source_posts/93-Linux驱动三/1.png">
+
+<link rel="canonical" href="https://queeniechen.github.io/2021/01/30/93-linux-%E9%A9%B1%E5%8A%A8%E4%B8%89----%E5%8E%9F%E7%90%86%E5%9B%BE/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>linux 驱动三----原理图 | Queenie Chen</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Queenie Chen</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">三十功名尘与土，八千里路云和月</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2021/01/30/93-linux-%E9%A9%B1%E5%8A%A8%E4%B8%89----%E5%8E%9F%E7%90%86%E5%9B%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Queenie Chen">
+      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Queenie Chen">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          linux 驱动三----原理图
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-30 19:51:35" itemprop="dateCreated datePublished" datetime="2021-01-30T19:51:35+08:00">2021-01-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-11 11:13:32" itemprop="dateModified" datetime="2021-02-11T11:13:32+08:00">2021-02-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="GPIO"><a href="#GPIO" class="headerlink" title="GPIO"></a>GPIO</h1><h2 id="输出引脚"><a href="#输出引脚" class="headerlink" title="输出引脚"></a>输出引脚</h2><p><img src="D:\MyLearing\hexo\queenieChen\source_posts\93-Linux驱动三\1.png" alt="image-20210130195930670"></p>
+<p>上图中A点若为3.3V高电平，则下面的灯泡会亮。A点是由芯片2440来输出电平的，这里是输出引脚，它也可以输出低电平，此时灯灭。</p>
+<h2 id="输入引脚"><a href="#输入引脚" class="headerlink" title="输入引脚"></a>输入引脚</h2><p><img src="D:\MyLearing\hexo\queenieChen\source_posts\93-Linux驱动三\2.png" alt="image-20210130195930670"></p>
+<p>上图中A点位3.3V高电平，C点若为高电平，说明开关是断开的，灯未亮。我们通过读取芯片2440的寄存器D的某一位来判断C点是不是低电平，这里是作为输入引脚的。</p>
+<h2 id="配置引脚功能"><a href="#配置引脚功能" class="headerlink" title="配置引脚功能"></a>配置引脚功能</h2><ol>
+<li><p>配置是输入还是输出</p>
+</li>
+<li><p>输出引脚：写值到某个寄存器</p>
+</li>
+<li><p>输入引脚：读寄存器的值</p>
+</li>
+</ol>
+<p><img src="D:\MyLearing\hexo\queenieChen\source_posts\93-Linux驱动三\3.png" alt="image-20210130203316340"></p>
+<p>若想LED1亮，则nLED 1引脚要输出低电平，搜索一下nLED 1，结果如下：</p>
+<p><img src="D:\MyLearing\hexo\queenieChen\source_posts\93-Linux驱动三\4.png" alt="image-20210130203600725"></p>
+<p>可以看到，我们需要看芯片手册来配置这个引脚的功能，我们看I/O PORTS，gpio是通用外设IO接口。这里我们在芯片手册里搜GPF4，可以看到第9:8位为01的时候是输出功能。</p>
+<p><img src="D:\MyLearing\hexo\queenieChen\source_posts\93-Linux驱动三\5.png" alt="image-20210130204407035"></p>
+<p><img src="C:\Users\nhov\AppData\Roaming\Typora\typora-user-images\image-20210130204519645.png" alt="image-20210130204519645"></p>
+<p><img src="D:\MyLearing\hexo\queenieChen\source_posts\93-Linux驱动三\7.png" alt="image-20210130210634485"></p>
+<p>三极管知识：</p>
+<p><img src="D:\MyLearing\hexo\queenieChen\source_posts\93-Linux驱动三\6.png" alt="image-20210130210434829"></p>
+<p>上拉电阻作用：</p>
+<p>对于输入引脚，可以确定某点的状态</p>
+<h1 id="协议类"><a href="#协议类" class="headerlink" title="协议类"></a>协议类</h1><ol>
+<li>你说的别人能听懂–双方约定协议</li>
+<li>你的语速，别人要接受–双方满足时序要求</li>
+</ol>
+<h2 id="UART"><a href="#UART" class="headerlink" title="UART"></a>UART</h2><p>universal async receive/transmic通用异步接收发射</p>
+<p><img src="D:\MyLearing\hexo\queenieChen\source_posts\93-Linux驱动三\8.png" alt="image-20210131214540957"></p>
+<p>UART如何传输数据？例如，芯片24404如何将字符A发送给PC?</p>
+<ol>
+<li><p>2440想发送数据时，让RXD0变为低电平，并保持一段时间T；（RXD0不想发送数据一直保持高电平）</p>
+</li>
+<li><p>PC感觉到RXD0从1变成0，知道了2440即将发送数据</p>
+</li>
+<li><p>传输包括一个起始位（时间T），8个bit，最后保持最后一个电平时间T（即停止位）</p>
+</li>
+</ol>
+<p>这里时间T是约定的时间，T=1/波特率；字符A的十六进制为0x41，即0x0100 0001</p>
+<p><img src="D:\MyLearing\hexo\queenieChen\source_posts\93-Linux驱动三\9.png" alt="image-20210131220858860"></p>
+<p>串口控制器：只需将字符A扔给它，就会自动完成后面的步骤。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/01/24/92-%E7%BB%93%E6%9E%84%E5%85%89/" rel="prev" title="">
+      <i class="fa fa-chevron-left"></i> 
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/02/12/100-linux1/" rel="next" title="linux入门">
+      linux入门 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#GPIO"><span class="nav-number">1.</span> <span class="nav-text">GPIO</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E5%BC%95%E8%84%9A"><span class="nav-number">1.1.</span> <span class="nav-text">输出引脚</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E5%BC%95%E8%84%9A"><span class="nav-number">1.2.</span> <span class="nav-text">输入引脚</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E5%BC%95%E8%84%9A%E5%8A%9F%E8%83%BD"><span class="nav-number">1.3.</span> <span class="nav-text">配置引脚功能</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AE%E7%B1%BB"><span class="nav-number">2.</span> <span class="nav-text">协议类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#UART"><span class="nav-number">2.1.</span> <span class="nav-text">UART</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Queenie Chen</p>
+  <div class="site-description" itemprop="description">我叫小白，初来乍到，请多指教~</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Queenie Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

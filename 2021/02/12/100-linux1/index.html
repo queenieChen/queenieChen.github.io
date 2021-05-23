@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"queeniechen.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="创建文件&amp;目录 Ctrl alt tterminalpwd显示当前所在目录ls当前目录有哪些文件cd切换目录cd ..返回上一级路径mkdir新建一个目录touch 1.txt新建一个文件gedit 1.txt进入编辑状态cp 1.txt 2.txt将文件1.txt复制成2.txtcat 1.txt显示1.txt文件内容在终端里面rm 1.txt删除文件rmdir 123删除目录clear">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux入门">
+<meta property="og:url" content="https://queeniechen.github.io/2021/02/12/100-linux1/index.html">
+<meta property="og:site_name" content="Queenie Chen">
+<meta property="og:description" content="创建文件&amp;目录 Ctrl alt tterminalpwd显示当前所在目录ls当前目录有哪些文件cd切换目录cd ..返回上一级路径mkdir新建一个目录touch 1.txt新建一个文件gedit 1.txt进入编辑状态cp 1.txt 2.txt将文件1.txt复制成2.txtcat 1.txt显示1.txt文件内容在终端里面rm 1.txt删除文件rmdir 123删除目录clear">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="d:/MyLearing/hexo/queenieChen/source_posts/100-linux1/2.png">
+<meta property="og:image" content="d:/MyLearing/hexo/queenieChen/source_posts/100-linux1/4.png">
+<meta property="og:image" content="d:/MyLearing/hexo/queenieChen/source_posts/100-linux1/5.png">
+<meta property="og:image" content="d:/MyLearing/hexo/queenieChen/source_posts/100-linux1/6.png">
+<meta property="og:image" content="d:/MyLearing/hexo/queenieChen/source_posts/100-linux1/7.png">
+<meta property="article:published_time" content="2021-02-12T12:21:27.464Z">
+<meta property="article:modified_time" content="2021-02-13T12:46:03.722Z">
+<meta property="article:author" content="Queenie Chen">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="d:/MyLearing/hexo/queenieChen/source_posts/100-linux1/2.png">
+
+<link rel="canonical" href="https://queeniechen.github.io/2021/02/12/100-linux1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>linux入门 | Queenie Chen</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Queenie Chen</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">三十功名尘与土，八千里路云和月</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2021/02/12/100-linux1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Queenie Chen">
+      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Queenie Chen">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          linux入门
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-12 20:21:27" itemprop="dateCreated datePublished" datetime="2021-02-12T20:21:27+08:00">2021-02-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-13 20:46:03" itemprop="dateModified" datetime="2021-02-13T20:46:03+08:00">2021-02-13</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>创建文件&amp;目录</p>
+<p>Ctrl alt t<br>terminal<br>pwd显示当前所在目录<br>ls当前目录有哪些文件<br>cd切换目录<br>cd ..返回上一级路径<br>mkdir新建一个目录<br>touch 1.txt新建一个文件<br>gedit 1.txt进入编辑状态<br>cp 1.txt 2.txt将文件1.txt复制成2.txt<br>cat 1.txt显示1.txt文件内容在终端里面<br>rm 1.txt删除文件<br>rmdir 123删除目录<br>clear清屏</p>
+<p>Windows：<br>md 123<br>rd 123<br>cls清屏<br>dir md rd cls</p>
+<p>谁来执行linux命令？<br>ls -l</p>
+<p>shell是一个程序，它接收来自键盘的命令并将它回显在桌面上，回车后，它就知道字符输入结束了，解析收到的命令，执行对应的程序。</p>
+<p>shell会去path环境变量指示的位置寻找要执行的程序，然后启动该程序，传入参数。如果path路径下没有对应的程序，则需要使用相对路径，比如./hello。或者复制hello.exe到path指定的路径下去，然后再执行。<br>echo $path<br>等号前面的是变量，等号后面的是值<br>env</p>
+<p>如何修改环境变量？<br>hello.exe放在路径/home/book</p>
+<ol>
+<li>临时设置，只对当前终端有效，其他终端就无效了<br> export PATH=$PATH:/home/Sbook</li>
+<li>永久设置，修改~/.bashrc，这个只对当前用户SA有效<br> （1）gedit ~/.bashrc<br> （2）行尾添加export PATH=$PATH:/home/book</li>
+<li>永久设置，修改/eStc/environment，这个对所有用户都有效<br> （1）sudo gedit /etc/environment<br> （2）在最后添加:/home/book</li>
+</ol>
+<p>//===================================================<br>命令提示符：表示当前终端的状态<br><img src="D:\MyLearing\hexo\queenieChen\source_posts\100-linux1\2.png" alt="img"></p>
+<p>linux命令的格式：</p>
+<p>命令    [选项]    [参数]</p>
+<p>ls</p>
+<p>ls -l</p>
+<p>ls -l /home</p>
+<p>选项和参数是可选的，命令是必须的<br>选项是以 - 来指明的<br>命令，选项，参数是以空格隔开，多个空格视为一个空格</p>
+<p>man ls可以查看ls的用法</p>
+<p>//============================================</p>
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th>directory</th>
+<th>目录</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2</td>
+<td>change</td>
+<td>改变</td>
+</tr>
+<tr>
+<td>3</td>
+<td>list</td>
+<td>列出</td>
+</tr>
+<tr>
+<td>4</td>
+<td>print</td>
+<td>打印</td>
+</tr>
+<tr>
+<td>5</td>
+<td>remove</td>
+<td>删除</td>
+</tr>
+<tr>
+<td>6</td>
+<td>copy</td>
+<td>复制</td>
+</tr>
+<tr>
+<td>7</td>
+<td>move</td>
+<td>移动</td>
+</tr>
+<tr>
+<td>8</td>
+<td>clear</td>
+<td>清除</td>
+</tr>
+</tbody></table>
+<p>pwd<br>print working directory</p>
+<p>cd<br>change directory</p>
+<p>cd ~表示家目录<br>cd .当前目录<br>cd ..切换到上一级目录<br>cd ../..切换到上上级路径<br>cd -切换到上一次路径</p>
+<p>//=======================<br>绝对路径</p>
+<p>相对路径，一般以./和../构成</p>
+<p>cd ../Videos</p>
+<p>tab键自动补全</p>
+<p>ls<br>list列出目录内容<br><a href="3.png">!img</a></p>
+<p>ls -l 显示目录下文件更详细的信息，文件权限，大小，最后修改时间等。l是long的缩写<br>ls -la显示隐藏文件，a是all的缩写<br>ls -lh将文件大小以k，kb，Mb，Gb来表示</p>
+<p>mkdir<br>make directory</p>
+<p>mkdir 目录名<br>mkdir -p 父目录/子目录</p>
+<p>-p 连续创建多级目录，p是parent缩写</p>
+<p>rmdir<br>remove directory</p>
+<p>rmdir dir0不能删除非空目录<br>rm -rf 删除非空目录</p>
+<p>touch用来新建文件<br>touch filename1</p>
+<p>同一目录无法创建同名的文件，区分大小写</p>
+<p>mv用来修改文件名，或者移动路径<br>mv oldfilename newfilename<br>mv 旧目录名 新目录名<br>mv 文件名 目录名</p>
+<p>mv ~/flie1 ..将家目录下的file1文件移动到上一个路径</p>
+<p>cp即copy<br>cp 源文件名 目标文件名<br>cp 源文件名 目标目录名</p>
+<p>cp -r 目录名1 目录名2   表示将目录1下的所有文件都复制到目录2下去，-r表示递归</p>
+<p>cp -i file2 dir1  如果dir1目录下有与file2同名的文件，-i表示同意覆盖</p>
+<p>rm file2删除当前目录下file2文件</p>
+<p>rm -i file2删除文件file2前，会先征求意见，y表示同意，n表示不同意</p>
+<p>rm -r dir1表示递归删除目录dir1</p>
+<p>rm -ir dir1</p>
+<p>cat file2<br>cat -n file2显示文件内容，并在内容前显示行号<br>cat file2 file1串联打印</p>
+<p>gedit 图形应用程序的编辑器</p>
+<p>clear：刷新屏幕，会保留历史操作记录，只是向后翻一页</p>
+<p>reset：重新初始化屏幕，清除历史</p>
+<p>man man可知man手册一共9册<br><img src="D:\MyLearing\hexo\queenieChen\source_posts\100-linux1\4.png" alt="img"><br>man ls<br>man 1 ls<br>man 1 gcc 其中gcc是编译器</p>
+<p><img src="D:\MyLearing\hexo\queenieChen\source_posts\100-linux1\5.png" alt="img"></p>
+<p><img src="D:\MyLearing\hexo\queenieChen\source_posts\100-linux1\6.png" alt="img"><br><img src="D:\MyLearing\hexo\queenieChen\source_posts\100-linux1\7.png" alt="img"></p>
+<p>info ls查看ls命令的帮助信息</p>
+<p>ls –help</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/01/30/93-linux-%E9%A9%B1%E5%8A%A8%E4%B8%89----%E5%8E%9F%E7%90%86%E5%9B%BE/" rel="prev" title="linux 驱动三----原理图">
+      <i class="fa fa-chevron-left"></i> linux 驱动三----原理图
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/02/13/101-linux-hello-world/" rel="next" title="linux hello world">
+      linux hello world <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Queenie Chen</p>
+  <div class="site-description" itemprop="description">我叫小白，初来乍到，请多指教~</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Queenie Chen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
