@@ -148,6 +148,74 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/5-c++_class_object/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Queenie Chen">
+      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Queenie Chen">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/12/13/5-c++_class_object/" class="post-title-link" itemprop="url">c++入门--类&对象</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-12-13 21:08:48 / 修改时间：21:25:55" itemprop="dateCreated datePublished" datetime="2020-12-13T21:08:48+08:00">2020-12-13</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>date:2020.11.23</p>
+<p>类：用户定义的类型，指定数据表示法和处理数据的方法，data和method也被称为类的成员。</p>
+<p>how to define a class？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class Box&#x2F;&#x2F;关键字class，后面的Box是类名</span><br><span class="line">&#123;</span><br><span class="line">	public:&#x2F;&#x2F;关键字public指定了类成员的访问属性，公共成员在类的外部是可访问的</span><br><span class="line">		double length;</span><br><span class="line">		double breadth;</span><br><span class="line">		double height;</span><br><span class="line">&#125;;&#x2F;&#x2F;这里的分号不要忘了</span><br></pre></td></tr></table></figure>
+
+<p>how to define a object?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Box box1;&#x2F;&#x2F;声明box1,类型为Box</span><br></pre></td></tr></table></figure>
+
+<p>如何访问公有数据成员？私有数据成员？受保护的成员？</p>
+<p>结构体和类的区别？</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/12/13/4-c++_1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1749,97 +1817,6 @@ Raw缺点：
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://queeniechen.github.io/2020/11/15/Qt2-signal-slot/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Queenie Chen">
-      <meta itemprop="description" content="我叫小白，初来乍到，请多指教~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Queenie Chen">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/11/15/Qt2-signal-slot/" class="post-title-link" itemprop="url">Qt中信号与槽--窗体可视化设计篇</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-11-15 12:20:20 / 修改时间：13:49:15" itemprop="dateCreated datePublished" datetime="2020-11-15T12:20:20+08:00">2020-11-15</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="1-打开Qt-Creator，新建工程"><a href="#1-打开Qt-Creator，新建工程" class="headerlink" title="1.打开Qt Creator，新建工程"></a>1.打开Qt Creator，新建工程</h3><p><img src="1.PNG" alt="img"></p>
-<p>###2.工程选择application-&gt;Qt Widgets Application</p>
-<p><img src="2.PNG" alt="img"></p>
-<p>###3.工程命名为QtApp，保存在路径文件夹Demo2_3中</p>
-<p><img src="3.PNG" alt="img"></p>
-<p>###4.编译工具勾选mingw 64 bit</p>
-<p><img src="4.PNG" alt="img"></p>
-<p>###5.选择基类对话框QDialog，将创建Dialog.h和Dialog.cpp。勾选Generate from，将创建Dialog.ui。</p>
-<p><img src="5.png" alt="img"></p>
-<p>###6.版本控制可不做选择，这里添加了git来做版本控制。按finish结束项目新建。</p>
-<p><img src="6.png" alt="img"></p>
-<p>###7.QtApp.pro是项目文件，Qt Creator打开QtApp.pro即打开这个项目。Dialog.ui是窗体UI文件，双击则进入Design 进行可视化设计。</p>
-<p><img src="7.png" alt="img"></p>
-<p>###8.下面进行UI设计，先双击.ui文件，打开窗口</p>
-<p><img src="8.png" alt="img"></p>
-<p>###9.先拖入容器Group Box，在该容器内再拖入3个checkBox。现在假如拖动Group Box，则3个checkbox也会跟着动。</p>
-<p><img src="9.png" alt="img"></p>
-<p>###10.拖入垂直布局vertical Layout，再往其中拖入3个radio button，在两两radio button之间插入一个horizontal Spacer。于是，这个3个radio button以水平等距离布局呈现。下面3个pushbutton按钮以此方式进行。</p>
-<p><img src="10.png" alt="img"></p>
-<p>###11.下面对各个组件进行设置：选中中间那个pushbutton按钮，修改其objectName为btnOK, text内容为“确定”。</p>
-<p><img src="10-1.png" alt="img"></p>
-<p>拖入plainTextEdit组件，写好text内容，修改字体大小为20.</p>
-<p><img src="10-2.png" alt="img"></p>
-<p>最终所以组件呈现方式：</p>
-<p><img src="11.png" alt="img"></p>
-<p>###12.下面进行“信号与槽”的设计，edit-&gt;edit signals/slots，进入编辑状态。</p>
-<p><img src="12.png" alt="img"></p>
-<p>###13.选中“确定”按钮不放，拖向空白区，会弹出连接配置。这里选择clicked()信号，accept()槽函数。</p>
-<p><img src="13.png" alt="img"></p>
-<p>###14.我们可以勾选“show signals and slots inherited from QWidget”来看隐藏的选项。</p>
-<p><img src="14.png" alt="img"></p>
-<p>在下方的singal slots edit界面可以看到刚刚为btnOK和btnClose添加的信号和槽函数。</p>
-<p><img src="15.png" alt="img"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1909,7 +1886,7 @@ Raw缺点：
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-count">35</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
